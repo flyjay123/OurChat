@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/login_bk.jpg</file>
+        <file>src/shut.png</file>
+        <file>src/zxh.png</file>
+        <file>src/头像.jpg</file>
+        <file>src/chat.png</file>
+        <file>src/more2.png</file>
+        <file>src/wxx.png</file>
+        <file>src/聊天talk.png</file>
+        <file>src/close.png</file>
+        <file>src/min.png</file>
+        <file>src/max.png</file>
+        <file>src/emoj.png</file>
+        <file>src/emoj2.png</file>
+        <file>src/tianjia.png</file>
+        <file>src/tianjia2.png</file>
+        <file>src/file.png</file>
+        <file>src/file2.png</file>
+        <file>src/screenshot.png</file>
+        <file>src/screenshot2.png</file>
+        <file>src/chat2.png</file>
+        <file>src/more.png</file>
+        <file>src/wechat.png</file>
+        <file>src/wechat2.png</file>
+        <file>src/wechat3.png</file>
+    </qresource>
+</RCC>
