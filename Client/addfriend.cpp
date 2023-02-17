@@ -1,6 +1,7 @@
 #include "addfriend.h"
 #include "ui_addfriend.h"
 #include <QGraphicsDropShadowEffect>
+#include "tcpclient.h"
 
 AddFriend::AddFriend(QWidget *parent) :
     QWidget(parent),
@@ -29,4 +30,11 @@ void AddFriend::Init()
     shadow->setBlurRadius(10);
     ui->textEdit->setPlaceholderText("验证信息");
     setWindowTitle("查找");
+}
+
+void AddFriend::on_pushButton_search_clicked()
+{
+    QString search = ui->lineEdit->text();
+    json msg ={{"cmd","friend-search"},{"search-info",search}};
+    t.SendMsg(msg);
 }

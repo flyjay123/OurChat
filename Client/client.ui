@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Client</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="src.qrc">
+    <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>

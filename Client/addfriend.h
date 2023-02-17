@@ -17,6 +17,9 @@ public:
 
     void Init();
 
+private slots:
+    void on_pushButton_search_clicked();
+
 private:
     Ui::AddFriend *ui;
 };
