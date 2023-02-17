@@ -33,7 +33,12 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-color: rgb(0, 0, 0);</string>
+    <string notr="true">background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 16px;
+    color: black;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_search">
@@ -85,7 +90,12 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-color: rgb(0, 0, 0);</string>
+    <string notr="true">background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 16px;
+    color: black;</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="textEdit">
@@ -101,7 +111,12 @@
     <string>验证信息</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-color: rgb(0, 0, 0);</string>
+    <string notr="true">background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 16px;
+    color: black;</string>
    </property>
   </widget>
  </widget>

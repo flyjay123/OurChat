@@ -1,0 +1,22 @@
+host ***REMOVED***  
+prot 8888
+pswd 2k1227Lar!
+
+
+cmd
+cmd -> msg 
+cmd -> err
+
+cmd:
+login -> account -> password
+regist -> account -> password -> name
+logout
+
+friend-search -> search-info
+addfriend-req -> account ->sendmsg
+addfriend-rpl -> account ->sendmsg
+
+pchat -> account -> sendmsg//private chat
+gchat -> gaccount -> snedmsg//group chat
+
+parseerror

@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>564</width>
-    <height>378</height>
+    <height>430</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="src.qrc">
+    <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
   </property>
   <widget class="QWidget" name="centerWidget" native="true">
    <property name="geometry">
@@ -19,7 +23,7 @@
      <x>0</x>
      <y>0</y>
      <width>561</width>
-     <height>371</height>
+     <height>430</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -40,48 +44,20 @@
       <x>20</x>
       <y>10</y>
       <width>511</width>
-      <height>351</height>
+      <height>341</height>
      </rect>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
     <widget class="QWidget" name="page">
-     <widget class="QPushButton" name="pushbtn_regist">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>ArrowCursor</cursorShape>
-      </property>
-      <property name="statusTip">
-       <string>注册</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-	color: rgb(166,166,166);
-	border-style: none;
-}
-QPushButton::hover {
-	color: rgb(67,129,202);
-}</string>
-      </property>
-      <property name="text">
-       <string>注册账号</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>190</y>
-        <width>51</width>
-        <height>31</height>
+        <x>40</x>
+        <y>165</y>
+        <width>61</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="font">
@@ -102,10 +78,10 @@ QPushButton::hover {
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>40</x>
         <y>230</y>
-        <width>54</width>
-        <height>31</height>
+        <width>61</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="font">
@@ -149,10 +125,10 @@ QPushButton::hover {
      <widget class="QLineEdit" name="lineEdit_account">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>190</y>
-        <width>240</width>
-        <height>30</height>
+        <x>119</x>
+        <y>169</y>
+        <width>301</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -163,9 +139,14 @@ QPushButton::hover {
       </property>
       <property name="maximumSize">
        <size>
-        <width>240</width>
-        <height>30</height>
+        <width>2400</width>
+        <height>2400</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit{
@@ -192,10 +173,10 @@ QLineEdit:focus {
      <widget class="QLineEdit" name="lineEdit_password">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>230</y>
-        <width>240</width>
-        <height>30</height>
+        <x>119</x>
+        <y>236</y>
+        <width>301</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -206,9 +187,14 @@ QLineEdit:focus {
       </property>
       <property name="maximumSize">
        <size>
-        <width>240</width>
-        <height>30</height>
+        <width>2400</width>
+        <height>3000</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit{
@@ -233,42 +219,6 @@ QLineEdit:focus {
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_login">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>300</y>
-        <width>235</width>
-        <height>35</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>235</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton{
-	
-	color: rgb(255, 255, 255);
-	border-style: solid;
-	border-radius: 5px;	
-	background-color: rgb(7,193,96);
-}
-
-QPushButton:hover{
-	background-color: rgb(56,205,127);
-}
-
-QPushButton:pressed {
-	background-color: rgb(7,193,96);
-}</string>
-      </property>
-      <property name="text">
-       <string>登录</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushBtn_hide">
@@ -301,7 +251,7 @@ QPushButton::hover {
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>90</y>
+        <y>70</y>
         <width>80</width>
         <height>80</height>
        </rect>
@@ -361,24 +311,27 @@ QLabel:hover{
      <widget class="QPushButton" name="pushButton_seePassword">
       <property name="geometry">
        <rect>
-        <x>430</x>
-        <y>230</y>
-        <width>31</width>
-        <height>31</height>
+        <x>376</x>
+        <y>244</y>
+        <width>36</width>
+        <height>36</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none;</string>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="icon">
-       <iconset>
+       <iconset resource="src.qrc">
         <normaloff>:/src/眼睛_显示.png</normaloff>
         <normalon>:/src/眼睛_隐藏.png</normalon>:/src/眼睛_显示.png</iconset>
       </property>
       <property name="iconSize">
        <size>
-        <width>24</width>
-        <height>24</height>
+        <width>36</width>
+        <height>36</height>
        </size>
       </property>
       <property name="checkable">
@@ -776,6 +729,70 @@ QLineEdit:focus {
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton_login">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>370</y>
+      <width>235</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>235</width>
+      <height>35</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+	
+	color: rgb(255, 255, 255);
+	border-style: solid;
+	border-radius: 5px;	
+	background-color: rgb(7,193,96);
+}
+
+QPushButton:hover{
+	background-color: rgb(56,205,127);
+}
+
+QPushButton:pressed {
+	background-color: rgb(7,193,96);
+}</string>
+    </property>
+    <property name="text">
+     <string>登录</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushbtn_regist">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>390</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="statusTip">
+     <string>注册</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	color: rgb(166,166,166);
+	border-style: none;
+}
+QPushButton::hover {
+	color: rgb(67,129,202);
+}</string>
+    </property>
+    <property name="text">
+     <string>注册账号</string>
+    </property>
    </widget>
   </widget>
  </widget>
