@@ -2,10 +2,12 @@
 #include <QDebug>
 #include <QTimer>
 
-TcpClient::TcpClient()
+TcpClient::TcpClient(QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket();
     ConnetToServer();
+    //socket->connect(socket,QTcpSocket::readyRead(),this,SLOT(onReadyRead()));
+    QObject::connect(socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
 
 TcpClient::~TcpClient()
@@ -74,6 +76,7 @@ void TcpClient::onReadyRead()
     message = doc.object();
     qDebug() << "readsize: " << len;
     qDebug() << "read: " << data;
+    emit messageReceived();
 }
 
 
