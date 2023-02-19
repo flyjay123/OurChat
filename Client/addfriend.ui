@@ -80,29 +80,11 @@
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>100</y>
-     <width>361</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: white;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 2px 10px;
-    font-size: 16px;
-    color: black;</string>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>280</y>
+     <y>310</y>
      <width>361</width>
      <height>85</height>
     </rect>
@@ -117,6 +99,16 @@
     padding: 2px 10px;
     font-size: 16px;
     color: black;</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>90</y>
+     <width>361</width>
+     <height>211</height>
+    </rect>
    </property>
   </widget>
  </widget>

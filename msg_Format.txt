@@ -4,10 +4,12 @@ pswd 2k1227Lar!
 
 
 cmd
-cmd -> msg 
+cmd -> msg
+cmd ->msglist[] 
 cmd -> err
 
 cmd:
+yes/no
 login -> account -> password
 regist -> account -> password -> name
 logout

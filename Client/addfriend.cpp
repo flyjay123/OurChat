@@ -37,4 +37,43 @@ void AddFriend::on_pushButton_search_clicked()
     QString search = ui->lineEdit->text();
     json msg ={{"cmd","friend-search"},{"search-info",search}};
     t.SendMsg(msg);
+    if(t.socket->waitForReadyRead(3000))
+        {
+            //t.onReadyRead();
+            json j = t.GetMessage();
+            if(j.isEmpty()) return;
+            if(j["cmd"] == "yes")
+            {
+                list.clear();
+                ui->listWidget->clear();
+                QJsonArray arr =  j["msglist"].toArray();
+                for(int i =0;i<arr.size();i++)
+                {
+                         list.push_back(arr[i].toString());
+               }
+                for(int i =0;i<list.size()-1;i+=2)
+                {
+                    ui->listWidget->addItem(QString("[%1] [%2]").arg(list[i],list[i+1]));
+                }
+            }
+        }
+    else
+    {
+        qDebug() << "与服务器连接失败" << endl;
+    }
 }
+
+void AddFriend::on_pushButton_search_2_clicked()
+{
+    int row = ui->listWidget->currentRow();
+    if(row >= 0)
+    {
+        json msg;
+        msg["cmd"]="addfriend-req";
+    }
+
+}
+
+
+
+

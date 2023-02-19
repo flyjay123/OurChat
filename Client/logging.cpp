@@ -180,7 +180,7 @@ void Logging::on_pushButton_login_clicked()
 
     if(t.socket->waitForReadyRead(3000))
     {
-        t.onReadyRead();
+        //t.onReadyRead();
         json msg = t.GetMessage();
         if(msg.value("cmd").toString() == "yes")
         {
@@ -207,7 +207,7 @@ void Logging::on_pushButton_regist_clicked()
 
     if(t.socket->waitForReadyRead(3000))
     {
-        t.onReadyRead();
+       // t.onReadyRead();
         json msg = t.GetMessage();
         if(msg.value("cmd").toString() == "yes")
         {

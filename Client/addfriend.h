@@ -2,6 +2,7 @@
 #define ADDFRIEND_H
 
 #include <QWidget>
+#include <QVector>
 
 namespace Ui {
 class AddFriend;
@@ -20,8 +21,11 @@ public:
 private slots:
     void on_pushButton_search_clicked();
 
+    void on_pushButton_search_2_clicked();
+
 private:
     Ui::AddFriend *ui;
+    QVector<QString> list;
 };
 
 #endif // ADDFRIEND_H

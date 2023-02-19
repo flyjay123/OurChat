@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QDebug>
 
 using std::string;
@@ -24,10 +25,11 @@ typedef struct _send_info
   string info;
 }SendInfo;
 
-class TcpClient
+class TcpClient :public QObject
 {
+    Q_OBJECT
 public:
-    TcpClient();
+    TcpClient(QObject *parent = nullptr);
     ~TcpClient();
     int ConnetToServer();
     void DisconnetFormServer();
@@ -39,24 +41,27 @@ public:
     json GetMessage(){return  message;}
     //int CmdParser(json message);
     //QTcpSocket * GetSocket();
-    void onReadyRead();
+
+
 signals:
     // 收到消息信号
-    void messageReceived(const QJsonObject &message);
+    void messageReceived();
 
-private slots:
+public slots:
+    void onReadyRead();
+
     // 连接成功槽
     void onConnected()
     {
         emit socket->connected();
     }
 
-
     // 断开连接槽
     void onDisconnected()
     {
         emit socket->disconnected();
     }
+
 public:
     QTcpSocket * socket;
 private:
