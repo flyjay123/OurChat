@@ -10,11 +10,11 @@ void slot_test()
 
 TcpClient::TcpClient(QObject *parent) : QObject(parent)
 {
-    socket = new QTcpSocket();
+    socket = new QTcpSocket(this);
     ConnetToServer();
 
     //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
-    connect(socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
+    connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
 
 TcpClient::~TcpClient()
@@ -61,7 +61,7 @@ void TcpClient::SendMsg(json message)
     socket->write(lenBuf,4);
     // 发送数据到服务器
     socket->write(data);
-    socket->waitForBytesWritten();
+    socket->waitForBytesWritten(1000);
     qDebug() << "sendLen: " << lenBuf;
     qDebug() << "send: " << data;
 }
@@ -75,6 +75,10 @@ void TcpClient::onReadyRead()
     {
         socket->read(readLen,4);
     }
+    else
+    {
+        qDebug()<<"连接超时"<<endl;
+    }
     int len = atoi(readLen);
 
     QByteArray data = socket->read(len);
@@ -85,21 +89,6 @@ void TcpClient::onReadyRead()
     emit messageReceived();
 }
 
-bool TcpClient::WaitForSignal(const unsigned int millisecond)
-{
-    bool result = true;
-    QEventLoop loop;
-    connect(this, &TcpClient::messageReceived, &loop, &QEventLoop::quit);
-
-    QTimer timer;
-    timer.setSingleShot(true);
-    connect(&timer, &QTimer::timeout, [&loop, &result] { result = false;  loop.quit(); });
-    timer.start(millisecond);
-
-    loop.exec();
-    timer.stop();
-    return result;
-}
 
 
 

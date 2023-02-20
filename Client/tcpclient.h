@@ -39,7 +39,6 @@ public:
     json GetMessage(){return  message;}
     //int CmdParser(json message);
     //QTcpSocket * GetSocket();
-    bool WaitForSignal(unsigned int millisecond);
 
 
 signals:
