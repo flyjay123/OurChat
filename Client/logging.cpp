@@ -9,6 +9,8 @@
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
 #include <QTimer>
+#include <QShortcut>
+
 
 using namespace std;
 Logging::Logging(QWidget *parent) :
@@ -49,6 +51,9 @@ void Logging::Init()
     ui->centerWidget->setGraphicsEffect(shadow);
 
     //memset(&m_userInfo,'\0',sizeof(m_userInfo));
+
+    QShortcut *key=new QShortcut(QKeySequence(Qt::Key_Return),this);//创建一个快捷键"Key_Return"键
+    connect(key,&QShortcut::activated,this,&Logging::on_pushButton_login_clicked);//连接到指定槽函数
 }
 
 void Logging::mousePressEvent(QMouseEvent *event)
@@ -170,7 +175,15 @@ else
 
 void Logging::on_pushButton_login_clicked()
 {
-
+     if(!t.m_isConnected)
+     {
+         qDebug() << "未连接" << endl;
+         if(t.ConnetToServer() == -1)
+         {
+             qDebug() << "连接失败" << endl;
+             return;
+         }
+     }
     json msg;
     msg.insert("cmd","login");
     msg.insert("account",ui->lineEdit_account->text());
@@ -178,7 +191,9 @@ void Logging::on_pushButton_login_clicked()
 
     t.SendMsg(msg);
 
-    if(t.socket->waitForReadyRead(3000))
+    //t.socket->waitForReadyRead();
+    //t.socket->readyRead();
+    if(t.WaitForSignal(3000))
     {
         //t.onReadyRead();
         json msg = t.GetMessage();
@@ -190,14 +205,19 @@ void Logging::on_pushButton_login_clicked()
             this->close();
         }
         else
-        {
             qDebug() << msg.value("err").toString() << endl;
-        }
     }
+    else
+        qDebug() << "与服务器连接失败" << endl;
 }
 
 void Logging::on_pushButton_regist_clicked()
 {
+    if(!t.m_isConnected)
+    {
+        if(t.ConnetToServer() == -1)
+            return;
+    }
     json msg;
     msg.insert("cmd","regist");
     msg.insert("account",ui->lineEdit_account_2->text());
