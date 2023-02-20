@@ -36,11 +36,10 @@ public:
 
 public:
     void SendMsg(json message);
-    void RecvMsg();
-    //int WatiRecvMsg(long ms);
     json GetMessage(){return  message;}
     //int CmdParser(json message);
     //QTcpSocket * GetSocket();
+    bool WaitForSignal(unsigned int millisecond);
 
 
 signals:
@@ -64,10 +63,13 @@ public slots:
 
 public:
     QTcpSocket * socket;
-private:
+public:
 
+#if 1
     QString m_server = "***REMOVED***";
-    //QString m_server = "127.0.0.1";
+#else
+    QString m_server = "127.0.0.1";
+#endif
     int m_port = 8888;
     bool m_isConnected;
 

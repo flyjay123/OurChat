@@ -30,6 +30,7 @@ void AddFriend::Init()
     shadow->setBlurRadius(10);
     ui->textEdit->setPlaceholderText("验证信息");
     setWindowTitle("查找");
+
 }
 
 void AddFriend::on_pushButton_search_clicked()
@@ -69,9 +70,11 @@ void AddFriend::on_pushButton_search_2_clicked()
     if(row >= 0)
     {
         json msg;
-        msg["cmd"]="addfriend-req";
+        msg.insert("cmd","addfriend-req");
+        msg.insert("account",list[row*2]);
+        msg.insert("sendmsg",ui->textEdit->toPlainText());
+        t.SendMsg(msg);
     }
-
 }
 
 

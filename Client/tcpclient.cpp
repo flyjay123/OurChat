@@ -1,13 +1,20 @@
 #include "tcpclient.h"
 #include <QDebug>
 #include <QTimer>
+#include <QEventLoop>
+
+void slot_test()
+{
+    qDebug() << "slot test" << endl;
+}
 
 TcpClient::TcpClient(QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket();
     ConnetToServer();
-    //socket->connect(socket,QTcpSocket::readyRead(),this,SLOT(onReadyRead()));
-    QObject::connect(socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
+
+    //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
+    connect(socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
 
 TcpClient::~TcpClient()
@@ -22,6 +29,7 @@ int TcpClient::ConnetToServer()
     socket->connectToHost(m_server,m_port);
     if(socket->waitForConnected(3000))
     {
+        qDebug() << "连接成功" << endl;
          m_isConnected = true;
          return 0;
     }
@@ -60,6 +68,7 @@ void TcpClient::SendMsg(json message)
 
 void TcpClient::onReadyRead()
 {
+    qDebug() << "ready read " << endl;
     char readLen[4];
 
     if(socket->waitForReadyRead(3000))
@@ -67,9 +76,6 @@ void TcpClient::onReadyRead()
         socket->read(readLen,4);
     }
     int len = atoi(readLen);
-    qDebug() << "readlen: " << readLen;
-    qDebug() << "len: " << len;
-
 
     QByteArray data = socket->read(len);
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -78,6 +84,23 @@ void TcpClient::onReadyRead()
     qDebug() << "read: " << data;
     emit messageReceived();
 }
+
+bool TcpClient::WaitForSignal(const unsigned int millisecond)
+{
+    bool result = true;
+    QEventLoop loop;
+    connect(this, &TcpClient::messageReceived, &loop, &QEventLoop::quit);
+
+    QTimer timer;
+    timer.setSingleShot(true);
+    connect(&timer, &QTimer::timeout, [&loop, &result] { result = false;  loop.quit(); });
+    timer.start(millisecond);
+
+    loop.exec();
+    timer.stop();
+    return result;
+}
+
 
 
 
