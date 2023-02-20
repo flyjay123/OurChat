@@ -191,12 +191,12 @@ void Logging::on_pushButton_login_clicked()
 
     t.SendMsg(msg);
 
-    //t.socket->waitForReadyRead();
+
     //t.socket->readyRead();
-    if(t.WaitForSignal(3000))
+    if(t.socket->waitForReadyRead(3000))
     {
-        //t.onReadyRead();
         json msg = t.GetMessage();
+        if(msg.isEmpty()) return ;
         if(msg.value("cmd").toString() == "yes")
         {
             qDebug() << "登录成功" << endl;
