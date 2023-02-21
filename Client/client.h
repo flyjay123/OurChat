@@ -7,13 +7,22 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Client; }
 QT_END_NAMESPACE
 
+typedef  struct _self_info
+{
+    int account;
+    QString password;
+    QString name;
+}SelfInfo ;
+
 class Client : public QWidget
 {
     Q_OBJECT
 
 public:
-    Client(QWidget *parent = nullptr);
+    Client(SelfInfo info,QWidget *parent = nullptr);
     ~Client();
+
+    void RefreshFriendList();
 
     void InitUI();
 
@@ -36,10 +45,13 @@ private slots:
     void on_pushBtn_max_clicked();
     void on_pushButton_addFriend_clicked();
 
+    void on_pushBtn_refresh_clicked();
+
 private:
     Ui::Client *ui;
     bool        m_isLogin;
     bool        m_isfull;
     QRect       m_rect;
+    SelfInfo selfInfo;
 };
 #endif // CLIENT_H

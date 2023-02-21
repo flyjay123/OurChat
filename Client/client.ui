@@ -920,6 +920,59 @@ QPushButton:checked{
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QPushButton" name="pushBtn_refresh">
+       <property name="geometry">
+        <rect>
+         <x>8</x>
+         <y>610</y>
+         <width>40</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>2000</width>
+         <height>2000</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	color: rgb(96,96,96);
+	border-radius: 5px;	
+	border-style: solid;
+	background-color: rgb(245,245,245);
+
+	border-right:1px solid #E5E5E5;
+	border-top:1px solid #E5E5E5;
+	border-left:1px solid #E5E5E5;
+	border-bottom:1px solid #E5E5E5;
+}
+
+QPushButton:hover{
+	color: rgb(255, 255, 255);
+	background-color: rgb(18,150,17);
+}
+
+QPushButton:pressed {
+	background-color: rgb(7,193,96);
+}</string>
+       </property>
+       <property name="text">
+        <string>刷新</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
