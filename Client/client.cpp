@@ -8,18 +8,33 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include "addfriend.h"
+#include "tcpclient.h"
 
-Client::Client(QWidget *parent)
+Client::Client(SelfInfo info ,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Client)
 {
     ui->setupUi(this);
     InitUI();
+    selfInfo.name = info.name;
+    selfInfo.account=info.account;
+    selfInfo.password=info.password;
+
 }
 
 Client::~Client()
 {
     delete ui;
+}
+
+void Client::RefreshFriendList()
+{
+    json msg;
+    msg.insert("cmd","friend-list");
+    msg.insert("account",QString("%1").arg(selfInfo.account));
+    t.socket->waitForReadyRead(100);
+    t.SendMsg(msg);
+    t.socket->waitForBytesWritten();
 }
 
 void Client::InitUI()
@@ -116,4 +131,9 @@ void Client::on_pushButton_addFriend_clicked()
 {
     AddFriend *add = new AddFriend();
     add->show();
+}
+
+void Client::on_pushBtn_refresh_clicked()
+{
+    RefreshFriendList();
 }

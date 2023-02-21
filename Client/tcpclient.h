@@ -37,7 +37,7 @@ public:
 public:
     void SendMsg(json message);
     json GetMessage(){return  message;}
-    //int CmdParser(json message);
+    int CmdParser(json message);
     //QTcpSocket * GetSocket();
 
 

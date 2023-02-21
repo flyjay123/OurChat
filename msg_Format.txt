@@ -17,6 +17,7 @@ logout
 friend-search -> search-info
 addfriend-req -> account ->sendmsg
 addfriend-rpl -> account ->sendmsg
+friend-list -> msglist[]
 
 pchat -> account -> sendmsg//private chat
 gchat -> gaccount -> snedmsg//group chat

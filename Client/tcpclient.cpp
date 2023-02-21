@@ -89,6 +89,11 @@ void TcpClient::onReadyRead()
     emit messageReceived();
 }
 
+void CmdParser(json message)
+{
+    QString cmd = message["cmd"].toString();
+}
+
 
 
 

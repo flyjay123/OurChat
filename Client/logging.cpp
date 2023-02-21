@@ -195,12 +195,17 @@ void Logging::on_pushButton_login_clicked()
     //t.socket->readyRead();
     if(t.socket->waitForReadyRead(3000))
     {
-        json msg = t.GetMessage();
-        if(msg.isEmpty()) return ;
-        if(msg.value("cmd").toString() == "yes")
+        json msg1 = t.GetMessage();
+        if(msg1.isEmpty()) return ;
+        if(msg1.value("cmd").toString() == "yes")
         {
             qDebug() << "登录成功" << endl;
-            Client* client = new Client();
+            SelfInfo info;
+            info.name = msg1.value("name").toString();
+            info.account = msg.value("account").toString().toInt();
+            info.password = msg.value("password").toString();
+            qDebug() << info.name << " " << info.account << info.password << endl;
+            Client* client = new Client(info);
             client->show();
             this->close();
         }
