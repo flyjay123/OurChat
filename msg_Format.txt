@@ -1,8 +1,3 @@
-host ***REMOVED***  
-prot 8888
-pswd 2k1227Lar!
-
-
 cmd
 cmd -> msg
 cmd ->msglist[] 
