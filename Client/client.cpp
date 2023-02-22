@@ -158,10 +158,10 @@ void Client::ClientMsgHandler(json msg)
             item->setAccount(list[i].toInt());
             item->setName(list[i+1].toString());
             item->setSignature("这个人很懒，什么都没有留下...");
-            //QListWidgetItem *listItem = new QListWidgetItem();
-            //listItem->setSizeHint(item->sizeHint());
-            ui->listWidget_info->addItem((QListWidgetItem *)item);
-            //ui->listWidget_info->setItemWidget(listItem, item);
+            QListWidgetItem *listItem = new QListWidgetItem(ui->listWidget_info);
+            listItem->setSizeHint(QSize(260,85));
+            ui->listWidget_info->addItem(listItem);
+            ui->listWidget_info->setItemWidget(listItem, item);
         }
     }
 }
