@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="src.qrc">
+   <iconset>
     <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
   </property>
   <widget class="QWidget" name="centerWidget" native="true">
@@ -120,6 +120,16 @@ QPushButton::hover {
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="src.qrc">
+        <normaloff>:/pic/src/close.png</normaloff>:/pic/src/close.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_account">
@@ -246,6 +256,16 @@ QPushButton::hover {
       <property name="text">
        <string/>
       </property>
+      <property name="icon">
+       <iconset resource="src.qrc">
+        <normaloff>:/pic/src/min.png</normaloff>:/pic/src/min.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
      </widget>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -286,8 +306,8 @@ QPushButton::hover {
       </property>
       <property name="icon">
        <iconset resource="src.qrc">
-        <normaloff>:/src/眼睛_显示.png</normaloff>
-        <normalon>:/src/眼睛_隐藏.png</normalon>:/src/眼睛_显示.png</iconset>
+        <normaloff>:/pic/src/眼睛_显示.png</normaloff>
+        <normalon>:/pic/src/眼睛_隐藏.png</normalon>:/pic/src/眼睛_显示.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -312,7 +332,7 @@ QPushButton::hover {
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="src.qrc">:/src/wechat2.png</pixmap>
+       <pixmap resource="src.qrc">:/pic/src/wechat2.png</pixmap>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_login">
@@ -381,58 +401,6 @@ QPushButton::hover {
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
-     <widget class="QPushButton" name="pushBtn_close_2">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>0</y>
-        <width>34</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/src/close.png); /* 最小化 */
-	min-width: 34px;
-	max-width: 34px;
-	min-height: 40px;
-	max-height: 40px;
-}
-QPushButton::hover {
-	background-color: #f57575; 
-}</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushBtn_hide_2">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>0</y>
-        <width>34</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/src/min.png); /* 最小化 */
-	min-width: 34px;
-	max-width: 34px;
-	min-height: 40px;
-	max-height: 40px;
-}
-QPushButton::hover {
-	background-color: rgba(166,166,166, 50); 
-}</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
@@ -737,6 +705,78 @@ QLineEdit:focus {
        <string>OurChat</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushBtn_close_2">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>0</y>
+        <width>34</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	border: none; /* no border for a flat push button */
+	image: url(:/src/close.png); /* 最小化 */
+	min-width: 34px;
+	max-width: 34px;
+	min-height: 40px;
+	max-height: 40px;
+}
+QPushButton::hover {
+	background-color: #f57575; 
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="src.qrc">
+        <normaloff>:/pic/src/close.png</normaloff>:/pic/src/close.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushBtn_hide_2">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>0</y>
+        <width>34</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	border: none; /* no border for a flat push button */
+	image: url(:/src/min.png); /* 最小化 */
+	min-width: 34px;
+	max-width: 34px;
+	min-height: 40px;
+	max-height: 40px;
+}
+QPushButton::hover {
+	background-color: rgba(166,166,166, 50); 
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="src.qrc">
+        <normaloff>:/pic/src/min.png</normaloff>:/pic/src/min.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
@@ -750,7 +790,7 @@ QLineEdit:focus {
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="src.qrc">:/src/wechat2.png</pixmap>
+       <pixmap resource="src.qrc">:/pic/src/wechat2.png</pixmap>
       </property>
      </widget>
     </widget>

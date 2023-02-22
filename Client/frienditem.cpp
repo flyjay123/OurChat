@@ -1,9 +1,9 @@
 #include "frienditem.h"
-#include "ui_frientitem.h"
+#include "ui_frienditem.h"
 
 FriendItem::FriendItem(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::FrientItem)
+    ui(new Ui::FriendItem)
 {
     ui->setupUi(this);
 }

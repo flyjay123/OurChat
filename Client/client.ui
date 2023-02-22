@@ -14,7 +14,7 @@
    <string>Client</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="src.qrc">
+   <iconset>
     <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
   </property>
   <property name="styleSheet">
@@ -118,7 +118,7 @@ QLineEdit
          <property name="styleSheet">
           <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/tianjia.png); 
+	image: url(:/pic/src/tianjia.png); 
 	background-color: rgb(226,226,226);
 	min-width: 20px;
 	max-width: 20px;
@@ -127,10 +127,10 @@ QLineEdit
 }
 QPushButton::hover {
 	background-color: rgb(209,209,209);
-	image: url(:/src/tianjia2.png); 
+	image: url(:/pic/src/tianjia2.png); 
 }
 QPushButton:pressed {
-	image: url(:/src/tianjia.png); 
+	image: url(:/pic/src/tianjia.png); 
 }</string>
          </property>
          <property name="text">
@@ -284,7 +284,7 @@ QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/min.png); /* 最小化 */
+	image: url(:/pic/src/min.png); /* 最小化 */
 	min-width: 30px;
 	max-width: 30px;
 	min-height: 25px;
@@ -316,7 +316,7 @@ QPushButton::hover {
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/max.png); /* 最小化 */
+	image: url(:/pic/src/max.png); /* 最小化 */
 	min-width: 30px;
 	max-width: 30px;
 	min-height: 25px;
@@ -348,7 +348,7 @@ QPushButton::hover {
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/close.png); /* 最小化 */
+	image: url(:/pic/src/close.png); /* 最小化 */
 	min-width: 30px;
 	max-width: 30px;
 	min-height: 25px;
@@ -526,17 +526,17 @@ border-color: rgb(199, 200, 194);</string>
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/screenshot.png); 
+	image: url(:/pic/src/screenshot.png); 
 	min-width: 20px;
 	max-width: 20px;
 	min-height: 20px;
 	max-height: 20px;
 }
 QPushButton::hover {
-	image: url(:/src/screenshot2.png); 
+	image: url(:/pic/src/screenshot2.png); 
 }
 QPushButton:pressed {
-	image: url(:/src/screenshot.png); 
+	image: url(:/pic/src/screenshot.png); 
 }</string>
              </property>
              <property name="text">
@@ -552,17 +552,17 @@ QPushButton:pressed {
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/file.png); 
+	image: url(:/pic/src/file.png); 
 	min-width: 20px;
 	max-width: 20px;
 	min-height: 20px;
 	max-height: 20px;
 }
 QPushButton::hover {
-	image: url(:/src/file2.png); 
+	image: url(:/pic/src/file2.png); 
 }
 QPushButton:pressed {
-	image: url(:/src/file.png); 
+	image: url(:/pic/src/file.png); 
 }</string>
              </property>
              <property name="text">
@@ -575,17 +575,17 @@ QPushButton:pressed {
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/emoj.png); 
+	image: url(:/pic/src/emoj.png); 
 	min-width: 20px;
 	max-width: 20px;
 	min-height: 20px;
 	max-height: 20px;
 }
 QPushButton::hover {
-	image: url(:/src/emoj2.png); 
+	image: url(:/pic/src/emoj2.png); 
 }
 QPushButton:pressed {
-	image: url(:/src/emoj.png); 
+	image: url(:/pic/src/emoj.png); 
 }</string>
              </property>
              <property name="text">
@@ -598,17 +598,17 @@ QPushButton:pressed {
              <property name="styleSheet">
               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	image: url(:/src/chat.png); 
+	image: url(:/pic/src/chat.png); 
 	min-width: 20px;
 	max-width: 20px;
 	min-height: 20px;
 	max-height: 20px;
 }
 QPushButton::hover {
-	image: url(:/src/chat2.png); 
+	image: url(:/pic/src/chat2.png); 
 }
 QPushButton:pressed {
-	image: url(:/src/chat.png); 
+	image: url(:/pic/src/chat.png); 
 }</string>
              </property>
              <property name="text">
@@ -836,45 +836,6 @@ QPushButton:pressed {
       <property name="styleSheet">
        <string notr="true">background-color: rgb(46,46,46);</string>
       </property>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(0, 0, 0, 0), stop:0.70 rgba(0, 0, 0, 0), stop:0.80 rgba(136, 194, 255, 100), stop:1 rgba(0, 0, 0, 0));
-}
-QLabel:hover{
-    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(0, 0, 0, 0), stop:0.70 rgba(0, 0, 0, 0), stop:0.80 rgba(186, 224, 255, 100), stop:1 rgba(0, 0, 0, 0));
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="src.qrc">:/src/头像.jpg</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-      </widget>
       <widget class="QPushButton" name="pushButton_emoj_2">
        <property name="geometry">
         <rect>
@@ -900,7 +861,7 @@ QLabel:hover{
         <string notr="true">QPushButton {
 
 	border: none; /* no border for a flat push button */
-	image: url(:/src/wechat.png); 
+	image: url(:/pic/src/wechat.png); 
 	min-width: 25px;
 	max-width: 25px;
 	min-height: 25px;
@@ -910,7 +871,7 @@ QPushButton::hover {
 	image: url(:/src/wechat3.png); 
 }
 QPushButton:checked{
-	image: url(:/src/wechat2.png); 
+	image: url(:/pic/src/wechat2.png); 
 }</string>
        </property>
        <property name="text">
@@ -976,13 +937,53 @@ QPushButton:pressed {
         <string>刷新</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="pushButton_emoj_3">
+       <property name="geometry">
+        <rect>
+         <x>15</x>
+         <y>30</y>
+         <width>25</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	image: url(:/src/个人中心灰.png); 
+}
+QPushButton::hover {
+	image: url(:/src/个人中心绿.png); 
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="src.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

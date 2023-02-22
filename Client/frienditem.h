@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class FrientItem;
+class FriendItem;
 }
 
 class FriendItem : public QWidget
@@ -22,7 +22,7 @@ public:
     void setAvatar(const QPixmap &avatar);
 
 private:
-    Ui::FrientItem *ui;
+    Ui::FriendItem *ui;
     int m_account;
 };
 
