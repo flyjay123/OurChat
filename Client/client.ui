@@ -50,86 +50,6 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <item row="1" column="0">
-       <widget class="QListWidget" name="listWidget_info">
-        <property name="minimumSize">
-         <size>
-          <width>250</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>250</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QListWidget
-{
-	background-color: rgb(226,224,223);
-	border-style: none;
-	border-right:1px solid #D6D6D6;
-	border-top:1px solid #D6D6D6;
-	border-left:1px solid #D6D6D6;
-	border-bottom:1px solid #D6D6D6;	
-}
-
-QScrollBar:vertical
-{
-    width:8px;
-    background:rgba(0,0,0,0%);
-    margin:0px,0px,0px,0px;
-    padding-top:9px;
-    padding-bottom:9px;
-}
-QScrollBar::handle:vertical
-{
-    width:8px;
-    background:rgba(0,0,0,25%);
-    border-radius:4px;
-    min-height:20;
-}
-QScrollBar::handle:vertical:hover
-{
-    width:8px;
-    background:rgba(0,0,0,50%);
-    border-radius:4px;
-    min-height:20;
-}
-QScrollBar::add-line:vertical
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/3.png);
-    subcontrol-position:bottom;
-}
-QScrollBar::sub-line:vertical
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/1.png);
-    subcontrol-position:top;
-}
-QScrollBar::add-line:vertical:hover
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/4.png);
-    subcontrol-position:bottom;
-}
-QScrollBar::sub-line:vertical:hover
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/2.png);
-    subcontrol-position:top;
-}
-QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
-{
-    background:rgba(0,0,0,10%);
-    border-radius:4px;
-}
-</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QWidget" name="widget_6" native="true">
         <property name="minimumSize">
@@ -217,6 +137,89 @@ QPushButton:pressed {
           <string/>
          </property>
         </widget>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QListWidget" name="listWidget_info">
+        <property name="minimumSize">
+         <size>
+          <width>250</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QListWidget
+{
+	background-color: rgb(226,224,223);
+	border-style: none;
+	border-right:1px solid #D6D6D6;
+	border-top:1px solid #D6D6D6;
+	border-left:1px solid #D6D6D6;
+	border-bottom:1px solid #D6D6D6;	
+}
+
+QScrollBar:vertical
+{
+    width:8px;
+    background:rgba(0,0,0,0%);
+    margin:0px,0px,0px,0px;
+    padding-top:9px;
+    padding-bottom:9px;
+}
+QScrollBar::handle:vertical
+{
+    width:8px;
+    background:rgba(0,0,0,25%);
+    border-radius:4px;
+    min-height:20;
+}
+QScrollBar::handle:vertical:hover
+{
+    width:8px;
+    background:rgba(0,0,0,50%);
+    border-radius:4px;
+    min-height:20;
+}
+QScrollBar::add-line:vertical
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/3.png);
+    subcontrol-position:bottom;
+}
+QScrollBar::sub-line:vertical
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/1.png);
+    subcontrol-position:top;
+}
+QScrollBar::add-line:vertical:hover
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/4.png);
+    subcontrol-position:bottom;
+}
+QScrollBar::sub-line:vertical:hover
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/2.png);
+    subcontrol-position:top;
+}
+QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
+{
+    background:rgba(0,0,0,10%);
+    border-radius:4px;
+}
+</string>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
        </widget>
       </item>
      </layout>

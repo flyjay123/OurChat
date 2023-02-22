@@ -8,7 +8,9 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include "addfriend.h"
-#include "tcpclient.h"
+#include "frienditem.h"
+#include <QListWidget>
+#include <QListWidgetItem>
 
 Client::Client(SelfInfo info ,QWidget *parent)
     : QWidget(parent)
@@ -20,6 +22,9 @@ Client::Client(SelfInfo info ,QWidget *parent)
     selfInfo.account=info.account;
     selfInfo.password=info.password;
 
+    ui->listWidget_info->setViewMode(QListWidget::ListMode); //显示模式
+
+    connect(&t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
 }
 
 Client::~Client()
@@ -32,9 +37,8 @@ void Client::RefreshFriendList()
     json msg;
     msg.insert("cmd","friend-list");
     msg.insert("account",QString("%1").arg(selfInfo.account));
-    t.socket->waitForReadyRead(100);
     t.SendMsg(msg);
-    t.socket->waitForBytesWritten();
+    t.socket->waitForReadyRead(200);
 }
 
 void Client::InitUI()
@@ -137,3 +141,30 @@ void Client::on_pushBtn_refresh_clicked()
 {
     RefreshFriendList();
 }
+
+void Client::ClientMsgHandler(json msg)
+{
+    qDebug() << "ClientMsgHandler" << endl;
+    QString cmd = msg["cmd"].toString();
+    if(cmd == "friend-list")
+    {
+        ui->listWidget_info->clear();
+        QJsonArray list = msg["msglist"].toArray();
+        for(int i=0;i<list.size()-1;i+=2)
+        {
+            //QString f = QString("[%1] [%2]").arg(list[i].toString(),list[i+1].toString());
+            //ui->listWidget_info->addItem(f);
+            FriendItem *item = new FriendItem();
+            item->setAccount(list[i].toInt());
+            item->setName(list[i+1].toString());
+            item->setSignature("这个人很懒，什么都没有留下...");
+            //QListWidgetItem *listItem = new QListWidgetItem();
+            //listItem->setSizeHint(item->sizeHint());
+            ui->listWidget_info->addItem((QListWidgetItem *)item);
+            //ui->listWidget_info->setItemWidget(listItem, item);
+        }
+    }
+}
+
+
+

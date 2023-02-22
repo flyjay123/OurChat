@@ -37,13 +37,14 @@ public:
 public:
     void SendMsg(json message);
     json GetMessage(){return  message;}
-    int CmdParser(json message);
+    void CmdParser(json message);
     //QTcpSocket * GetSocket();
 
 
 signals:
     // 收到消息信号
     void messageReceived();
+    void CallClient(json msg);
 
 public slots:
     void onReadyRead();

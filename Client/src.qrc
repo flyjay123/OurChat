@@ -26,5 +26,8 @@
         <file>src/wechat3.png</file>
         <file>src/眼睛_显示.png</file>
         <file>src/眼睛_隐藏.png</file>
+        <file>src/check.png</file>
+        <file>src/top.png</file>
+        <file>src/QQIcon/QQIcon1.jpg</file>
     </qresource>
 </RCC>
