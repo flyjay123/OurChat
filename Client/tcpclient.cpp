@@ -86,12 +86,17 @@ void TcpClient::onReadyRead()
     message = doc.object();
     qDebug() << "readsize: " << len;
     qDebug() << "read: " << data;
-    emit messageReceived();
+    CmdParser(message);
 }
 
-void CmdParser(json message)
+void TcpClient::CmdParser(json message)
 {
-    QString cmd = message["cmd"].toString();
+    json msg(message);
+    QString cmd = msg["cmd"].toString();
+    if(cmd=="friend-list")
+    {
+        emit CallClient(msg);
+    }
 }
 
 

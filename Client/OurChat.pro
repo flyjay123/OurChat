@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     addfriend.cpp \
+    frienditem.cpp \
     logging.cpp \
     main.cpp \
     client.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     addfriend.h \
     client.h \
+    frienditem.h \
     logging.h \
     stringtool.h \
     tcpclient.h
@@ -33,6 +35,7 @@ HEADERS += \
 FORMS += \
     addfriend.ui \
     client.ui \
+    frienditem.ui \
     logging.ui
 
 # Default rules for deployment.
