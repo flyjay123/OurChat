@@ -50,7 +50,9 @@ void AddFriend::on_pushButton_search_clicked()
                 QJsonArray arr =  j["msglist"].toArray();
                 for(int i =0;i<arr.size();i++)
                 {
-                         list.push_back(arr[i].toString());
+                        QJsonArray a = arr[i].toArray();
+                         list.push_back(a[0].toString());
+                         list.push_back(a[1].toString());
                }
                 for(int i =0;i<list.size()-1;i+=2)
                 {

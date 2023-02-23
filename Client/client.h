@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "tcpclient.h"
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Client; }
@@ -43,6 +44,8 @@ private slots:
     void on_pushBtn_max_clicked();
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
+    void on_listWidget_info_itemClicked(QListWidgetItem *item);
+
 public slots:
     void ClientMsgHandler(json msg);
 
