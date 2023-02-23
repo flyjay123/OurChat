@@ -10,7 +10,7 @@
 #include "addfriend.h"
 #include "frienditem.h"
 #include <QListWidget>
-#include <QListWidgetItem>
+
 
 Client::Client(SelfInfo info ,QWidget *parent)
     : QWidget(parent)
@@ -152,10 +152,8 @@ void Client::ClientMsgHandler(json msg)
         QJsonArray list = msg["msglist"].toArray();
         for(int i=0;i<list.size()-1;i+=2)
         {
-            //QString f = QString("[%1] [%2]").arg(list[i].toString(),list[i+1].toString());
-            //ui->listWidget_info->addItem(f);
             FriendItem *item = new FriendItem();
-            item->setAccount(list[i].toInt());
+            item->setAccount(list[i].toString().toInt());
             item->setName(list[i+1].toString());
             item->setSignature("这个人很懒，什么都没有留下...");
             QListWidgetItem *listItem = new QListWidgetItem(ui->listWidget_info);
@@ -166,5 +164,11 @@ void Client::ClientMsgHandler(json msg)
     }
 }
 
+void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
+{
+    FriendItem* friendItem = qobject_cast<FriendItem*>(ui->listWidget_info->itemWidget(item));
+    qDebug() << friendItem->account();
+    int row = ui->listWidget_info->row(item);
+    qDebug() << "index is " << row;
 
-
+}
