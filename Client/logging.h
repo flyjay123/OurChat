@@ -56,6 +56,7 @@ private slots:
 private:
     Ui::Logging *ui;
     TcpClient* t;
+    QMessageBox* msgBox;
 };
 
 #endif // LOGGING_H

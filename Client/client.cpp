@@ -50,7 +50,6 @@ void Client::RefreshFriendList()
     msg.insert("cmd","friend-list");
     msg.insert("account",QString("%1").arg(selfInfo.account));
     t->SendMsg(msg);
-    t->waitForReadyRead(200);
 }
 
 void Client::InitUI()

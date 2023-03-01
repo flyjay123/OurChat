@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QShortcut>
 
+
 using json = QJsonObject;
 using namespace std;
 Logging::Logging(QWidget *parent) :
@@ -19,6 +20,7 @@ Logging::Logging(QWidget *parent) :
 {
     ui->setupUi(this);
     t = new TcpClient(this);
+    msgBox = new QMessageBox(this);
     Init();
 
 }
@@ -192,6 +194,18 @@ void Logging::on_pushButton_login_clicked()
              return;
          }
      }
+     if(!ui->lineEdit_account->text().size())
+     {
+        msgBox->setText("账号不能为空");
+        msgBox->showNormal();
+        return;
+     }
+     if(!ui->lineEdit_password->text().size())
+     {
+        msgBox->setText("密码不能为空");
+        msgBox->showNormal();
+        return;
+     }
     json msg;
     msg.insert("cmd","login");
     msg.insert("account",ui->lineEdit_account->text());
@@ -206,6 +220,30 @@ void Logging::on_pushButton_regist_clicked()
     {
         if(t->ConnetToServer() == -1)
             return;
+    }
+    if(!ui->lineEdit_account_2->text().size())
+    {
+       msgBox->setText("账号不能为空");
+       msgBox->showNormal();
+       return;
+    }
+    if(!ui->lineEdit_password_2->text().size())
+    {
+       msgBox->setText("密码不能为空");
+       msgBox->showNormal();
+       return;
+    }
+    if(!ui->lineEdit_password_3->text().size())
+    {
+       msgBox->setText("请重复密码");
+       msgBox->showNormal();
+       return;
+    }
+    if(ui->lineEdit_password_2->text() != ui->lineEdit_password_3->text())
+    {
+        msgBox->setText("两次输入密码不一致");
+        msgBox->showNormal();
+        return;
     }
     json msg;
     msg.insert("cmd","regist");
@@ -233,9 +271,17 @@ void Logging::CmdHandler(json msg)
         if(msg.value("res").toString() == "yes")
         {
             qDebug() << "登录成功" << endl;
+            QString a = ui->lineEdit_account->text();
+            int account;
+            if(a.startsWith("0x") || a.startsWith("0X"))
+                account = a.toInt(NULL,16);
+            else if(a.startsWith("0"))
+                account = a.toInt(NULL,8);
+            else
+                account = a.toInt();
             SelfInfo info;
             info.name = msg.value("name").toString();
-            info.account = ui->lineEdit_account->text().toInt();
+            info.account = account;
             info.password = ui->lineEdit_password->text().toInt();
             qDebug() << info.name << " " << info.account << info.password << endl;
             static Client* client = new Client(info,t);
