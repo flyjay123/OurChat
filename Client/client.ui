@@ -14,8 +14,8 @@
    <string>Client</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
+   <iconset resource="src.qrc">
+    <normaloff>:/pic/src/wechat2.png</normaloff>:/pic/src/wechat2.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -217,6 +217,9 @@ QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
 }
 </string>
         </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::SingleSelection</enum>
         </property>
@@ -229,6 +232,192 @@ QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
       <property name="spacing">
        <number>0</number>
       </property>
+      <item row="3" column="0">
+       <widget class="QWidget" name="widget_13" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>70</height>
+         </size>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_14">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_13">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="SendTextEdit" name="textEdit_send">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>65</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>65</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>新宋体</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);
+border: none; /* no border for a flat push button */
+</string>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QWidget" name="widget_3" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_9" columnstretch="1,0,0">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushBtn_send">
+             <property name="minimumSize">
+              <size>
+               <width>70</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>70</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>黑体</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+	color: rgb(96,96,96);
+	border-radius: 5px;	
+	border-style: solid;
+	background-color: rgb(245,245,245);
+
+	border-right:1px solid #E5E5E5;
+	border-top:1px solid #E5E5E5;
+	border-left:1px solid #E5E5E5;
+	border-bottom:1px solid #E5E5E5;
+}
+
+QPushButton:hover{
+	color: rgb(255, 255, 255);
+	background-color: rgb(18,150,17);
+}
+
+QPushButton:pressed {
+	background-color: rgb(7,193,96);
+}</string>
+             </property>
+             <property name="text">
+              <string>发送</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QWidget" name="widget_9" native="true">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QWidget" name="widget_10" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QWidget" name="widget_2" native="true">
         <property name="minimumSize">
@@ -514,7 +703,7 @@ border-color: rgb(199, 200, 194);</string>
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_11" columnstretch="0,0,0,0,0,1">
+          <layout class="QGridLayout" name="gridLayout_11" columnstretch="0,0,0,0,0,0">
            <property name="horizontalSpacing">
             <number>12</number>
            </property>
@@ -544,9 +733,6 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
-           <item row="0" column="5">
-            <widget class="QWidget" name="widget_11" native="true"/>
-           </item>
            <item row="0" column="2">
             <widget class="QPushButton" name="pushButton_file">
              <property name="styleSheet">
@@ -563,29 +749,6 @@ QPushButton::hover {
 }
 QPushButton:pressed {
 	image: url(:/pic/src/file.png); 
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_emoj">
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/emoj.png); 
-	min-width: 20px;
-	max-width: 20px;
-	min-height: 20px;
-	max-height: 20px;
-}
-QPushButton::hover {
-	image: url(:/pic/src/emoj2.png); 
-}
-QPushButton:pressed {
-	image: url(:/pic/src/emoj.png); 
 }</string>
              </property>
              <property name="text">
@@ -632,138 +795,60 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QWidget" name="widget_13" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>70</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>70</height>
-         </size>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_14">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_13">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QTextEdit" name="textEdit">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>65</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>65</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>新宋体</family>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_emoj">
              <property name="styleSheet">
-              <string notr="true">background-color: rgb(255, 255, 255);
-border: none; /* no border for a flat push button */
-</string>
+              <string notr="true">QPushButton {
+	border: none; /* no border for a flat push button */
+	image: url(:/pic/src/emoj.png); 
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 20px;
+	max-height: 20px;
+}
+QPushButton::hover {
+	image: url(:/pic/src/emoj2.png); 
+}
+QPushButton:pressed {
+	image: url(:/pic/src/emoj.png); 
+}</string>
+             </property>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QWidget" name="widget_3" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_10">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_9" columnstretch="1,0,0">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushBtn_send">
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>70</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>黑体</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
+           <item row="0" column="5">
+            <widget class="QWidget" name="widget_11" native="true">
+             <widget class="QPushButton" name="pushBtn_refresh_2">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>0</y>
+                <width>41</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>2000</width>
+                <height>2000</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>黑体</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
 	color: rgb(96,96,96);
 	border-radius: 5px;	
 	border-style: solid;
@@ -783,33 +868,11 @@ QPushButton:hover{
 QPushButton:pressed {
 	background-color: rgb(7,193,96);
 }</string>
-             </property>
-             <property name="text">
-              <string>发送</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QWidget" name="widget_9" native="true">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QWidget" name="widget_10" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>40</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
+              </property>
+              <property name="text">
+               <string>刷新</string>
+              </property>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -984,6 +1047,15 @@ QPushButton::hover {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>SendTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>sendtextedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="src.qrc"/>
+ </resources>
  <connections/>
 </ui>

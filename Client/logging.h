@@ -51,8 +51,11 @@ private slots:
     
     void on_pushButton_seePassword_clicked();
 
+    void CmdHandler(json msg);
+
 private:
     Ui::Logging *ui;
+    TcpClient* t;
 };
 
 #endif // LOGGING_H

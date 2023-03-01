@@ -11,14 +11,16 @@
 #include <QTimer>
 #include <QShortcut>
 
-
+using json = QJsonObject;
 using namespace std;
 Logging::Logging(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Logging)
 {
     ui->setupUi(this);
+    t = new TcpClient(this);
     Init();
+
 }
 
 Logging::~Logging()
@@ -54,6 +56,12 @@ void Logging::Init()
 
     QShortcut *key=new QShortcut(QKeySequence(Qt::Key_Return),this);//创建一个快捷键"Key_Return"键
     connect(key,&QShortcut::activated,this,&Logging::on_pushButton_login_clicked);//连接到指定槽函数
+
+    connect(t, &TcpClient::CallLogging, this, [this](const QJsonObject& msg){
+        CmdHandler(msg);
+    });
+
+
 }
 
 void Logging::mousePressEvent(QMouseEvent *event)
@@ -83,7 +91,7 @@ void Logging::on_pushBtn_close_clicked()
 {
     json msg;
     msg.insert("cmd","logout");
-    t.SendMsg(msg);
+    t->SendMsg(msg);
     this->close();
 }
 
@@ -91,7 +99,7 @@ void Logging::on_pushBtn_close_2_clicked()
 {
     json msg;
     msg.insert("cmd","logout");
-    t.SendMsg(msg);
+    t->SendMsg(msg);
     this->close();
 }
 
@@ -175,10 +183,10 @@ else
 
 void Logging::on_pushButton_login_clicked()
 {
-     if(!t.m_isConnected)
+     if(!t->m_isConnected)
      {
          qDebug() << "未连接" << endl;
-         if(t.ConnetToServer() == -1)
+         if(t->ConnetToServer() == -1)
          {
              qDebug() << "连接失败" << endl;
              return;
@@ -189,38 +197,14 @@ void Logging::on_pushButton_login_clicked()
     msg.insert("account",ui->lineEdit_account->text());
     msg.insert("password",ui->lineEdit_password->text());
 
-    t.SendMsg(msg);
-
-
-    //t.socket->readyRead();
-    if(t.socket->waitForReadyRead(3000))
-    {
-        json msg1 = t.GetMessage();
-        if(msg1.isEmpty()) return ;
-        if(msg1.value("cmd").toString() == "yes")
-        {
-            qDebug() << "登录成功" << endl;
-            SelfInfo info;
-            info.name = msg1.value("name").toString();
-            info.account = msg.value("account").toString().toInt();
-            info.password = msg.value("password").toString();
-            qDebug() << info.name << " " << info.account << info.password << endl;
-            Client* client = new Client(info);
-            client->show();
-            this->close();
-        }
-        else
-            qDebug() << msg.value("err").toString() << endl;
-    }
-    else
-        qDebug() << "与服务器连接失败" << endl;
+    t->SendMsg(msg);
 }
 
 void Logging::on_pushButton_regist_clicked()
 {
-    if(!t.m_isConnected)
+    if(!t->m_isConnected)
     {
-        if(t.ConnetToServer() == -1)
+        if(t->ConnetToServer() == -1)
             return;
     }
     json msg;
@@ -228,22 +212,7 @@ void Logging::on_pushButton_regist_clicked()
     msg.insert("account",ui->lineEdit_account_2->text());
     msg.insert("password",ui->lineEdit_password_2->text());
     msg.insert("name",ui->lineEdit_name->text());
-    t.SendMsg(msg);
-
-    if(t.socket->waitForReadyRead(3000))
-    {
-       // t.onReadyRead();
-        json msg = t.GetMessage();
-        if(msg.value("cmd").toString() == "yes")
-        {
-            qDebug() << "注册成功" << endl;
-            ui->stackedWidget->setCurrentIndex(0);
-        }
-        else
-        {
-            qDebug() << msg.value("err").toString() << endl;
-        }
-    }
+    t->SendMsg(msg);
 }
 
 void Logging::on_pushButton_seePassword_clicked()
@@ -254,6 +223,36 @@ void Logging::on_pushButton_seePassword_clicked()
     }
     else
         ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+}
+
+void Logging::CmdHandler(json msg)
+{
+    if(msg.isEmpty()) return ;
+    if(msg.value("cmd").toString() == "login")
+    {
+        if(msg.value("res").toString() == "yes")
+        {
+            qDebug() << "登录成功" << endl;
+            SelfInfo info;
+            info.name = msg.value("name").toString();
+            info.account = ui->lineEdit_account->text().toInt();
+            info.password = ui->lineEdit_password->text().toInt();
+            qDebug() << info.name << " " << info.account << info.password << endl;
+            static Client* client = new Client(info,t);
+            client->show();
+            this->close();
+        }
+        else
+            qDebug() << msg.value("err").toString() << endl;
+    }
+    else if(msg.value("cmd").toString() == "regist")
+    {
+        if(msg.value("res").toString() == "yes")
+        {
+            qDebug() << "注册成功" << endl;
+            ui->stackedWidget->setCurrentIndex(0);
+        }
+    }
 }
 
 

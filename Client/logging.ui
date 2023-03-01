@@ -14,8 +14,8 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
+   <iconset resource="src.qrc">
+    <normaloff>:/pic/src/wechat2.png</normaloff>:/pic/src/wechat2.png</iconset>
   </property>
   <widget class="QWidget" name="centerWidget" native="true">
    <property name="geometry">

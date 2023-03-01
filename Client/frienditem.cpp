@@ -26,3 +26,8 @@ void FriendItem::setAvatar(const QPixmap &avatar)
 {
     ui->label_icon->setPixmap(avatar);
 }
+
+QString FriendItem::getName()
+{
+    return  ui->label_name->text();
+}

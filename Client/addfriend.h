@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVector>
+#include "tcpclient.h"
 
 namespace Ui {
 class AddFriend;
@@ -26,6 +27,7 @@ private slots:
 private:
     Ui::AddFriend *ui;
     QVector<QString> list;
+    TcpClient* t;
 };
 
 #endif // ADDFRIEND_H
