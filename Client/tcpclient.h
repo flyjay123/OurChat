@@ -25,7 +25,7 @@ typedef struct _send_info
   string info;
 }SendInfo;
 
-class TcpClient :public QObject
+class TcpClient : public QTcpSocket
 {
     Q_OBJECT
 public:
@@ -34,35 +34,21 @@ public:
     int ConnetToServer();
     void DisconnetFormServer();
 
+
 public:
     void SendMsg(json message);
     json GetMessage(){return  message;}
     void CmdParser(json message);
-    //QTcpSocket * GetSocket();
 
-
-signals:
+Q_SIGNALS:
     // 收到消息信号
     void messageReceived();
     void CallClient(json msg);
+    void CallLogging(json msg);
 
 public slots:
     void onReadyRead();
 
-    // 连接成功槽
-    void onConnected()
-    {
-        emit socket->connected();
-    }
-
-    // 断开连接槽
-    void onDisconnected()
-    {
-        emit socket->disconnected();
-    }
-
-public:
-    QTcpSocket * socket;
 public:
 
 #if 1
@@ -71,14 +57,8 @@ public:
     QString m_server = "127.0.0.1";
 #endif
     int m_port = 8888;
-    bool m_isConnected;
+    bool m_isConnected = false;
 
     json message;
-
-public:
-   static QTcpSocket * g_socket;
-
 };
-extern TcpClient t;
-
 #endif // TCPCLIENT_H

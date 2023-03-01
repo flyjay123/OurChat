@@ -21,6 +21,8 @@ public:
     void setSignature(const QString &signature);
     void setAvatar(const QPixmap &avatar);
 
+    QString getName();
+
 private:
     Ui::FriendItem *ui;
     int m_account;

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="src.qrc">
-    <normaloff>:/src/wechat2.png</normaloff>:/src/wechat2.png</iconset>
+    <normaloff>:/pic/src/wechat2.png</normaloff>:/pic/src/wechat2.png</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>

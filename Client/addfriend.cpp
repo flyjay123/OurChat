@@ -1,7 +1,7 @@
 #include "addfriend.h"
 #include "ui_addfriend.h"
 #include <QGraphicsDropShadowEffect>
-#include "tcpclient.h"
+
 
 AddFriend::AddFriend(QWidget *parent) :
     QWidget(parent),
@@ -9,6 +9,7 @@ AddFriend::AddFriend(QWidget *parent) :
 {
     ui->setupUi(this);
     Init();
+    t = new TcpClient(this);
 }
 
 AddFriend::~AddFriend()
@@ -37,11 +38,11 @@ void AddFriend::on_pushButton_search_clicked()
 {
     QString search = ui->lineEdit->text();
     json msg ={{"cmd","friend-search"},{"search-info",search}};
-    t.SendMsg(msg);
-    if(t.socket->waitForReadyRead(3000))
+    t->SendMsg(msg);
+    if(t->waitForReadyRead(3000))
         {
             //t.onReadyRead();
-            json j = t.GetMessage();
+            json j = t->GetMessage();
             if(j.isEmpty()) return;
             if(j["cmd"] == "yes")
             {
@@ -75,7 +76,7 @@ void AddFriend::on_pushButton_search_2_clicked()
         msg.insert("cmd","addfriend-req");
         msg.insert("account",list[row*2]);
         msg.insert("sendmsg",ui->textEdit->toPlainText());
-        t.SendMsg(msg);
+        t->SendMsg(msg);
     }
 }
 

@@ -8,13 +8,12 @@ void slot_test()
     qDebug() << "slot test" << endl;
 }
 
-TcpClient::TcpClient(QObject *parent) : QObject(parent)
+TcpClient::TcpClient(QObject *parent) :QTcpSocket(parent)
 {
-    socket = new QTcpSocket(this);
     ConnetToServer();
 
     //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
-    connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
+    connect(this,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
 
 TcpClient::~TcpClient()
@@ -26,8 +25,8 @@ int TcpClient::ConnetToServer()
 {
     if(m_isConnected)
         return 1;
-    socket->connectToHost(m_server,m_port);
-    if(socket->waitForConnected(3000))
+    this->connectToHost(m_server,m_port);
+    if(this->waitForConnected(3000))
     {
         qDebug() << "连接成功" << endl;
          m_isConnected = true;
@@ -35,7 +34,7 @@ int TcpClient::ConnetToServer()
     }
     else
     {
-        qDebug() << socket->errorString() << endl;
+        qDebug() << this->errorString() << endl;
         return -1;
     }
 }
@@ -43,7 +42,7 @@ int TcpClient::ConnetToServer()
 void TcpClient::DisconnetFormServer()
 {
     m_isConnected=false;
-    socket->close();
+    this->close();
 }
 
 void TcpClient::SendMsg(json message)
@@ -58,10 +57,10 @@ void TcpClient::SendMsg(json message)
     //发送大小
     char lenBuf[4];
     sprintf(lenBuf,"%d",data.length());
-    socket->write(lenBuf,4);
+    this->write(lenBuf,4);
     // 发送数据到服务器
-    socket->write(data);
-    socket->waitForBytesWritten(1000);
+    this->write(data);
+    this->waitForBytesWritten(1000);
     qDebug() << "sendLen: " << lenBuf;
     qDebug() << "send: " << data;
 }
@@ -69,31 +68,36 @@ void TcpClient::SendMsg(json message)
 void TcpClient::onReadyRead()
 {
     qDebug() << "ready read " << endl;
+
     char readLen[4];
-
-    if(socket->waitForReadyRead(3000))
-    {
-        socket->read(readLen,4);
-    }
-    else
-    {
-        qDebug()<<"连接超时"<<endl;
-    }
+    this->read(readLen,4);
     int len = atoi(readLen);
+    QByteArray data;
+    while (data.length() < len) {
+            QByteArray newData = this->read(len - data.length());
+            if (newData.isEmpty()) {
+                break; // 没有更多的数据可读取了
+            }
+            data += newData;
+        }
 
-    QByteArray data = socket->read(len);
     QJsonDocument doc = QJsonDocument::fromJson(data);
     message = doc.object();
     qDebug() << "readsize: " << len;
+    qDebug() << "realReadSize: " << data.length();
     qDebug() << "read: " << data;
     CmdParser(message);
-}
 
+}
 void TcpClient::CmdParser(json message)
 {
     json msg(message);
     QString cmd = msg["cmd"].toString();
-    if(cmd=="friend-list")
+    if(cmd == "login" || cmd == "regist")
+    {
+        emit CallLogging(msg);
+    }
+    if(cmd=="friend-list" || cmd == "pchat")
     {
         emit CallClient(msg);
     }

@@ -10,21 +10,33 @@
 #include "addfriend.h"
 #include "frienditem.h"
 #include <QListWidget>
+#include <QToolTip>
+#include "stringtool.h"
+#include <QShortcut>
+#include "sendtextedit.h"
 
 
-Client::Client(SelfInfo info ,QWidget *parent)
+Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Client)
 {
     ui->setupUi(this);
     InitUI();
+    t = tcp;
     selfInfo.name = info.name;
     selfInfo.account=info.account;
     selfInfo.password=info.password;
 
+
     ui->listWidget_info->setViewMode(QListWidget::ListMode); //显示模式
 
-    connect(&t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
+    connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
+//    QShortcut *key1=new QShortcut(QKeySequence(Qt::Key_Return),this);
+//    QShortcut *key2=new QShortcut(QKeySequence(Qt::Key_Enter),this);
+//    connect(key1,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
+//    connect(key2,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
+    connect(ui->textEdit_send,&SendTextEdit::keyPressEnter,this,&Client::on_pushBtn_send_clicked);
+    RefreshFriendList();
 }
 
 Client::~Client()
@@ -37,8 +49,8 @@ void Client::RefreshFriendList()
     json msg;
     msg.insert("cmd","friend-list");
     msg.insert("account",QString("%1").arg(selfInfo.account));
-    t.SendMsg(msg);
-    t.socket->waitForReadyRead(200);
+    t->SendMsg(msg);
+    t->waitForReadyRead(200);
 }
 
 void Client::InitUI()
@@ -121,6 +133,8 @@ void Client::on_pushBtn_max_clicked()
 
 void Client::on_pushBtn_close_clicked()
 {
+    json msg ={ {"cmd","logout"}};
+    t->SendMsg(msg);
     this->close();
 }
 
@@ -146,6 +160,7 @@ void Client::ClientMsgHandler(json msg)
 {
     qDebug() << "ClientMsgHandler" << endl;
     QString cmd = msg["cmd"].toString();
+
     if(cmd == "friend-list")
     {
         ui->listWidget_info->clear();
@@ -162,13 +177,82 @@ void Client::ClientMsgHandler(json msg)
             ui->listWidget_info->setItemWidget(listItem, item);
         }
     }
+    else if(cmd == "pchat")
+    {
+        int account = msg["sender"].toString().toInt();
+        ChatWindow* chatWindow;
+        if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
+        {
+                chatWindow = chatMap.value(account);
+                ui->stackedWidget->addWidget(chatWindow);
+                chatMap.insert(account,chatWindow);
+
+        }
+        else
+        {
+            chatWindow = chatMap.value(account);
+           // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+        }
+        QString pushMsg = StringTool::MergePushMsg(currentDateTime,chatWindow->GetFriendInfo()->name,msg["sendmsg"].toString());
+        chatWindow->pushMsg(pushMsg,1);
+    }
 }
 
 void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
 {
     FriendItem* friendItem = qobject_cast<FriendItem*>(ui->listWidget_info->itemWidget(item));
-    qDebug() << friendItem->account();
-    int row = ui->listWidget_info->row(item);
-    qDebug() << "index is " << row;
+    int account = friendItem->account();
+
+    if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
+    {
+        FriendInfo info{account,friendItem->getName()};
+        ChatWindow* chatWindow = new ChatWindow(info);
+        ui->stackedWidget->addWidget(chatWindow);
+        ui->stackedWidget->setCurrentWidget(chatWindow);
+        chatMap.insert(account,chatWindow);
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+    }
+}
+
+void Client::on_pushBtn_send_clicked()
+{
+    QString sendText = ui->textEdit_send->toPlainText();
+    if( sendText== "")
+    {
+        QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
+        return;
+    }
+    if(ui->listWidget_info->currentRow()<0)
+    {
+        QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "选择的好友不能为空", ui->pushButton);
+        return;
+    }
+    ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
+    int account = chatWindow->GetFriendInfo()->account;
+    QString name = chatWindow->GetFriendInfo()->name;
+    json msg={{"cmd","pchat"},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
+    t->SendMsg(msg);
+    ui->textEdit_send->clear();
+    QString pushMsg = StringTool::MergePushMsg(currentDateTime,name,sendText);
+    chatWindow->pushMsg(pushMsg,0);
 
 }
+
+
+void Client::on_pushBtn_refresh_2_clicked()
+{
+    t->waitForReadyRead(200);
+}
+
+void Client::keyPressEvent(QKeyEvent *event)
+{
+    //Enter事件好像这两个都要写，只写event->key() == Qt::Key_Enter，无法实现
+    if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+    {
+        on_pushBtn_send_clicked();
+    }
+}
+

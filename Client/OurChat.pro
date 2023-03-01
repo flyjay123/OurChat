@@ -22,6 +22,7 @@ SOURCES += \
     logging.cpp \
     main.cpp \
     client.cpp \
+    sendtextedit.cpp \
     stringtool.cpp \
     tcpclient.cpp
 
@@ -31,6 +32,7 @@ HEADERS += \
     client.h \
     frienditem.h \
     logging.h \
+    sendtextedit.h \
     stringtool.h \
     tcpclient.h
 
