@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QMessageBox>
 
 using std::string;
 using json = QJsonObject;
