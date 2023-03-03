@@ -18,3 +18,8 @@ QString StringTool::MergePushMsg(QDateTime dateTime, QString name, QString text)
     QString pushMsg(dateTimeString+"\t"+name+": " + "\n" + text + "\n");
     return pushMsg;
 }
+
+QString StringTool::Int2QStr(int num)
+{
+    return QString("%1").arg(num);
+}

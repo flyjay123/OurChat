@@ -164,56 +164,17 @@ QPushButton:pressed {
 	border-bottom:1px solid #D6D6D6;	
 }
 
-QScrollBar:vertical
-{
-    width:8px;
-    background:rgba(0,0,0,0%);
-    margin:0px,0px,0px,0px;
-    padding-top:9px;
-    padding-bottom:9px;
+QScrollBar::handle:vertical:normal { //正常时状态
+background:#6eb1f0;
+width:8px;
 }
-QScrollBar::handle:vertical
-{
-    width:8px;
-    background:rgba(0,0,0,25%);
-    border-radius:4px;
-    min-height:20;
+QScrollBar::handle:vertical:hover { //保持时状态
+background:#e6e6e6;
+width:8px;
 }
-QScrollBar::handle:vertical:hover
-{
-    width:8px;
-    background:rgba(0,0,0,50%);
-    border-radius:4px;
-    min-height:20;
-}
-QScrollBar::add-line:vertical
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/3.png);
-    subcontrol-position:bottom;
-}
-QScrollBar::sub-line:vertical
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/1.png);
-    subcontrol-position:top;
-}
-QScrollBar::add-line:vertical:hover
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/4.png);
-    subcontrol-position:bottom;
-}
-QScrollBar::sub-line:vertical:hover
-{
-    height:9px;width:8px;
-    border-image:url(:/images/a/2.png);
-    subcontrol-position:top;
-}
-QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
-{
-    background:rgba(0,0,0,10%);
-    border-radius:4px;
+QScrollBar::handle:vertical:pressed { //按下时状态
+background:#a5a5a5;
+width:8px;
 }
 </string>
         </property>

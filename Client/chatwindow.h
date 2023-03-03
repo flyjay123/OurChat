@@ -2,17 +2,11 @@
 #define CHATWINDOW_H
 
 #include <QWidget>
+#include "tcpclient.h"
 
 namespace Ui {
 class ChatWindow;
 }
-
-typedef struct _friend_info
-{
-    int account;
-    QString name;
-}FriendInfo;
-
 
 class ChatWindow : public QWidget
 {

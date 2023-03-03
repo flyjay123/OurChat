@@ -12,19 +12,24 @@ using std::string;
 using json = QJsonObject;
 using jsonDoc = QJsonDocument;
 
-typedef struct _login_info
+typedef  struct _self_info
 {
-    string cmd;
     int account;
-    string password;
-    string name;
-} LoginInfo;
+    QString password;
+    QString name;
+    QString sig;
+}SelfInfo ;
 
-typedef struct _send_info
+typedef struct _friend_info
 {
-  string cmd;
-  string info;
-}SendInfo;
+    int account;
+    QString name;
+    QString sig;
+    _friend_info(int _account,QString _name){
+        name=_name;account=_account;
+    }
+    _friend_info(){}
+}FriendInfo;
 
 class TcpClient : public QTcpSocket
 {
