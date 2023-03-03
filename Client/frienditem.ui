@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QLabel" name="label_icon">
+  <widget class="FriendIconLabel" name="label_icon">
    <property name="geometry">
     <rect>
      <x>5</x>
@@ -25,8 +25,14 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::RichText</enum>
    </property>
    <property name="pixmap">
     <pixmap resource="src.qrc">:/pic/src/QQIcon/icon2.png</pixmap>
@@ -40,7 +46,7 @@
     <rect>
      <x>79</x>
      <y>10</y>
-     <width>141</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -56,7 +62,7 @@
     <rect>
      <x>79</x>
      <y>40</y>
-     <width>141</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -67,7 +73,51 @@
     <string>个性签名</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit_newMsg">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>2</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bahnschrift SemiLight</family>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>BlankCursor</cursorShape>
+   </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">min-width: 20px; min-height: 20px;max-width:20px; max-height: 20px;border-radius: 10px; ;background: #E13D4E;
+color: #ffffff</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="maxLength">
+    <number>10</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FriendIconLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">friendiconlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="src.qrc"/>
  </resources>

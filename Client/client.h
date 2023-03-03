@@ -8,17 +8,13 @@
 #include "chatwindow.h"
 #include <QTime>
 #include <QKeyEvent>
+#include "frienditem.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Client; }
 QT_END_NAMESPACE
 
-typedef  struct _self_info
-{
-    int account;
-    QString password;
-    QString name;
-}SelfInfo ;
+
 
 class Client : public QWidget
 {
@@ -66,8 +62,15 @@ private:
     bool        m_isLogin;
     bool        m_isfull;
     QRect       m_rect;
+
     SelfInfo selfInfo;
+    int  curChatAccount;
+    //account, chatWindow
     QMap<int,ChatWindow*> chatMap;
+    //account, friendInfo
+    QMap<int,FriendInfo> friendMap;
+    //account,firendItem
+    QMap<int,FriendItem*>friendItemMap;
     QDateTime currentDateTime;
     TcpClient* t;
 };

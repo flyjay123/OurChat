@@ -42,7 +42,6 @@ int TcpClient::ConnetToServer()
 void TcpClient::DisconnetFormServer()
 {
     m_isConnected=false;
-    this->close();
 }
 
 void TcpClient::SendMsg(json message)

@@ -18,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     addfriend.cpp \
     chatwindow.cpp \
+    friendiconlabel.cpp \
+    friendinfowidget.cpp \
     frienditem.cpp \
     logging.cpp \
     main.cpp \
@@ -30,6 +32,8 @@ HEADERS += \
     addfriend.h \
     chatwindow.h \
     client.h \
+    friendiconlabel.h \
+    friendinfowidget.h \
     frienditem.h \
     logging.h \
     sendtextedit.h \
@@ -40,6 +44,7 @@ FORMS += \
     addfriend.ui \
     chatwindow.ui \
     client.ui \
+    friendinfowidget.ui \
     frienditem.ui \
     logging.ui
 

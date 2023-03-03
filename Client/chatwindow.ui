@@ -28,6 +28,26 @@
      <height>430</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QScrollBar:vertical {
+    border: none;
+    background: white;
+    width: 15px;
+}
+
+QScrollBar::handle:vertical {
+    background: #999999;
+    min-height: 20px;
+    border-radius: 10px;
+}
+
+QScrollBar::handle:vertical:hover,
+QScrollBar::handle:vertical:focus {
+    background-color: #666666;
+    border-radius: 10px;
+}
+</string>
+   </property>
   </widget>
  </widget>
  <resources/>

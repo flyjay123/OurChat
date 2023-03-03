@@ -31,10 +31,10 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     ui->listWidget_info->setViewMode(QListWidget::ListMode); //显示模式
 
     connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
-//    QShortcut *key1=new QShortcut(QKeySequence(Qt::Key_Return),this);
-//    QShortcut *key2=new QShortcut(QKeySequence(Qt::Key_Enter),this);
-//    connect(key1,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
-//    connect(key2,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
+    //    QShortcut *key1=new QShortcut(QKeySequence(Qt::Key_Return),this);
+    //    QShortcut *key2=new QShortcut(QKeySequence(Qt::Key_Enter),this);
+    //    connect(key1,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
+    //    connect(key2,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
     connect(ui->textEdit_send,&SendTextEdit::keyPressEnter,this,&Client::on_pushBtn_send_clicked);
     RefreshFriendList();
 }
@@ -55,10 +55,10 @@ void Client::RefreshFriendList()
 void Client::InitUI()
 {
     this->setWindowTitle("OurChat");
-//    int width = this->width()-10;
-//    int height = this->height()-10;
-//    ui->centerWidget->setGeometry(5,5,width,height);
-//    ui->centerWidget->setStyleSheet("QWidget#centerWidget{ border-radius:4px; background:rgba(255,255,255,1); }");
+    //    int width = this->width()-10;
+    //    int height = this->height()-10;
+    //    ui->centerWidget->setGeometry(5,5,width,height);
+    //    ui->centerWidget->setStyleSheet("QWidget#centerWidget{ border-radius:4px; background:rgba(255,255,255,1); }");
     this->setWindowFlags(Qt::FramelessWindowHint);          //去掉标题栏无边框
     this->setAttribute(Qt::WA_TranslucentBackground,true);
     //实例阴影shadow
@@ -113,7 +113,7 @@ void Client::mouseDoubleClickEvent(QMouseEvent *event)
 
 void Client::on_pushBtn_max_clicked()
 {
-//    this->showFullScreen(); //全屏
+    //    this->showFullScreen(); //全屏
     if(m_isfull){
         //取消全屏
         m_isfull = false;
@@ -126,8 +126,8 @@ void Client::on_pushBtn_max_clicked()
         setGeometry(QGuiApplication::primaryScreen()->availableGeometry()); // 不包含windows任务栏区域
         ui->centerWidget->setGeometry(this->rect());
     }
-//    ui->centerWidget->showMaximized();
-//    this->showMaximized();
+    //    ui->centerWidget->showMaximized();
+    //    this->showMaximized();
 }
 
 void Client::on_pushBtn_close_clicked()
@@ -163,17 +163,29 @@ void Client::ClientMsgHandler(json msg)
     if(cmd == "friend-list")
     {
         ui->listWidget_info->clear();
+        friendMap.clear();
+        friendItemMap.clear();
         QJsonArray list = msg["msglist"].toArray();
-        for(int i=0;i<list.size()-1;i+=2)
+        for(int i=0;i<list.size();i++)
         {
+            FriendInfo info;
+            json obj =  list[i].toObject();
+            info.name = obj["name"].toString();
+            info.account=obj["account"].toString().toInt();
+            info.sig=obj["sig"].toString();
+            if(info.sig == "")
+                info.sig = "这家伙很高冷，啥也不想说";
+
             FriendItem *item = new FriendItem();
-            item->setAccount(list[i].toString().toInt());
-            item->setName(list[i+1].toString());
-            item->setSignature("这个人很懒，什么都没有留下...");
+            item->SetInfo(info);
+
             QListWidgetItem *listItem = new QListWidgetItem(ui->listWidget_info);
             listItem->setSizeHint(QSize(260,85));
             ui->listWidget_info->addItem(listItem);
             ui->listWidget_info->setItemWidget(listItem, item);
+
+            friendMap.insert(item->account(),info);
+            friendItemMap.insert(info.account,item);
         }
     }
     else if(cmd == "pchat")
@@ -182,18 +194,32 @@ void Client::ClientMsgHandler(json msg)
         ChatWindow* chatWindow;
         if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
         {
-                chatWindow = chatMap.value(account);
+            if(friendMap.find(account)!=friendMap.end())
+            {
+                FriendInfo info = friendMap[account];
+                chatWindow = new ChatWindow(info);
+
                 ui->stackedWidget->addWidget(chatWindow);
                 chatMap.insert(account,chatWindow);
-
+            }
+            else
+            {
+                //单向好友
+                return;
+            }
         }
         else
         {
             chatWindow = chatMap.value(account);
-           // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+            // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
         }
         QString pushMsg = StringTool::MergePushMsg(currentDateTime,chatWindow->GetFriendInfo()->name,msg["sendmsg"].toString());
         chatWindow->pushMsg(pushMsg,1);
+        FriendItem* item = friendItemMap.value(account);
+        if(account != curChatAccount)
+        {
+            item->NewMsgPlusOne();
+        }
     }
 }
 
@@ -214,6 +240,8 @@ void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
     {
         ui->stackedWidget->setCurrentWidget(chatMap.value(account));
     }
+    friendItem->SetNewMsgNum(0);
+    curChatAccount = account;
 }
 
 void Client::on_pushBtn_send_clicked()
@@ -231,11 +259,10 @@ void Client::on_pushBtn_send_clicked()
     }
     ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
     int account = chatWindow->GetFriendInfo()->account;
-    QString name = chatWindow->GetFriendInfo()->name;
     json msg={{"cmd","pchat"},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
     t->SendMsg(msg);
     ui->textEdit_send->clear();
-    QString pushMsg = StringTool::MergePushMsg(currentDateTime,name,sendText);
+    QString pushMsg = StringTool::MergePushMsg(currentDateTime,selfInfo.name,sendText);
     chatWindow->pushMsg(pushMsg,0);
 
 }
@@ -248,7 +275,6 @@ void Client::on_pushBtn_refresh_2_clicked()
 
 void Client::keyPressEvent(QKeyEvent *event)
 {
-    //Enter事件好像这两个都要写，只写event->key() == Qt::Key_Enter，无法实现
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
     {
         on_pushBtn_send_clicked();

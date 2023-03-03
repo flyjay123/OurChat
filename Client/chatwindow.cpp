@@ -26,14 +26,14 @@ void ChatWindow::pushMsg(QString msg, int flag)
     QTextCharFormat blueFormat;
     if(flag == 0)   //自己的消息
     {
-        blueFormat.setForeground(Qt::blue);
+        blueFormat.setForeground(Qt::red);
         //ui->textEdit->setAlignment(Qt::AlignLeft);
-        blockFormat.setAlignment(Qt::AlignLeft);
+        blockFormat.setAlignment(Qt::AlignRight);
     }
     else if(flag == 1)//别人的消息
     {
-        blueFormat.setForeground(Qt::red);
-        blockFormat.setAlignment(Qt::AlignRight);
+        blueFormat.setForeground(Qt::blue);
+        blockFormat.setAlignment(Qt::AlignLeft);
     }
 
     cursor.setBlockFormat(blockFormat);
