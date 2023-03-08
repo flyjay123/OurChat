@@ -24,6 +24,7 @@ SOURCES += \
     logging.cpp \
     main.cpp \
     client.cpp \
+    selfinfowidget.cpp \
     sendtextedit.cpp \
     stringtool.cpp \
     tcpclient.cpp
@@ -36,6 +37,7 @@ HEADERS += \
     friendinfowidget.h \
     frienditem.h \
     logging.h \
+    selfinfowidget.h \
     sendtextedit.h \
     stringtool.h \
     tcpclient.h
@@ -46,7 +48,8 @@ FORMS += \
     client.ui \
     friendinfowidget.ui \
     frienditem.ui \
-    logging.ui
+    logging.ui \
+    selfinfowidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

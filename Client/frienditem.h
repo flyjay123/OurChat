@@ -15,7 +15,7 @@ class FriendItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit FriendItem(QWidget *parent = nullptr);
+    explicit FriendItem(FriendInfo _info,QWidget *parent = nullptr);
     ~FriendItem();
 
     int account(){return m_account;}

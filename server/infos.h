@@ -9,6 +9,7 @@ struct UserInfo{
 int account;
 std::string password;
 std::string name;
+std::string sig;
 };
 
 typedef struct _login_info

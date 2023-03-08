@@ -41,5 +41,11 @@
     <qresource prefix="/">
         <file>src/个人中心绿.png</file>
         <file>src/个人中心灰.png</file>
+        <file>src/friendItemBg.png</file>
+        <file>src/bg1.png</file>
+        <file>src/thumb1.png</file>
+        <file>src/thumb2.png</file>
+        <file>src/dz1.png</file>
+        <file>src/dz2.png</file>
     </qresource>
 </RCC>

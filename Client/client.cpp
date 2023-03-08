@@ -14,6 +14,7 @@
 #include "stringtool.h"
 #include <QShortcut>
 #include "sendtextedit.h"
+#include "selfinfowidget.h"
 
 
 Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
@@ -176,8 +177,7 @@ void Client::ClientMsgHandler(json msg)
             if(info.sig == "")
                 info.sig = "这家伙很高冷，啥也不想说";
 
-            FriendItem *item = new FriendItem();
-            item->SetInfo(info);
+            FriendItem *item = new FriendItem(info);
 
             QListWidgetItem *listItem = new QListWidgetItem(ui->listWidget_info);
             listItem->setSizeHint(QSize(260,85));
@@ -281,3 +281,9 @@ void Client::keyPressEvent(QKeyEvent *event)
     }
 }
 
+
+void Client::on_pushButton_emoj_3_clicked()
+{
+    SelfInfoWidget* w = new SelfInfoWidget;
+    w->show();
+}

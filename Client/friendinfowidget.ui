@@ -7,8 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>251</height>
+    <height>229</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -16,16 +21,19 @@
   <widget class="QLabel" name="label_name">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>25</x>
      <y>80</y>
-     <width>161</width>
-     <height>51</height>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>20</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#ffffff;</string>
    </property>
    <property name="text">
     <string>name</string>
@@ -34,25 +42,31 @@
   <widget class="QTextEdit" name="textEdit_sig">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>150</y>
-     <width>291</width>
-     <height>85</height>
+     <x>30</x>
+     <y>130</y>
+     <width>361</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>11</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;border-width:0;border-style:outset;color:#ffffff;</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_account">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>161</width>
-     <height>51</height>
+     <x>25</x>
+     <y>40</y>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -60,11 +74,47 @@
      <pointsize>20</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:#ffffff;</string>
+   </property>
    <property name="text">
     <string>account</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_bg">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>422</width>
+     <height>229</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="src.qrc">:/src/friendItemBg.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label_bg</zorder>
+  <zorder>label_name</zorder>
+  <zorder>textEdit_sig</zorder>
+  <zorder>label_account</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="src.qrc"/>
+ </resources>
  <connections/>
 </ui>

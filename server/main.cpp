@@ -6,6 +6,9 @@ using namespace std;
 static pthread_mutex_t _mxMessage;
 
 sqlite3 *db;
+
+//在线用户:<socketfd,account>
+map<int,int> userMap;
 int main(int argc,char* argv[])
 {
     int rc = sqlite3_open("user.db",&db);
@@ -57,7 +60,9 @@ int main(int argc,char* argv[])
     server_addr.sin_port = htons(default_port);
 
     // 设置允许socket立即重用
-    setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, (const char*)&listen_fd, sizeof(listen_fd));  
+    int val = 1;
+    setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, (void *)&val, sizeof(listen_fd));  
+    //setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, (const char*)&listen_fd, sizeof(listen_fd));  
 
     /*(3) 绑定套接字和端口*/
     if (bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
@@ -84,10 +89,12 @@ int main(int argc,char* argv[])
         }
         LOGINFO("Connect from %s:%u...\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
         int* argv = (int *)malloc(sizeof(int));
+        userMap[connect_fd] = connect_fd;
         *argv = connect_fd;
         CREATE_THREAD(NULL,1024*4,true,taskThread,(void*)argv,NULL);
     }
     close(listen_fd);
     sqlite3_close(db);
+
     return 0;
 }

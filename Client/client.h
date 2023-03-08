@@ -44,6 +44,8 @@ private slots:
     void on_pushBtn_close_clicked();
     void on_pushBtn_hide_clicked();
     void on_pushBtn_max_clicked();
+    void on_pushButton_emoj_3_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
