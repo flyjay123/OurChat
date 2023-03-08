@@ -5,9 +5,8 @@
 class CallbacksHandler
 {
 public:
-    static int Search(void *data,int args_num,char **argv,char **argc);
-    static int verifyAccountInDB(void *data, int args_num, char **argv, char **argc);
-    static int IsExisted(void *data, int args_num, char **argv, char **argc);
+    static int SearchReply(void *data,int args_num,char **argv,char **argc);
     static int LoginReply(void *data, int args_num, char **argv, char **argc);
-    
+    static int FriendListReply(void *data, int args_num, char **argv, char **argc);
 };
+

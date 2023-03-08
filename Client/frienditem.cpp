@@ -4,11 +4,12 @@
 #include <QDebug>
 
 
-FriendItem::FriendItem(QWidget *parent) :
+FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FriendItem)
 {
     ui->setupUi(this);
+    SetInfo(_info);
     ui->lineEdit_newMsg->hide();
     timer = new QTimer;
     timer->setInterval(1000);

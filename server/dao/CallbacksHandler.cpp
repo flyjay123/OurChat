@@ -1,47 +1,46 @@
 #include "CallbacksHandler.h"
 #include "../common.h"
 
-using json = nlohmann::json;
-extern int SelectCount;
-int CallbacksHandler::Search(void *data,int args_num,char **argv,char **argc)
+int CallbacksHandler::SearchReply(void *data,int args_num,char **argv,char **argc)
 { 
-   for(int i=0;i<args_num;i++){
-
-   }
-   cout<<endl;
-   return 0;
-}
-
-int CallbacksHandler::verifyAccountInDB(void *data, int args_num, char **argv, char **argc) {
-    if(args_num > 1) {
-        return false;
-    }
-    if(args_num == 0) {
-        return false;
-    }
-
-    return strcmp((const char*)data, argv[0]);
-}
-
-int CallbacksHandler::IsExisted(void *data, int args_num, char **argv, char **argc)
-{
-    if(args_num == 0)
+    if(args_num)
     {
-        *(int*)data = 0;
-        return false;
+        SearchResult *searchRes = (SearchResult*)data;
+        searchRes->count++;
+        string account = argv[0];
+        string name = argv[1];
+        searchRes->value.push_back(account); 
+        searchRes->value.push_back(name); 
     }
-    *(int*)data = 1;
-    return true;
+
+   return 0;
 }
 
 int CallbacksHandler::LoginReply(void *data, int args_num, char **argv, char **argc)
 {
-    std::cout << "args_num = " <<args_num << std::endl;
-    if(args_num == 0)
+    if(args_num)
     {
-        return 0;
+        SearchResult *searchRes = (SearchResult*)data;
+        string name = argv[2];
+        searchRes->value.push_back(name);
+        searchRes->count++;
+        return 1;
     }
+    return 0;
+}
 
-    SelectCount=1;
-    return 1;
+int CallbacksHandler::FriendListReply(void *data, int args_num, char **argv, char **argc)
+{
+    if(args_num)
+    {
+        SearchResult *searchRes = (SearchResult*)data;
+        UserInfo info;
+        info.account = atoi(argv[0]);
+        info.name = argv[2];
+        info.sig = argv[3];
+        
+        searchRes->count++;
+        searchRes->infoRes.emplace_back(info);
+    }
+    return 0;
 }
