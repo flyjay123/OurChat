@@ -147,7 +147,7 @@ void Client::on_pushBtn_hide_clicked()
 
 void Client::on_pushButton_addFriend_clicked()
 {
-    AddFriend *add = new AddFriend();
+    AddFriend *add = new AddFriend(t);
     add->show();
 }
 
@@ -242,6 +242,7 @@ void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
     }
     friendItem->SetNewMsgNum(0);
     curChatAccount = account;
+    ui->label_info->setText(friendItem->GetInfo().name);
 }
 
 void Client::on_pushBtn_send_clicked()

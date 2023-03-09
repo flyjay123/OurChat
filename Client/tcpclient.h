@@ -51,6 +51,7 @@ Q_SIGNALS:
     void messageReceived();
     void CallClient(json msg);
     void CallLogging(json msg);
+    void CallAddFriend(json msg);
 
 public slots:
     void onReadyRead();
@@ -62,7 +63,7 @@ public:
 #else
     QString m_server = "127.0.0.1";
 #endif
-    int m_port = 8888;
+    int m_port = 2339;
     bool m_isConnected = false;
 
     json message;

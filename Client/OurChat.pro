@@ -1,5 +1,5 @@
 QT       += core gui network
-
+DEFINES += RC_ICONS
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -60,4 +60,6 @@ RESOURCES += \
     src.qrc
 
 DISTFILES += \
-    wechat.ico
+    wechat.ico icon.ico
+
+RC_FILE = icon.rc

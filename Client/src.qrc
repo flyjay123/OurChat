@@ -48,4 +48,7 @@
         <file>src/dz1.png</file>
         <file>src/dz2.png</file>
     </qresource>
+    <qresource prefix="/Icons">
+        <file>src/weichat.png</file>
+    </qresource>
 </RCC>

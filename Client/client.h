@@ -10,6 +10,8 @@
 #include <QKeyEvent>
 #include "frienditem.h"
 
+extern bool friendWidgetOn;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Client; }
 QT_END_NAMESPACE
@@ -58,13 +60,11 @@ public slots:
 public slots:
     void ClientMsgHandler(json msg);
 
-
 private:
     Ui::Client *ui;
     bool        m_isLogin;
     bool        m_isfull;
     QRect       m_rect;
-
     SelfInfo selfInfo;
     int  curChatAccount;
     //account, chatWindow

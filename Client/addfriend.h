@@ -14,7 +14,7 @@ class AddFriend : public QWidget
     Q_OBJECT
 
 public:
-    explicit AddFriend(QWidget *parent = nullptr);
+    explicit AddFriend(TcpClient* fd,QWidget *parent = nullptr);
     ~AddFriend();
 
     void Init();
@@ -23,6 +23,8 @@ private slots:
     void on_pushButton_search_clicked();
 
     void on_pushButton_search_2_clicked();
+
+    void  CmdHandler(json msg);
 
 private:
     Ui::AddFriend *ui;
