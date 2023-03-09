@@ -16,20 +16,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTextBrowser" name="textEdit">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>600</width>
-     <height>430</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QScrollBar:vertical {
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTextBrowser" name="textEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QScrollBar:vertical {
     border: none;
     background: white;
     width: 15px;
@@ -47,8 +41,13 @@ QScrollBar::handle:vertical:focus {
     border-radius: 10px;
 }
 </string>
-   </property>
-  </widget>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

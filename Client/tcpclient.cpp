@@ -100,6 +100,10 @@ void TcpClient::CmdParser(json message)
     {
         emit CallClient(msg);
     }
+    if(cmd == "searchresult")
+    {
+        emit CallAddFriend(msg);
+    }
 }
 
 

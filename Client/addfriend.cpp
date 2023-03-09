@@ -3,13 +3,14 @@
 #include <QGraphicsDropShadowEffect>
 
 
-AddFriend::AddFriend(QWidget *parent) :
+AddFriend::AddFriend(TcpClient* fd,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AddFriend)
 {
     ui->setupUi(this);
     Init();
-    t = new TcpClient(this);
+     t=fd;
+     connect(t,&TcpClient::CallAddFriend,this,&AddFriend::CmdHandler);
 }
 
 AddFriend::~AddFriend()
@@ -38,33 +39,7 @@ void AddFriend::on_pushButton_search_clicked()
 {
     QString search = ui->lineEdit->text();
     json msg ={{"cmd","friend-search"},{"search-info",search}};
-    t->SendMsg(msg);
-    if(t->waitForReadyRead(3000))
-        {
-            //t.onReadyRead();
-            json j = t->GetMessage();
-            if(j.isEmpty()) return;
-            if(j["cmd"] == "yes")
-            {
-                list.clear();
-                ui->listWidget->clear();
-                QJsonArray arr =  j["msglist"].toArray();
-                for(int i =0;i<arr.size();i++)
-                {
-                        QJsonArray a = arr[i].toArray();
-                         list.push_back(a[0].toString());
-                         list.push_back(a[1].toString());
-               }
-                for(int i =0;i<list.size()-1;i+=2)
-                {
-                    ui->listWidget->addItem(QString("[%1] [%2]").arg(list[i],list[i+1]));
-                }
-            }
-        }
-    else
-    {
-        qDebug() << "与服务器连接失败" << endl;
-    }
+    t->SendMsg(msg);      
 }
 
 void AddFriend::on_pushButton_search_2_clicked()
@@ -77,6 +52,26 @@ void AddFriend::on_pushButton_search_2_clicked()
         msg.insert("account",list[row*2]);
         msg.insert("sendmsg",ui->textEdit->toPlainText());
         t->SendMsg(msg);
+    }
+}
+
+void AddFriend::CmdHandler(json msg)
+{
+    if(msg.isEmpty()) return;
+    if(msg["cmd"] == "searchresult")
+    {
+        list.clear();
+        ui->listWidget->clear();
+        QJsonArray arr =  msg["msglist"].toArray();
+        for(int i =0;i<msg["count"].toString().toInt();i++)
+        {
+                 list.push_back(arr[i].toObject()["account"].toString());
+                 list.push_back(arr[i].toObject()["name"].toString());
+       }
+        for(int i =0;i<list.size()-1;i+=2)
+        {
+            ui->listWidget->addItem(QString("[%1] [%2]").arg(list[i],list[i+1]));
+        }
     }
 }
 

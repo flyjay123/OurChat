@@ -8,7 +8,7 @@ ChatWindow::ChatWindow(FriendInfo info,QWidget *parent) :
 {
     ui->setupUi(this);
     m_info = new FriendInfo(info);
-    ui->textEdit->setPlainText(QString("System :  you are chatting with %1\n").arg(m_info->name));
+    //ui->textEdit->setPlainText(QString("System :  you are chatting with %1\n").arg(m_info->name));
 }
 
 ChatWindow::~ChatWindow()

@@ -2,6 +2,7 @@
 #include "ui_frienditem.h"
 #include "stringtool.h"
 #include <QDebug>
+#include "client.h"
 
 
 FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
@@ -89,11 +90,17 @@ void FriendItem::on_lineEdit_newMsg_textChanged(const QString &arg1)
 
 void FriendItem::showInfoWidget()
 {
+    if(friendWidgetOn)
+    {
+        return;
+    }
     timer->stop();
     widget->show();
+    friendWidgetOn = true;
 }
 
 void FriendItem::closeInfoWidget()
 {
     timer->start();
+    friendWidgetOn = false;
 }

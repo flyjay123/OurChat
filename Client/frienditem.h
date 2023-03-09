@@ -26,6 +26,7 @@ public:
     void SetNewMsgNum(int num);
     void NewMsgPlusOne();
     void SetInfo(FriendInfo _info);
+    FriendInfo GetInfo(){return info;}
 
     QString getName();
 
@@ -35,6 +36,7 @@ private slots:
     void closeInfoWidget();
 
 private:
+    bool enterStatus = false;
     Ui::FriendItem *ui;
     FriendInfo info;
     int m_account;
