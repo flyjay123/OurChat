@@ -648,8 +648,12 @@ border-color: rgb(199, 200, 194);</string>
             <number>0</number>
            </property>
            <widget class="QWidget" name="page">
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(135, 143, 255);</string>
+             <string notr="true">image: url(:/src/chatbg.png);
+background-color:#F5F5F5;</string>
             </property>
            </widget>
            <widget class="QWidget" name="page_2"/>

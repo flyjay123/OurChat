@@ -63,3 +63,6 @@ DISTFILES += \
     wechat.ico icon.ico
 
 RC_FILE = icon.rc
+
+LIBS += -L$$PWD\libs -lssleay.dll -llibeay32.dll
+

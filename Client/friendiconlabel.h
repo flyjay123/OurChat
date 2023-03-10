@@ -16,7 +16,7 @@ protected:
     virtual void leaveEvent(QEvent *event);
 
 signals:
-    void  enterIconLabel();
+    void  enterIconLabel(QPoint pos);
     void  leaveIconLabel();
 };
 

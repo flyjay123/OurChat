@@ -3,8 +3,10 @@
 #include "stringtool.h"
 #include <QDebug>
 #include "client.h"
+#include "stringtool.h"
+#include <QSslSocket>
 
-
+FriendInfoWidget *FriendItem::curWidget = nullptr;
 FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FriendItem)
@@ -15,11 +17,40 @@ FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     timer = new QTimer;
     timer->setInterval(1000);
     widget = new  FriendInfoWidget(info);
-    connect(timer,&QTimer::timeout,this,[=](){widget->close();});
+    curWidget = widget;
+    connect(timer,&QTimer::timeout,this,[=](){
+        widget->close();
+    });
+
     connect(ui->label_icon,&FriendIconLabel::enterIconLabel,this,&FriendItem::showInfoWidget);
     connect(ui->label_icon,&FriendIconLabel::leaveIconLabel,this,&FriendItem::closeInfoWidget);
     connect(widget,&FriendInfoWidget::enterWidget,this,[&](){timer->stop();});
     connect(widget,&FriendInfoWidget::leaveWidget,this,[&](){timer->start();});
+
+    qDebug() << QSslSocket::supportsSsl();
+    QSslConfiguration config = QSslConfiguration::defaultConfiguration();
+    config.setProtocol(QSsl::TlsV1_1);
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    QNetworkRequest request(QUrl("https://www.jetbrains.com/clion/img/matt-godbolt.png"));
+    QNetworkReply* reply = manager->get(request);
+    connect(manager, &QNetworkAccessManager::finished, this, [&](QNetworkReply* reply){
+
+        if(reply->error() == QNetworkReply::NoError)
+            {
+                QByteArray data = reply->readAll();
+                QPixmap pixmap;
+                pixmap.loadFromData(data);
+                ui->label_icon->setPixmap(pixmap);
+            }
+            else
+            {
+                qDebug() << "Error:" << reply->errorString();
+            }
+            reply->deleteLater();
+    });
+
+
+
 }
 
 FriendItem::~FriendItem()
@@ -88,19 +119,33 @@ void FriendItem::on_lineEdit_newMsg_textChanged(const QString &arg1)
        ui->lineEdit_newMsg->show();
 }
 
-void FriendItem::showInfoWidget()
+void FriendItem::showInfoWidget(QPoint _pos)
 {
-    if(friendWidgetOn)
+    if(!curWidget->isHidden())
     {
-        return;
+        if(curWidget == widget)
+            return;
+        curWidget->close();
     }
+    QPoint labelPos = ui->label_icon->pos();
+    QPoint globalPos = this->mapToGlobal(QPoint(0,0)) + labelPos;
+    int x = globalPos.x();
+    if(x>(widget->width()+100))
+        globalPos.setX(x-widget->width()-60);
+    else
+         globalPos.setX(this->parentWidget()->width()+this->mapToGlobal(QPoint(0,0)).x());
+    //globalPos.setY(globalPos.y()-widget->height());
+    curWidget = widget;
+    widget->move(globalPos);
     timer->stop();
     widget->show();
-    friendWidgetOn = true;
+        //qDebug() << "x:" << StringTool::Int2QStr(globalPos.x()) << "y:" << StringTool::Int2QStr(globalPos.y());
+
+
 }
 
 void FriendItem::closeInfoWidget()
 {
     timer->start();
-    friendWidgetOn = false;
 }
+
