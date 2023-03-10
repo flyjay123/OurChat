@@ -32,7 +32,7 @@ public:
 
 private slots:
     void on_lineEdit_newMsg_textChanged(const QString &arg1);
-    void showInfoWidget();
+    void showInfoWidget(QPoint _pos);
     void closeInfoWidget();
 
 private:
@@ -42,6 +42,7 @@ private:
     int m_account;
     FriendInfoWidget *widget;
     QTimer *timer;
+    static FriendInfoWidget *curWidget;
 };
 
 #endif // FRIENTITEM_H

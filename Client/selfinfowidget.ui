@@ -112,7 +112,8 @@
     <item>
      <widget class="QWidget" name="widget" native="true">
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);
+image: url(:/src/infobg.png);</string>
       </property>
       <widget class="QPushButton" name="pushBtn_hide">
        <property name="geometry">

@@ -47,6 +47,8 @@
         <file>src/thumb2.png</file>
         <file>src/dz1.png</file>
         <file>src/dz2.png</file>
+        <file>src/chatbg.png</file>
+        <file>src/infobg.png</file>
     </qresource>
     <qresource prefix="/Icons">
         <file>src/weichat.png</file>

@@ -7,6 +7,9 @@
 #include <QJsonArray>
 #include <QDebug>
 #include <QMessageBox>
+#include <QNetworkAccessManager>
+#include  <QNetworkRequest >
+#include <QNetworkReply>
 
 using std::string;
 using json = QJsonObject;
