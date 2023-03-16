@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     addfriend.cpp \
+    chatlistwidget.cpp \
     chatwindow.cpp \
     friendiconlabel.cpp \
     friendinfowidget.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     addfriend.h \
+    chatlistwidget.h \
     chatwindow.h \
     client.h \
     friendiconlabel.h \
@@ -64,5 +66,13 @@ DISTFILES += \
 
 RC_FILE = icon.rc
 
-LIBS += -L$$PWD\libs -lssleay.dll -llibeay32.dll
+#LIBS += $$PWD/libs/libeay32.dll
+
+LIBS += -Llibs -llibeay32 -lssleay32
+
+CONFIG(release, debug|release): DESTDIR = release
+CONFIG(debug, debug|release): DESTDIR = debug
+
+QMAKE_POST_LINK += $$QMAKE_COPY $$PWD/libs/libeay32.dll $$DESTDIR \
+                   && $$QMAKE_COPY $$PWD/libs/ssleay32.dll $$DESTDIR
 

@@ -27,17 +27,20 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     selfInfo.name = info.name;
     selfInfo.account=info.account;
     selfInfo.password=info.password;
+    messagesListWidget = new ChatListWidget;
+    friendsListWidget = new ChatListWidget;
+    groupsListWidget = new ChatListWidget;
 
-
-    ui->listWidget_info->setViewMode(QListWidget::ListMode); //显示模式
 
     connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
-    //    QShortcut *key1=new QShortcut(QKeySequence(Qt::Key_Return),this);
-    //    QShortcut *key2=new QShortcut(QKeySequence(Qt::Key_Enter),this);
-    //    connect(key1,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
-    //    connect(key2,&QShortcut::activated,this,&Client::on_pushBtn_send_clicked);
     connect(ui->textEdit_send,&SendTextEdit::keyPressEnter,this,&Client::on_pushBtn_send_clicked);
-    RefreshFriendList();
+    connect(friendsListWidget,&ChatListWidget::itemDoubleClicked,this,&Client::on_listWidget_info_itemClicked);
+
+
+    ui->stackedWidget_list->addWidget(messagesListWidget);
+    ui->stackedWidget_list->addWidget(friendsListWidget);
+    ui->stackedWidget_list->addWidget(groupsListWidget);
+    //RefreshFriendList();
 }
 
 Client::~Client()
@@ -163,7 +166,7 @@ void Client::ClientMsgHandler(json msg)
 
     if(cmd == "friend-list")
     {
-        ui->listWidget_info->clear();
+        friendsListWidget->clear();
         friendMap.clear();
         friendItemMap.clear();
         QJsonArray list = msg["msglist"].toArray();
@@ -179,10 +182,10 @@ void Client::ClientMsgHandler(json msg)
 
             FriendItem *item = new FriendItem(info);
 
-            QListWidgetItem *listItem = new QListWidgetItem(ui->listWidget_info);
+            QListWidgetItem *listItem = new QListWidgetItem(friendsListWidget);
             listItem->setSizeHint(QSize(260,85));
-            ui->listWidget_info->addItem(listItem);
-            ui->listWidget_info->setItemWidget(listItem, item);
+            friendsListWidget->addItem(listItem);
+            friendsListWidget->setItemWidget(listItem, item);
 
             friendMap.insert(item->account(),info);
             friendItemMap.insert(info.account,item);
@@ -225,7 +228,7 @@ void Client::ClientMsgHandler(json msg)
 
 void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
 {
-    FriendItem* friendItem = qobject_cast<FriendItem*>(ui->listWidget_info->itemWidget(item));
+    FriendItem* friendItem = qobject_cast<FriendItem*>(friendsListWidget->itemWidget(item));
     int account = friendItem->account();
 
     if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
@@ -253,7 +256,7 @@ void Client::on_pushBtn_send_clicked()
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
         return;
     }
-    if(ui->listWidget_info->currentRow()<0)
+    if(friendsListWidget->currentRow()<0)
     {
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "选择的好友不能为空", ui->pushButton);
         return;
@@ -287,4 +290,19 @@ void Client::on_pushButton_emoj_3_clicked()
 {
     SelfInfoWidget* w = new SelfInfoWidget;
     w->show();
+}
+
+void Client::on_pushButton_msg_list_clicked()
+{
+    ui->stackedWidget_list->setCurrentWidget(messagesListWidget);
+}
+
+void Client::on_pushButton_friend_list_clicked()
+{
+     ui->stackedWidget_list->setCurrentWidget(friendsListWidget);
+}
+
+void Client::on_pushButton_group_list_clicked()
+{
+     ui->stackedWidget_list->setCurrentWidget(groupsListWidget);
 }

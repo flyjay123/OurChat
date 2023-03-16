@@ -8,7 +8,7 @@ FriendIconLabel::FriendIconLabel(QWidget *parent) : QLabel(parent)
 
 void FriendIconLabel::enterEvent(QEvent *event)
 {
-    Q_UNUSED(event);emit enterIconLabel(this->pos());
+    Q_UNUSED(event);emit enterIconLabel();
 }
 
 void FriendIconLabel::leaveEvent(QEvent *event)

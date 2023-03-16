@@ -32,7 +32,7 @@ FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     config.setProtocol(QSsl::TlsV1_1);
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     QNetworkRequest request(QUrl("https://www.jetbrains.com/clion/img/matt-godbolt.png"));
-    QNetworkReply* reply = manager->get(request);
+    manager->get(request);
     connect(manager, &QNetworkAccessManager::finished, this, [&](QNetworkReply* reply){
 
         if(reply->error() == QNetworkReply::NoError)
@@ -119,7 +119,7 @@ void FriendItem::on_lineEdit_newMsg_textChanged(const QString &arg1)
        ui->lineEdit_newMsg->show();
 }
 
-void FriendItem::showInfoWidget(QPoint _pos)
+void FriendItem::showInfoWidget()
 {
     if(!curWidget->isHidden())
     {
