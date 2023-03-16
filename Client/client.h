@@ -9,6 +9,7 @@
 #include <QTime>
 #include <QKeyEvent>
 #include "frienditem.h"
+#include "chatlistwidget.h"
 
 extern bool friendWidgetOn;
 
@@ -48,6 +49,12 @@ private slots:
     void on_pushBtn_max_clicked();
     void on_pushButton_emoj_3_clicked();
 
+    void on_pushButton_msg_list_clicked();
+
+    void on_pushButton_friend_list_clicked();
+
+    void on_pushButton_group_list_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
@@ -59,6 +66,7 @@ public slots:
 
 public slots:
     void ClientMsgHandler(json msg);
+
 
 private:
     Ui::Client *ui;
@@ -75,5 +83,9 @@ private:
     QMap<int,FriendItem*>friendItemMap;
     QDateTime currentDateTime;
     TcpClient* t;
+
+    ChatListWidget *messagesListWidget;
+    ChatListWidget *friendsListWidget;
+    ChatListWidget *groupsListWidget;
 };
 #endif // CLIENT_H

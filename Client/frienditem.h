@@ -32,7 +32,7 @@ public:
 
 private slots:
     void on_lineEdit_newMsg_textChanged(const QString &arg1);
-    void showInfoWidget(QPoint _pos);
+    void showInfoWidget();
     void closeInfoWidget();
 
 private:

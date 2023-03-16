@@ -65,7 +65,7 @@ void AddFriend::CmdHandler(json msg)
         QJsonArray arr =  msg["msglist"].toArray();
         for(int i =0;i<msg["count"].toString().toInt();i++)
         {
-                 list.push_back(arr[i].toObject()["account"].toString());
+                 list.push_back(arr[i].toObject().value("account").toString());
                  list.push_back(arr[i].toObject()["name"].toString());
        }
         for(int i =0;i<list.size()-1;i+=2)
