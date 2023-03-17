@@ -4,14 +4,13 @@ cmd ->msglist[]
 cmd -> err
 
 cmd:
-yes/no
 login -> account -> password
 regist -> account -> password -> name
 logout
 
 friend-search -> search-info
-addfriend-req -> account ->sendmsg
-addfriend-rpl -> account ->sendmsg
+addfriend-request -> account ->sendmsg
+addfriend-response -> account ->sendmsg
 friend-list -> msglist[]
 
 pchat -> account -> sendmsg//private chat

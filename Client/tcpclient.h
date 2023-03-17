@@ -14,6 +14,27 @@
 using std::string;
 using json = QJsonObject;
 using jsonDoc = QJsonDocument;
+using jsonArray = QJsonArray;
+
+enum commands{
+    cmd_regist = 0,
+    cmd_login,
+    cmd_logout,
+    cmd_friend_search,
+    cmd_add_friend_request,
+    cmd_add_friend_response,
+    cmd_friend_list,
+    cmd_friend_chat,
+
+    cmd_group_create,
+    cmd_group_search,
+    cmd_group_join,
+    cmd_group_list,
+    cmd_group_chat,
+    cmd_group_member_list,
+    cmd_group_member_add,
+    cmd_group_member_del,
+};
 
 typedef  struct _self_info
 {
@@ -28,6 +49,7 @@ typedef struct _friend_info
     int account;
     QString name;
     QString sig;
+    bool isOnline;
     _friend_info(int _account,QString _name){
         name=_name;account=_account;
     }
@@ -40,18 +62,17 @@ class TcpClient : public QTcpSocket
 public:
     TcpClient(QObject *parent = nullptr);
     ~TcpClient();
-    int ConnetToServer();
-    void DisconnetFormServer();
+    int ConnectToServer();
+    void DisconnectFromServer();
+
 
 
 public:
     void SendMsg(json message);
-    json GetMessage(){return  message;}
     void CmdParser(json message);
 
 Q_SIGNALS:
     // 收到消息信号
-    void messageReceived();
     void CallClient(json msg);
     void CallLogging(json msg);
     void CallAddFriend(json msg);
