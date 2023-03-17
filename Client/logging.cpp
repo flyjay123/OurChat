@@ -92,7 +92,7 @@ void Logging::on_pushBtn_hide_clicked()
 void Logging::on_pushBtn_close_clicked()
 {
     json msg;
-    msg.insert("cmd","logout");
+    msg.insert("cmd",cmd_logout);
     t->SendMsg(msg);
     this->close();
 }
@@ -100,7 +100,7 @@ void Logging::on_pushBtn_close_clicked()
 void Logging::on_pushBtn_close_2_clicked()
 {
     json msg;
-    msg.insert("cmd","logout");
+    msg.insert("cmd",cmd_logout);
     t->SendMsg(msg);
     this->close();
 }
@@ -188,7 +188,7 @@ void Logging::on_pushButton_login_clicked()
      if(!t->m_isConnected)
      {
          qDebug() << "未连接" << endl;
-         if(t->ConnetToServer() == -1)
+         if(t->ConnectToServer() == -1)
          {
              qDebug() << "连接失败" << endl;
              return;
@@ -207,7 +207,7 @@ void Logging::on_pushButton_login_clicked()
         return;
      }
     json msg;
-    msg.insert("cmd","login");
+    msg.insert("cmd",cmd_login);
     msg.insert("account",ui->lineEdit_account->text());
     msg.insert("password",ui->lineEdit_password->text());
 
@@ -218,7 +218,7 @@ void Logging::on_pushButton_regist_clicked()
 {
     if(!t->m_isConnected)
     {
-        if(t->ConnetToServer() == -1)
+        if(t->ConnectToServer() == -1)
             return;
     }
     if(!ui->lineEdit_account_2->text().size())
@@ -246,7 +246,7 @@ void Logging::on_pushButton_regist_clicked()
         return;
     }
     json msg;
-    msg.insert("cmd","regist");
+    msg.insert("cmd",cmd_regist);
     msg.insert("account",ui->lineEdit_account_2->text());
     msg.insert("password",ui->lineEdit_password_2->text());
     msg.insert("name",ui->lineEdit_name->text());
@@ -266,38 +266,43 @@ void Logging::on_pushButton_seePassword_clicked()
 void Logging::CmdHandler(json msg)
 {
     if(msg.isEmpty()) return ;
-    if(msg.value("cmd").toString() == "login")
-    {
-        if(msg.value("res").toString() == "yes")
-        {
-            qDebug() << "登录成功" << endl;
-            QString a = ui->lineEdit_account->text();
-            int account;
-            if(a.startsWith("0x") || a.startsWith("0X"))
-                account = a.toInt(NULL,16);
-            else if(a.startsWith("0"))
-                account = a.toInt(NULL,8);
-            else
-                account = a.toInt();
-            SelfInfo info;
-            info.name = msg.value("name").toString();
-            info.account = account;
-            info.password = ui->lineEdit_password->text().toInt();
-            qDebug() << info.name << " " << info.account << info.password << endl;
-            static Client* client = new Client(info,t);
-            client->show();
-            this->close();
+    int cmd = msg.value("cmd").toInt();
+    switch(cmd) {
+        case cmd_login: {
+            if (msg.value("res").toString() == "yes") {
+                qDebug() << "登录成功" << endl;
+                QString a = ui->lineEdit_account->text();
+                int account;
+                if (a.startsWith("0x") || a.startsWith("0X"))
+                    account = a.toInt(NULL, 16);
+                else if (a.startsWith("0"))
+                    account = a.toInt(NULL, 8);
+                else
+                    account = a.toInt();
+                SelfInfo info;
+                info.name = msg.value("name").toString();
+                info.account = account;
+                info.password = ui->lineEdit_password->text().toInt();
+                qDebug() << info.name << " " << info.account << info.password << endl;
+                static Client *client = new Client(info, t);
+                client->show();
+                this->close();
+            } else
+                qDebug() << msg.value("err").toString() << endl;
+            break;
         }
-        else
-            qDebug() << msg.value("err").toString() << endl;
-    }
-    else if(msg.value("cmd").toString() == "regist")
-    {
-        if(msg.value("res").toString() == "yes")
-        {
-            qDebug() << "注册成功" << endl;
-            ui->stackedWidget->setCurrentIndex(0);
+
+        case cmd_regist: {
+            if (msg.value("res").toString() == "yes") {
+                msgBox->setText("注册成功");
+                msgBox->showNormal();
+            } else {
+                msgBox->setText("注册失败");
+                msgBox->showNormal();
+            }
         }
+        default:
+            break;
     }
 }
 

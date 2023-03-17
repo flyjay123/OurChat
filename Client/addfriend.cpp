@@ -38,7 +38,7 @@ void AddFriend::Init()
 void AddFriend::on_pushButton_search_clicked()
 {
     QString search = ui->lineEdit->text();
-    json msg ={{"cmd","friend-search"},{"search-info",search}};
+    json msg ={{"cmd",cmd_friend_search},{"search-info",search}};
     t->SendMsg(msg);      
 }
 
@@ -48,7 +48,7 @@ void AddFriend::on_pushButton_search_2_clicked()
     if(row >= 0)
     {
         json msg;
-        msg.insert("cmd","addfriend-req");
+        msg.insert("cmd",cmd_add_friend_request);
         msg.insert("account",list[row*2]);
         msg.insert("sendmsg",ui->textEdit->toPlainText());
         t->SendMsg(msg);
@@ -57,8 +57,10 @@ void AddFriend::on_pushButton_search_2_clicked()
 
 void AddFriend::CmdHandler(json msg)
 {
+    int cmd = msg["cmd"].toInt();
     if(msg.isEmpty()) return;
-    if(msg["cmd"] == "searchresult")
+
+    if(cmd == cmd_friend_search)
     {
         list.clear();
         ui->listWidget->clear();

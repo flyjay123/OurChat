@@ -10,7 +10,7 @@ void slot_test()
 
 TcpClient::TcpClient(QObject *parent) :QTcpSocket(parent)
 {
-    ConnetToServer();
+    ConnectToServer();
 
     //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
     connect(this,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
@@ -18,10 +18,10 @@ TcpClient::TcpClient(QObject *parent) :QTcpSocket(parent)
 
 TcpClient::~TcpClient()
 {
-    DisconnetFormServer();
+    DisconnectFromServer();
 }
 
-int TcpClient::ConnetToServer()
+int TcpClient::ConnectToServer()
 {
     if(m_isConnected)
         return 1;
@@ -39,7 +39,7 @@ int TcpClient::ConnetToServer()
     }
 }
 
-void TcpClient::DisconnetFormServer()
+void TcpClient::DisconnectFromServer()
 {
     m_isConnected=false;
 }
@@ -91,16 +91,16 @@ void TcpClient::onReadyRead()
 void TcpClient::CmdParser(json message)
 {
     json msg(message);
-    QString cmd = msg["cmd"].toString();
-    if(cmd == "login" || cmd == "regist")
+    int cmd = msg["cmd"].toString().toInt();
+    if(cmd == cmd_login || cmd == cmd_regist)
     {
         emit CallLogging(msg);
     }
-    if(cmd=="friend-list" || cmd == "pchat")
+    if(cmd >= cmd_friend_list && cmd <= cmd_group_chat)
     {
         emit CallClient(msg);
     }
-    if(cmd == "searchresult")
+    if(cmd == cmd_friend_search || cmd == cmd_group_search)
     {
         emit CallAddFriend(msg);
     }

@@ -28,6 +28,7 @@ public:
     ~Client();
 
     void RefreshFriendList();
+    void RefreshGroupList();
     void InitUI();
     SelfInfo GetSelfInfo(){return selfInfo;}
 
@@ -68,6 +69,7 @@ public slots:
     void ClientMsgHandler(json msg);
 
 
+
 private:
     Ui::Client *ui;
     bool        m_isLogin;
@@ -79,7 +81,7 @@ private:
     QMap<int,ChatWindow*> chatMap;
     //account, friendInfo
     QMap<int,FriendInfo> friendMap;
-    //account,firendItem
+    //account,friendItem
     QMap<int,FriendItem*>friendItemMap;
     QDateTime currentDateTime;
     TcpClient* t;
@@ -87,5 +89,6 @@ private:
     ChatListWidget *messagesListWidget;
     ChatListWidget *friendsListWidget;
     ChatListWidget *groupsListWidget;
+    int curListWidgetIndex;
 };
 #endif // CLIENT_H

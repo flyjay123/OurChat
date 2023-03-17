@@ -51,7 +51,15 @@ Client::~Client()
 void Client::RefreshFriendList()
 {
     json msg;
-    msg.insert("cmd","friend-list");
+    msg.insert("cmd",cmd_friend_list);
+    msg.insert("account",QString("%1").arg(selfInfo.account));
+    t->SendMsg(msg);
+}
+
+void Client::RefreshGroupList()
+{
+    json msg;
+    msg.insert("cmd",cmd_group_list);
     msg.insert("account",QString("%1").arg(selfInfo.account));
     t->SendMsg(msg);
 }
@@ -136,7 +144,7 @@ void Client::on_pushBtn_max_clicked()
 
 void Client::on_pushBtn_close_clicked()
 {
-    json msg ={ {"cmd","logout"}};
+    json msg ={ {"cmd",cmd_logout}};
     t->SendMsg(msg);
     this->close();
 }
@@ -156,72 +164,74 @@ void Client::on_pushButton_addFriend_clicked()
 
 void Client::on_pushBtn_refresh_clicked()
 {
-    RefreshFriendList();
+    switch(curListWidgetIndex) {
+        case 0:return;
+        case 1:RefreshFriendList();
+        case 2:RefreshGroupList();
+        default:
+            return;
+    }
 }
 
 void Client::ClientMsgHandler(json msg)
 {
     qDebug() << "ClientMsgHandler" << endl;
-    QString cmd = msg["cmd"].toString();
+    int cmd = msg["cmd"].toInt();
+    switch(cmd) {
+        case cmd_friend_list: {
+            friendsListWidget->clear();
+            friendMap.clear();
+            friendItemMap.clear();
+            QJsonArray list = msg["msglist"].toArray();
+            for (int i = 0; i < list.size(); i++) {
+                FriendInfo info;
+                json obj = list[i].toObject();
+                info.name = obj["name"].toString();
+                info.account = obj["account"].toString().toInt();
+                info.sig = obj["sig"].toString();
+                info.isOnline = obj["isOnline"].toBool();
+                if (info.sig.isEmpty())
+                    info.sig = "这家伙很高冷，啥也不想说";
 
-    if(cmd == "friend-list")
-    {
-        friendsListWidget->clear();
-        friendMap.clear();
-        friendItemMap.clear();
-        QJsonArray list = msg["msglist"].toArray();
-        for(int i=0;i<list.size();i++)
-        {
-            FriendInfo info;
-            json obj =  list[i].toObject();
-            info.name = obj["name"].toString();
-            info.account=obj["account"].toString().toInt();
-            info.sig=obj["sig"].toString();
-            if(info.sig == "")
-                info.sig = "这家伙很高冷，啥也不想说";
+                FriendItem *item = new FriendItem(info);
 
-            FriendItem *item = new FriendItem(info);
+                QListWidgetItem *listItem = new QListWidgetItem(friendsListWidget);
+                listItem->setSizeHint(QSize(260, 85));
+                friendsListWidget->addItem(listItem);
+                friendsListWidget->setItemWidget(listItem, item);
 
-            QListWidgetItem *listItem = new QListWidgetItem(friendsListWidget);
-            listItem->setSizeHint(QSize(260,85));
-            friendsListWidget->addItem(listItem);
-            friendsListWidget->setItemWidget(listItem, item);
-
-            friendMap.insert(item->account(),info);
-            friendItemMap.insert(info.account,item);
-        }
-    }
-    else if(cmd == "pchat")
-    {
-        int account = msg["sender"].toString().toInt();
-        ChatWindow* chatWindow;
-        if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
-        {
-            if(friendMap.find(account)!=friendMap.end())
-            {
-                FriendInfo info = friendMap[account];
-                chatWindow = new ChatWindow(info);
-
-                ui->stackedWidget->addWidget(chatWindow);
-                chatMap.insert(account,chatWindow);
+                friendMap.insert(item->account(), info);
+                friendItemMap.insert(info.account, item);
             }
-            else
+            break;
+        }
+        case cmd_friend_chat: {
+            int account = msg["sender"].toString().toInt();
+            ChatWindow *chatWindow;
+            if (chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
             {
-                //单向好友
-                return;
+                if (friendMap.find(account) != friendMap.end()) {
+                    FriendInfo info = friendMap[account];
+                    chatWindow = new ChatWindow(info);
+
+                    ui->stackedWidget->addWidget(chatWindow);
+                    chatMap.insert(account, chatWindow);
+                } else {
+                    //单向好友
+                    return;
+                }
+            } else {
+                chatWindow = chatMap.value(account);
+                // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
             }
-        }
-        else
-        {
-            chatWindow = chatMap.value(account);
-            // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
-        }
-        QString pushMsg = StringTool::MergePushMsg(currentDateTime,chatWindow->GetFriendInfo()->name,msg["sendmsg"].toString());
-        chatWindow->pushMsg(pushMsg,1);
-        FriendItem* item = friendItemMap.value(account);
-        if(account != curChatAccount)
-        {
-            item->NewMsgPlusOne();
+            QString pushMsg = StringTool::MergePushMsg(currentDateTime, chatWindow->GetFriendInfo()->name,
+                                                       msg["sendmsg"].toString());
+            chatWindow->pushMsg(pushMsg, 1);
+            FriendItem *item = friendItemMap.value(account);
+            if (account != curChatAccount) {
+                item->NewMsgPlusOne();
+            }
+            break;
         }
     }
 }
@@ -263,7 +273,7 @@ void Client::on_pushBtn_send_clicked()
     }
     ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
     int account = chatWindow->GetFriendInfo()->account;
-    json msg={{"cmd","pchat"},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
+    json msg={{"cmd",cmd_friend_chat},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
     t->SendMsg(msg);
     ui->textEdit_send->clear();
     QString pushMsg = StringTool::MergePushMsg(currentDateTime,selfInfo.name,sendText);
@@ -294,15 +304,18 @@ void Client::on_pushButton_emoj_3_clicked()
 
 void Client::on_pushButton_msg_list_clicked()
 {
+    curListWidgetIndex = 0;
     ui->stackedWidget_list->setCurrentWidget(messagesListWidget);
 }
 
 void Client::on_pushButton_friend_list_clicked()
 {
-     ui->stackedWidget_list->setCurrentWidget(friendsListWidget);
+    curListWidgetIndex = 1;
+    ui->stackedWidget_list->setCurrentWidget(friendsListWidget);
 }
 
 void Client::on_pushButton_group_list_clicked()
 {
-     ui->stackedWidget_list->setCurrentWidget(groupsListWidget);
+    curListWidgetIndex = 2;
+    ui->stackedWidget_list->setCurrentWidget(groupsListWidget);
 }
