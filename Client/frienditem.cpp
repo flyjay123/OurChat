@@ -102,6 +102,13 @@ void FriendItem::SetInfo(FriendInfo _info)
     ui->label_name->setText(info.name);
 }
 
+void FriendItem::SetInfo(GroupInfo _info)
+{
+    groupInfo = _info;
+    m_account = _info.gaccount;
+    ui->label_name->setText(groupInfo.gname);
+}
+
 QString FriendItem::getName()
 {
     return  ui->label_name->text();

@@ -8,8 +8,9 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
-#include  <QNetworkRequest >
+#include  <QNetworkRequest>
 #include <QNetworkReply>
+#include <QVector>
 
 using std::string;
 using json = QJsonObject;
@@ -55,6 +56,19 @@ typedef struct _friend_info
     }
     _friend_info(){}
 }FriendInfo;
+
+typedef struct _member_info
+{
+    int account;
+    QString name;
+}MemberInfo;
+
+typedef struct _group_info
+{
+    int gaccount;
+    QString gname;
+    QVector <MemberInfo> gmembers;
+}GroupInfo;
 
 class TcpClient : public QTcpSocket
 {

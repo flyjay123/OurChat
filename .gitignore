@@ -1,3 +1,5 @@
 
 *.7z
 temp
+Client/release
+Client/debug

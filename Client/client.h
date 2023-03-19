@@ -83,6 +83,9 @@ private:
     QMap<int,FriendInfo> friendMap;
     //account,friendItem
     QMap<int,FriendItem*>friendItemMap;
+    //group_account,groupItem
+
+
     QDateTime currentDateTime;
     TcpClient* t;
 

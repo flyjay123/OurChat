@@ -15,7 +15,10 @@ class FriendInfoWidget : public QWidget
 public:
     explicit FriendInfoWidget(QWidget *parent = nullptr);
     explicit FriendInfoWidget(FriendInfo info, QWidget *parent = nullptr);
+    explicit FriendInfoWidget(GroupInfo info, QWidget *parent = nullptr);
     ~FriendInfoWidget();
+
+    void InitUI();
 
 protected:
     virtual void enterEvent(QEvent *event);
@@ -28,6 +31,7 @@ signals:
 private:
     Ui::FriendInfoWidget *ui;
     FriendInfo m_info;
+    GroupInfo  m_groupInfo;
 };
 
 #endif // FRIENDINFOWIDGET_H

@@ -27,9 +27,9 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     selfInfo.name = info.name;
     selfInfo.account=info.account;
     selfInfo.password=info.password;
-    messagesListWidget = new ChatListWidget;
-    friendsListWidget = new ChatListWidget;
-    groupsListWidget = new ChatListWidget;
+    messagesListWidget = new ChatListWidget(ItemType_Message);
+    friendsListWidget = new ChatListWidget(ItemType_Friend);
+    groupsListWidget = new ChatListWidget(ItemType_Group);
 
 
     connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
@@ -238,6 +238,8 @@ void Client::ClientMsgHandler(json msg)
 
 void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
 {
+
+
     FriendItem* friendItem = qobject_cast<FriendItem*>(friendsListWidget->itemWidget(item));
     int account = friendItem->account();
 
@@ -266,7 +268,7 @@ void Client::on_pushBtn_send_clicked()
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
         return;
     }
-    if(friendsListWidget->currentRow()<0)
+    if(ui->stackedWidget->currentIndex() == 0)
     {
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "选择的好友不能为空", ui->pushButton);
         return;

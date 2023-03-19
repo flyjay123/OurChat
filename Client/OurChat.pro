@@ -64,7 +64,7 @@ RESOURCES += \
 DISTFILES += \
     wechat.ico icon.ico
 
-RC_FILE = icon.rc
+#RC_FILE = icon.rc
 
 #LIBS += $$PWD/libs/libeay32.dll
 

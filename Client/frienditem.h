@@ -27,6 +27,7 @@ public:
     void NewMsgPlusOne();
     void SetInfo(FriendInfo _info);
     FriendInfo GetInfo(){return info;}
+    void SetInfo(GroupInfo _info);
 
     QString getName();
 
@@ -39,6 +40,7 @@ private:
     bool enterStatus = false;
     Ui::FriendItem *ui;
     FriendInfo info;
+    GroupInfo groupInfo;
     int m_account;
     FriendInfoWidget *widget;
     QTimer *timer;
