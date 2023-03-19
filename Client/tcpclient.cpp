@@ -91,13 +91,15 @@ void TcpClient::onReadyRead()
 void TcpClient::CmdParser(json message)
 {
     json msg(message);
-    int cmd = msg["cmd"].toString().toInt();
+    int cmd = msg["cmd"].toInt();
+    qDebug() << "cmd = " << cmd;
     if(cmd == cmd_login || cmd == cmd_regist)
     {
         emit CallLogging(msg);
     }
     if(cmd >= cmd_friend_list && cmd <= cmd_group_chat)
     {
+        qDebug() << "Call Client";
         emit CallClient(msg);
     }
     if(cmd == cmd_friend_search || cmd == cmd_group_search)
