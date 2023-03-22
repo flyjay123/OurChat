@@ -32,6 +32,8 @@ public:
     void InitUI();
     SelfInfo GetSelfInfo(){return selfInfo;}
 
+    void SetChatWindow(FriendItem* item);
+
 protected:
     // Event handlers
     virtual void mousePressEvent(QMouseEvent *event);
@@ -84,6 +86,10 @@ private:
     //account,friendItem
     QMap<int,FriendItem*>friendItemMap;
     //group_account,groupItem
+    QMap<int,FriendItem*>groupItemMap;
+    //account,groupInfo
+    QMap<int,FriendItem*>messageItemMap;
+
 
 
     QDateTime currentDateTime;
