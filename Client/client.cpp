@@ -35,6 +35,10 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
     connect(ui->textEdit_send,&SendTextEdit::keyPressEnter,this,&Client::on_pushBtn_send_clicked);
     connect(friendsListWidget,&ChatListWidget::itemDoubleClicked,this,&Client::on_listWidget_info_itemClicked);
+    connect(messagesListWidget,&ChatListWidget::itemDoubleClicked,this,[&](QListWidgetItem *item){
+        FriendItem* friendItem = qobject_cast<FriendItem*>(messagesListWidget->itemWidget(item));
+        SetChatWindow(friendItem);
+    });
 
 
     ui->stackedWidget_list->addWidget(messagesListWidget);
@@ -175,7 +179,6 @@ void Client::on_pushBtn_refresh_clicked()
 
 void Client::ClientMsgHandler(json msg)
 {
-    qDebug() << "ClientMsgHandler" << endl;
     int cmd = msg["cmd"].toInt();
     switch(cmd) {
         case cmd_friend_list: {
@@ -239,25 +242,22 @@ void Client::ClientMsgHandler(json msg)
 void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
 {
 
-
     FriendItem* friendItem = qobject_cast<FriendItem*>(friendsListWidget->itemWidget(item));
+    SetChatWindow(friendItem);
     int account = friendItem->account();
+    if(messageItemMap.find(account) == messageItemMap.end())
+    {
+        FriendItem *msgItem = new FriendItem(friendItem->GetInfo());
+        QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
+        listItem->setSizeHint(QSize(260, 85));
+        friendsListWidget->addItem(listItem);
+        friendsListWidget->setItemWidget(listItem, msgItem);
 
-    if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
-    {
-        FriendInfo info{account,friendItem->getName()};
-        ChatWindow* chatWindow = new ChatWindow(info);
-        ui->stackedWidget->addWidget(chatWindow);
-        ui->stackedWidget->setCurrentWidget(chatWindow);
-        chatMap.insert(account,chatWindow);
+        messagesListWidget->addItem(listItem);
+        messagesListWidget->setItemWidget(listItem, msgItem);
+
+        messageItemMap.insert(account, msgItem);
     }
-    else
-    {
-        ui->stackedWidget->setCurrentWidget(chatMap.value(account));
-    }
-    friendItem->SetNewMsgNum(0);
-    curChatAccount = account;
-    ui->label_info->setText(friendItem->GetInfo().name);
 }
 
 void Client::on_pushBtn_send_clicked()
@@ -320,4 +320,24 @@ void Client::on_pushButton_group_list_clicked()
 {
     curListWidgetIndex = 2;
     ui->stackedWidget_list->setCurrentWidget(groupsListWidget);
+}
+
+void Client::SetChatWindow(FriendItem *item) {
+    int account = item->account();
+
+    if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
+    {
+        FriendInfo info{account,item->getName()};
+        ChatWindow* chatWindow = new ChatWindow(info);
+        ui->stackedWidget->addWidget(chatWindow);
+        ui->stackedWidget->setCurrentWidget(chatWindow);
+        chatMap.insert(account,chatWindow);
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+    }
+    item->SetNewMsgNum(0);
+    curChatAccount = account;
+    ui->label_info->setText(item->GetInfo().name);
 }
