@@ -16,7 +16,9 @@ class FriendItem : public QWidget
 
 public:
     explicit FriendItem(FriendInfo _info,QWidget *parent = nullptr);
+    explicit FriendItem(GroupInfo _info,QWidget *parent = nullptr);
     ~FriendItem();
+    void Init();
 
     int account(){return m_account;}
     void setAccount(int a){m_account = a;}
@@ -26,10 +28,13 @@ public:
     void SetNewMsgNum(int num);
     void NewMsgPlusOne();
     void SetInfo(FriendInfo _info);
-    FriendInfo GetInfo(){return info;}
+    FriendInfo GetFriendInfo(){return info;}
     void SetInfo(GroupInfo _info);
+    GroupInfo GetGroupInfo(){return groupInfo;}
 
-    QString getName();
+    QString getLabelName();
+    QString GetChatName(){return m_name;}
+    int GetType(){return m_type;}
 
 private slots:
     void on_lineEdit_newMsg_textChanged(const QString &arg1);
@@ -42,6 +47,9 @@ private:
     FriendInfo info;
     GroupInfo groupInfo;
     int m_account;
+    QString m_name;
+    // 0 friend 1 group
+    int m_type;
     FriendInfoWidget *widget;
     QTimer *timer;
     static FriendInfoWidget *curWidget;

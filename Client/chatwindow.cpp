@@ -7,7 +7,22 @@ ChatWindow::ChatWindow(FriendInfo info,QWidget *parent) :
     ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
-    m_info = new FriendInfo(info);
+    m_info = info;
+    m_type = 0;
+    m_name = info.name;
+    m_account = info.account;
+    //ui->textEdit->setPlainText(QString("System :  you are chatting with %1\n").arg(m_info->name));
+}
+
+ChatWindow::ChatWindow(GroupInfo info, QWidget *parent):
+        QWidget(parent),
+        ui(new Ui::ChatWindow)
+{
+    ui->setupUi(this);
+    m_groupInfo = info;
+    m_type = 1;
+    m_account = info.groupAccount;
+    m_name = info.groupName;
     //ui->textEdit->setPlainText(QString("System :  you are chatting with %1\n").arg(m_info->name));
 }
 
@@ -16,6 +31,7 @@ ChatWindow::~ChatWindow()
     delete ui;
 }
 
+//flag:0 self 1 other
 void ChatWindow::pushMsg(QString msg, int flag)
 {
     QTextCursor cursor = ui->textEdit->textCursor();
@@ -43,3 +59,5 @@ void ChatWindow::pushMsg(QString msg, int flag)
     bar->setValue(bar->maximum());
 
 }
+
+

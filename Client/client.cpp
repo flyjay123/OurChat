@@ -39,12 +39,12 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
         FriendItem* friendItem = qobject_cast<FriendItem*>(messagesListWidget->itemWidget(item));
         SetChatWindow(friendItem);
     });
-
+    connect(groupsListWidget,&ChatListWidget::itemDoubleClicked,this,&Client::on_groupsListWidget_itemClicked);
 
     ui->stackedWidget_list->addWidget(messagesListWidget);
     ui->stackedWidget_list->addWidget(friendsListWidget);
     ui->stackedWidget_list->addWidget(groupsListWidget);
-    //RefreshFriendList();
+    RefreshFriendList();
 }
 
 Client::~Client()
@@ -89,7 +89,7 @@ void Client::InitUI()
     ui->centerWidget->setGraphicsEffect(shadow);
 
 
-    m_isfull = false;
+    m_isFull = false;
 }
 
 void Client::mousePressEvent(QMouseEvent *event)
@@ -111,15 +111,15 @@ void Client::mouseMoveEvent(QMouseEvent *event)
 void Client::mouseDoubleClickEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
-    if(m_isfull){
+    if(m_isFull){
         //取消全屏
-        m_isfull = false;
+        m_isFull = false;
         ui->centerWidget->setGeometry(m_rect);
 
         ui->centerWidget->move(QApplication::desktop()->screen()->rect().center() - ui->centerWidget->rect().center());
     }
     else {
-        m_isfull = true;
+        m_isFull = true;
         m_rect = ui->centerWidget->rect();
         setGeometry(QGuiApplication::primaryScreen()->availableGeometry()); // 不包含windows任务栏区域
         ui->centerWidget->setGeometry(this->rect());
@@ -130,14 +130,14 @@ void Client::mouseDoubleClickEvent(QMouseEvent *event)
 void Client::on_pushBtn_max_clicked()
 {
     //    this->showFullScreen(); //全屏
-    if(m_isfull){
+    if(m_isFull){
         //取消全屏
-        m_isfull = false;
+        m_isFull = false;
         ui->centerWidget->setGeometry(640,480,m_rect.width(),m_rect.height());
         ui->centerWidget->move(QApplication::desktop()->screen()->rect().center() - ui->centerWidget->rect().center());
     }
     else {
-        m_isfull = true;
+        m_isFull = true;
         m_rect = ui->centerWidget->rect();
         setGeometry(QGuiApplication::primaryScreen()->availableGeometry()); // 不包含windows任务栏区域
         ui->centerWidget->setGeometry(this->rect());
@@ -227,15 +227,99 @@ void Client::ClientMsgHandler(json msg)
                 chatWindow = chatMap.value(account);
                 // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
             }
-            QString pushMsg = StringTool::MergePushMsg(currentDateTime, chatWindow->GetFriendInfo()->name,
+            QString pushMsg = StringTool::MergePushMsg(currentDateTime, chatWindow->GetName(),
                                                        msg["sendmsg"].toString());
             chatWindow->pushMsg(pushMsg, 1);
             FriendItem *item = friendItemMap.value(account);
             if (account != curChatAccount) {
                 item->NewMsgPlusOne();
             }
+            else {
+                if(curChatType == 1)
+                    item->NewMsgPlusOne();
+            }
             break;
         }
+        case cmd_group_list:{
+            groupsListWidget->clear();
+            groupItemMap.clear();
+            QJsonArray list = msg["msglist"].toArray();
+            for (int i = 0; i < list.size(); i++) {
+                GroupInfo info;
+                json obj = list[i].toObject();
+                info.groupName= obj["name"].toString();
+                info.groupAccount = obj["account"].toString().toInt();
+
+                FriendItem *item = new FriendItem(info);
+
+                QListWidgetItem *listItem = new QListWidgetItem(groupsListWidget);
+                listItem->setSizeHint(QSize(260, 85));
+                groupsListWidget->addItem(listItem);
+                groupsListWidget->setItemWidget(listItem, item);
+
+                groupItemMap.insert(item->account(), item);
+                groupMap.insert(info.groupAccount, info);
+                json msg1 = {{"cmd",      cmd_group_member_list},
+                             {"groupAccount", info.groupAccount}};
+                t->SendMsg(msg1);
+            }
+            break;
+        }
+        case cmd_group_chat: {
+            int sender = msg["sender"].toInt();
+            int groupAccount = msg["groupAccount"].toInt();
+            QString senderName;
+            for(auto it:groupMap[groupAccount].memberList)
+            {
+                if(it.account == sender)
+                {
+                    senderName = it.name;
+                    break;
+                }
+            }
+
+            ChatWindow *chatWindow;
+            if (groupChatMap.find(groupAccount) == groupChatMap.end())  //群聊账号对应的聊天窗口不存在
+            {
+                GroupInfo info = groupItemMap[groupAccount]->GetGroupInfo();
+                chatWindow = new ChatWindow(info);
+
+                ui->stackedWidget->addWidget(chatWindow);
+                groupChatMap.insert(groupAccount, chatWindow);
+
+            } else {
+                chatWindow = groupChatMap.value(groupAccount);
+                // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+            }
+            QString pushMsg = StringTool::MergePushMsg(currentDateTime, senderName,
+                                                       msg["msg"].toString());
+            chatWindow->pushMsg(pushMsg, 1);
+            FriendItem *item = friendItemMap.value(groupAccount);
+            if (groupAccount != curChatAccount) {
+                item->NewMsgPlusOne();
+            } else {
+                if (curChatType == 0)
+                    item->NewMsgPlusOne();
+            }
+            break;
+        }
+            case cmd_group_member_list:{
+                int groupAccount = msg["groupAccount"].toInt();
+                if(groupMap.find(groupAccount) == groupMap.end())
+                    return;
+                QJsonArray list = msg["msglist"].toArray();
+                for (int i = 0; i < list.size(); i++) {
+                    MemberInfo info;
+                    json obj = list[i].toObject();
+                    info.account = obj["account"].toString().toInt();
+                    info.name = obj["name"].toString();
+                    groupMap[groupAccount].memberList.push_back(info);
+                }
+                break;
+            }
+
+        default:
+            break;
     }
 }
 
@@ -247,11 +331,30 @@ void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
     int account = friendItem->account();
     if(messageItemMap.find(account) == messageItemMap.end())
     {
-        FriendItem *msgItem = new FriendItem(friendItem->GetInfo());
+        FriendItem *msgItem = new FriendItem(friendItem->GetFriendInfo());
         QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
         listItem->setSizeHint(QSize(260, 85));
         friendsListWidget->addItem(listItem);
         friendsListWidget->setItemWidget(listItem, msgItem);
+
+        messagesListWidget->addItem(listItem);
+        messagesListWidget->setItemWidget(listItem, msgItem);
+
+        messageItemMap.insert(account, msgItem);
+    }
+}
+void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
+{
+    FriendItem* friendItem = qobject_cast<FriendItem*>(groupsListWidget->itemWidget(item));
+    SetChatWindow(friendItem);
+    int account = friendItem->account();
+    if(messageItemMap.find(account) == messageItemMap.end())
+    {
+        FriendItem *msgItem = new FriendItem(friendItem->GetGroupInfo());
+        QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
+        listItem->setSizeHint(QSize(260, 85));
+        groupsListWidget->addItem(listItem);
+        groupsListWidget->setItemWidget(listItem, msgItem);
 
         messagesListWidget->addItem(listItem);
         messagesListWidget->setItemWidget(listItem, msgItem);
@@ -274,8 +377,12 @@ void Client::on_pushBtn_send_clicked()
         return;
     }
     ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
-    int account = chatWindow->GetFriendInfo()->account;
+    int account = chatWindow->GetAccount();
     json msg={{"cmd",cmd_friend_chat},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
+    if(chatWindow->GetType())
+    {
+        msg["cmd"] = cmd_group_chat;
+    }
     t->SendMsg(msg);
     ui->textEdit_send->clear();
     QString pushMsg = StringTool::MergePushMsg(currentDateTime,selfInfo.name,sendText);
@@ -323,21 +430,38 @@ void Client::on_pushButton_group_list_clicked()
 }
 
 void Client::SetChatWindow(FriendItem *item) {
+    if(item == nullptr)
+        return;
     int account = item->account();
-
-    if(chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
-    {
-        FriendInfo info{account,item->getName()};
-        ChatWindow* chatWindow = new ChatWindow(info);
-        ui->stackedWidget->addWidget(chatWindow);
-        ui->stackedWidget->setCurrentWidget(chatWindow);
-        chatMap.insert(account,chatWindow);
+    //Friend ChatWindow
+    if(item->GetType() == 0) {
+        if (chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
+        {
+            FriendInfo info{account, item->getLabelName()};
+            ChatWindow *chatWindow = new ChatWindow(info);
+            ui->stackedWidget->addWidget(chatWindow);
+            ui->stackedWidget->setCurrentWidget(chatWindow);
+            chatMap.insert(account, chatWindow);
+        } else {
+            ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+        }
+        curChatType = 0;
     }
     else
     {
-        ui->stackedWidget->setCurrentWidget(chatMap.value(account));
+        if (groupChatMap.find(account) == groupChatMap.end())  //账号对应的聊天窗口不存在
+        {
+            GroupInfo info{account, item->getLabelName()};
+            ChatWindow *chatWindow = new ChatWindow(info);
+            ui->stackedWidget->addWidget(chatWindow);
+            ui->stackedWidget->setCurrentWidget(chatWindow);
+            groupChatMap.insert(account, chatWindow);
+        } else {
+            ui->stackedWidget->setCurrentWidget(groupChatMap.value(account));
+        }
+        curChatType = 1;
     }
     item->SetNewMsgNum(0);
     curChatAccount = account;
-    ui->label_info->setText(item->GetInfo().name);
+    ui->label_info->setText(item->GetChatName());
 }

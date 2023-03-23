@@ -97,7 +97,7 @@ void TcpClient::CmdParser(json message)
     {
         emit CallLogging(msg);
     }
-    if(cmd >= cmd_friend_list && cmd <= cmd_group_chat)
+    if(cmd >= cmd_friend_list && cmd <= cmd_group_member_list)
     {
         qDebug() << "Call Client";
         emit CallClient(msg);
