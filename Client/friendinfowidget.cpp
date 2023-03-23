@@ -20,11 +20,12 @@ FriendInfoWidget::FriendInfoWidget(FriendInfo info, QWidget *parent):
 
 }
 
-FriendInfoWidget::FriendInfoWidget(GroupInfo info, QWidget *parent) {
-    InitUI();
+FriendInfoWidget::FriendInfoWidget(GroupInfo info, QWidget *parent):
+    QWidget(parent),ui(new Ui::FriendInfoWidget),m_groupInfo(info){
     ui->setupUi(this);
-    ui->label_name->setText(info.gname);
-    ui->label_account->setNum(info.gaccount);
+    InitUI();
+    ui->label_name->setText(info.groupName);
+    ui->label_account->setNum(info.groupAccount);
 }
 
 void FriendInfoWidget::enterEvent(QEvent *event)

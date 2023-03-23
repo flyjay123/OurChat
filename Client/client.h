@@ -62,6 +62,7 @@ public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
     void on_listWidget_info_itemClicked(QListWidgetItem *item);
+    void on_groupsListWidget_itemClicked(QListWidgetItem *item);
 
     void on_pushBtn_send_clicked();
 
@@ -75,19 +76,24 @@ public slots:
 private:
     Ui::Client *ui;
     bool        m_isLogin;
-    bool        m_isfull;
+    bool        m_isFull;
     QRect       m_rect;
     SelfInfo selfInfo;
-    int  curChatAccount;
+    int curChatAccount;
+    int curChatType;
     //account, chatWindow
     QMap<int,ChatWindow*> chatMap;
+    //group_account, group_chatWindow
+    QMap<int,ChatWindow*> groupChatMap;
     //account, friendInfo
     QMap<int,FriendInfo> friendMap;
+    //group_account, groupInfo
+    QMap<int,GroupInfo> groupMap;
     //account,friendItem
     QMap<int,FriendItem*>friendItemMap;
     //group_account,groupItem
     QMap<int,FriendItem*>groupItemMap;
-    //account,groupInfo
+    //account,messageItem
     QMap<int,FriendItem*>messageItemMap;
 
 

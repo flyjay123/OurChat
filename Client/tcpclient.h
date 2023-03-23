@@ -65,9 +65,9 @@ typedef struct _member_info
 
 typedef struct _group_info
 {
-    int gaccount;
-    QString gname;
-    QVector <MemberInfo> gmembers;
+    int groupAccount;
+    QString groupName;
+    QVector <MemberInfo> memberList;
 }GroupInfo;
 
 class TcpClient : public QTcpSocket

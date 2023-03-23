@@ -13,10 +13,32 @@ FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
 {
     ui->setupUi(this);
     SetInfo(_info);
+    m_type = 0;
+    m_account = _info.account;
+    m_name = _info.name;
+    Init();
+}
+
+FriendItem::FriendItem(GroupInfo _info, QWidget *parent) :
+        QWidget(parent),
+        ui(new Ui::FriendItem)
+{
+    ui->setupUi(this);
+    SetInfo(_info);
+    m_type = 1;
+    m_account = _info.groupAccount;
+    m_name = _info.groupName;
+    Init();
+}
+
+void FriendItem::Init() {
     ui->lineEdit_newMsg->hide();
     timer = new QTimer;
     timer->setInterval(1000);
-    widget = new  FriendInfoWidget(info);
+    if(m_type)
+        widget = new  FriendInfoWidget(groupInfo);
+    else
+        widget = new  FriendInfoWidget(info);
     curWidget = widget;
     connect(timer,&QTimer::timeout,this,[=](){
         widget->close();
@@ -27,7 +49,6 @@ FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     connect(widget,&FriendInfoWidget::enterWidget,this,[&](){timer->stop();});
     connect(widget,&FriendInfoWidget::leaveWidget,this,[&](){timer->start();});
 
-    qDebug() << QSslSocket::supportsSsl();
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::TlsV1_1);
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -36,21 +57,18 @@ FriendItem::FriendItem(FriendInfo _info, QWidget *parent) :
     connect(manager, &QNetworkAccessManager::finished, this, [&](QNetworkReply* reply){
 
         if(reply->error() == QNetworkReply::NoError)
-            {
-                QByteArray data = reply->readAll();
-                QPixmap pixmap;
-                pixmap.loadFromData(data);
-                ui->label_icon->setPixmap(pixmap);
-            }
-            else
-            {
-                qDebug() << "Error:" << reply->errorString();
-            }
-            reply->deleteLater();
+        {
+            QByteArray data = reply->readAll();
+            QPixmap pixmap;
+            pixmap.loadFromData(data);
+            ui->label_icon->setPixmap(pixmap);
+        }
+        else
+        {
+            qDebug() << "Error:" << reply->errorString();
+        }
+        reply->deleteLater();
     });
-
-
-
 }
 
 FriendItem::~FriendItem()
@@ -105,11 +123,11 @@ void FriendItem::SetInfo(FriendInfo _info)
 void FriendItem::SetInfo(GroupInfo _info)
 {
     groupInfo = _info;
-    m_account = _info.gaccount;
-    ui->label_name->setText(groupInfo.gname);
+    m_account = _info.groupAccount;
+    ui->label_name->setText(groupInfo.groupName);
 }
 
-QString FriendItem::getName()
+QString FriendItem::getLabelName()
 {
     return  ui->label_name->text();
 }
