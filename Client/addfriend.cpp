@@ -11,6 +11,7 @@ AddFriend::AddFriend(TcpClient* fd,QWidget *parent) :
     Init();
      t=fd;
      connect(t,&TcpClient::CallAddFriend,this,&AddFriend::CmdHandler);
+     connect(ui->radioButton_friend,&QRadioButton::toggled,this,&AddFriend::on_radioButton_toggled);
 }
 
 AddFriend::~AddFriend()
@@ -39,10 +40,12 @@ void AddFriend::on_pushButton_search_clicked()
 {
     QString search = ui->lineEdit->text();
     json msg ={{"cmd",cmd_friend_search},{"search-info",search}};
+    if(m_type)
+        msg["cmd"] = cmd_group_search;
     t->SendMsg(msg);      
 }
 
-void AddFriend::on_pushButton_search_2_clicked()
+void AddFriend::on_pushButton_add_clicked()
 {
     int row = ui->listWidget->currentRow();
     if(row >= 0)
@@ -51,8 +54,15 @@ void AddFriend::on_pushButton_search_2_clicked()
         msg.insert("cmd",cmd_add_friend_request);
         msg.insert("account",list[row*2]);
         msg.insert("sendmsg",ui->textEdit->toPlainText());
+        if(m_type)
+            msg["cmd"] = cmd_group_join_request;
         t->SendMsg(msg);
     }
+}
+
+void AddFriend::on_radioButton_toggled(bool isChecked)
+{
+    m_type = !isChecked;
 }
 
 void AddFriend::CmdHandler(json msg)
@@ -60,12 +70,12 @@ void AddFriend::CmdHandler(json msg)
     int cmd = msg["cmd"].toInt();
     if(msg.isEmpty()) return;
 
-    if(cmd == cmd_friend_search)
+    if(cmd == cmd_friend_search || cmd == cmd_group_search)
     {
         list.clear();
         ui->listWidget->clear();
         QJsonArray arr =  msg["msglist"].toArray();
-        for(int i =0;i<msg["count"].toString().toInt();i++)
+        for(int i =0;i<msg["count"].toInt();i++)
         {
                  list.push_back(arr[i].toObject().value("account").toString());
                  list.push_back(arr[i].toObject()["name"].toString());
@@ -75,8 +85,5 @@ void AddFriend::CmdHandler(json msg)
             ui->listWidget->addItem(QString("[%1] [%2]").arg(list[i],list[i+1]));
         }
     }
+
 }
-
-
-
-

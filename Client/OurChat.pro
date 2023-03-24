@@ -28,7 +28,9 @@ SOURCES += \
     selfinfowidget.cpp \
     sendtextedit.cpp \
     stringtool.cpp \
-    tcpclient.cpp
+    systemmessage.cpp \
+    tcpclient.cpp \
+    verificationitem.cpp
 
 HEADERS += \
     addfriend.h \
@@ -42,7 +44,9 @@ HEADERS += \
     selfinfowidget.h \
     sendtextedit.h \
     stringtool.h \
-    tcpclient.h
+    systemmessage.h \
+    tcpclient.h \
+    verificationitem.h
 
 FORMS += \
     addfriend.ui \
@@ -51,7 +55,9 @@ FORMS += \
     friendinfowidget.ui \
     frienditem.ui \
     logging.ui \
-    selfinfowidget.ui
+    selfinfowidget.ui \
+    systemmessage.ui \
+    verificationitem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
