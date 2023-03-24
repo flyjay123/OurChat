@@ -22,14 +22,18 @@ public:
 private slots:
     void on_pushButton_search_clicked();
 
-    void on_pushButton_search_2_clicked();
+    void  on_radioButton_toggled(bool isChecked);
 
     void  CmdHandler(json msg);
+
+    void on_pushButton_add_clicked();
 
 private:
     Ui::AddFriend *ui;
     QVector<QString> list;
     TcpClient* t;
+    //0 friend 1 group
+    int m_type;
 };
 
 #endif // ADDFRIEND_H

@@ -15,6 +15,7 @@
 #include <QShortcut>
 #include "sendtextedit.h"
 #include "selfinfowidget.h"
+#include "verificationitem.h"
 
 
 Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
@@ -45,6 +46,10 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     ui->stackedWidget_list->addWidget(friendsListWidget);
     ui->stackedWidget_list->addWidget(groupsListWidget);
     RefreshFriendList();
+
+    VerifyInfo vinfo = {"",10001,"test","this is a test",selfInfo.account};
+    VerificationItem *item = new VerificationItem(vinfo,t);
+    item->show();
 }
 
 Client::~Client()

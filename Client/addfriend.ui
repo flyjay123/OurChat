@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>683</width>
     <height>480</height>
    </rect>
   </property>
@@ -54,7 +54,7 @@
     <string>查找</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_search_2">
+  <widget class="QPushButton" name="pushButton_add">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -67,7 +67,7 @@
     <string>添加</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_search_3">
+  <widget class="QPushButton" name="pushButton_cancel">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -105,10 +105,39 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>90</y>
+     <y>130</y>
      <width>361</width>
-     <height>211</height>
+     <height>171</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_friend">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>100</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>好友</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_group">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>100</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>群聊</string>
    </property>
   </widget>
  </widget>

@@ -29,7 +29,8 @@ enum commands{
 
     cmd_group_create,
     cmd_group_search,
-    cmd_group_join,
+    cmd_group_join_request,
+    cmd_group_join_response,
     cmd_group_list,
     cmd_group_chat,
     cmd_group_member_list,
