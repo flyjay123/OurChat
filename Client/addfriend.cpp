@@ -3,13 +3,17 @@
 #include <QGraphicsDropShadowEffect>
 
 
-AddFriend::AddFriend(TcpClient* fd,QWidget *parent) :
-    QWidget(parent),
+AddFriend::AddFriend(SelfInfo _info,TcpClient* fd,QWidget *parent) :
+     QWidget(parent),
     ui(new Ui::AddFriend)
 {
     ui->setupUi(this);
     Init();
      t=fd;
+     info = _info;
+     qDebug() << info.name;
+     qDebug() << info.account;
+     qDebug() << info.sig;
      connect(t,&TcpClient::CallAddFriend,this,&AddFriend::CmdHandler);
      connect(ui->radioButton_friend,&QRadioButton::toggled,this,&AddFriend::on_radioButton_toggled);
 }
@@ -50,12 +54,14 @@ void AddFriend::on_pushButton_add_clicked()
     int row = ui->listWidget->currentRow();
     if(row >= 0)
     {
-        json msg;
-        msg.insert("cmd",cmd_add_friend_request);
-        msg.insert("account",list[row*2]);
-        msg.insert("sendmsg",ui->textEdit->toPlainText());
+        json msg = {{ "cmd",cmd_add_friend_request},{"sender",info.account},{"account",list[row*2].toInt()},{"msg",ui->textEdit->toPlainText()},
+                {"name",info.name},{"sig",info.sig}};
         if(m_type)
+        {
             msg["cmd"] = cmd_group_join_request;
+            msg["groupName"] = list[row*2+1];
+        }
+
         t->SendMsg(msg);
     }
 }

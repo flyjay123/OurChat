@@ -28,7 +28,7 @@ int TcpClient::ConnectToServer()
     this->connectToHost(m_server,m_port);
     if(this->waitForConnected(3000))
     {
-        qDebug() << "连接成功" << endl;
+        qDebug() << "connect to server successfully" << endl;
          m_isConnected = true;
          return 0;
     }
@@ -41,6 +41,7 @@ int TcpClient::ConnectToServer()
 
 void TcpClient::DisconnectFromServer()
 {
+    qDebug() << "disconnect from server";
     m_isConnected=false;
 }
 
@@ -97,9 +98,8 @@ void TcpClient::CmdParser(json message)
     {
         emit CallLogging(msg);
     }
-    if(cmd >= cmd_friend_list && cmd <= cmd_group_member_list)
+    if(cmd >= cmd_add_friend_request && cmd <= cmd_group_member_list)
     {
-        qDebug() << "Call Client";
         emit CallClient(msg);
     }
     if(cmd == cmd_friend_search || cmd == cmd_group_search)
