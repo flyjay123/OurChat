@@ -14,7 +14,7 @@ class AddFriend : public QWidget
     Q_OBJECT
 
 public:
-    explicit AddFriend(TcpClient* fd,QWidget *parent = nullptr);
+    explicit AddFriend(SelfInfo _info,TcpClient* fd,QWidget *parent = nullptr);
     ~AddFriend();
 
     void Init();
@@ -33,7 +33,8 @@ private:
     QVector<QString> list;
     TcpClient* t;
     //0 friend 1 group
-    int m_type;
+    int m_type = 0;
+    SelfInfo info;
 };
 
 #endif // ADDFRIEND_H

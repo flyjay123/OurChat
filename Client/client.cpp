@@ -25,6 +25,7 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     ui->setupUi(this);
     InitUI();
     t = tcp;
+    systemMsg = new SystemMessage();
     selfInfo.name = info.name;
     selfInfo.account=info.account;
     selfInfo.password=info.password;
@@ -45,11 +46,8 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     ui->stackedWidget_list->addWidget(messagesListWidget);
     ui->stackedWidget_list->addWidget(friendsListWidget);
     ui->stackedWidget_list->addWidget(groupsListWidget);
-    RefreshFriendList();
-
-    VerifyInfo vinfo = {"",10001,"test","this is a test",selfInfo.account};
-    VerificationItem *item = new VerificationItem(vinfo,t);
-    item->show();
+    //RefreshFriendList();
+    //RefreshGroupList();
 }
 
 Client::~Client()
@@ -167,18 +165,18 @@ void Client::on_pushBtn_hide_clicked()
 
 void Client::on_pushButton_addFriend_clicked()
 {
-    AddFriend *add = new AddFriend(t);
+    AddFriend *add = new AddFriend(selfInfo,t);
     add->show();
 }
 
 void Client::on_pushBtn_refresh_clicked()
 {
     switch(curListWidgetIndex) {
-        case 0:return;
-        case 1:RefreshFriendList();
-        case 2:RefreshGroupList();
+        case 0:break;
+    case 1:RefreshFriendList();break;
+    case 2:RefreshGroupList();break;
         default:
-            return;
+            break;
     }
 }
 
@@ -186,6 +184,25 @@ void Client::ClientMsgHandler(json msg)
 {
     int cmd = msg["cmd"].toInt();
     switch(cmd) {
+        case cmd_add_friend_request:
+        {
+            VerifyInfo vinfo;
+            vinfo.account = selfInfo.account;
+            vinfo.name = msg["name"].toString();
+            vinfo.msg = msg["sendMsg"].toString();
+            vinfo.sender = msg["sender"].toInt();
+            VerificationItem *item = new VerificationItem(vinfo,t);
+            systemMsg->AddItem(item);
+
+            break;
+        }
+        case cmd_add_friend_response:
+        {
+            QString res = msg["res"].toString();
+            if(res == "yes")
+                RefreshFriendList();
+            break;
+        }
         case cmd_friend_list: {
             friendsListWidget->clear();
             friendMap.clear();
@@ -214,7 +231,7 @@ void Client::ClientMsgHandler(json msg)
             break;
         }
         case cmd_friend_chat: {
-            int account = msg["sender"].toString().toInt();
+            int account = msg["sender"].toInt();
             ChatWindow *chatWindow;
             if (chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
             {
@@ -243,6 +260,33 @@ void Client::ClientMsgHandler(json msg)
                 if(curChatType == 1)
                     item->NewMsgPlusOne();
             }
+            break;
+        }
+        case cmd_group_join_request:
+        {
+            VerifyInfo vinfo;
+            vinfo.name = msg["name"].toString();
+            vinfo.msg = msg["sendMsg"].toString();
+            vinfo.sender = msg["sender"].toInt();
+            vinfo.account = msg["groupAccount"].toInt();
+            vinfo.groupName = msg["groupName"].toString();
+            VerificationItem *item = new VerificationItem(vinfo,t,1);
+            QString msg1 = "用户" + vinfo.name + "请求加入群" + vinfo.groupName + QString::number(vinfo.account);
+            systemMsg->AddItem(item);
+
+            break;
+        }
+        case cmd_group_join_response:
+        {
+            QString res = msg["res"].toString();
+            QString info;
+            if(res == "yes")
+            {
+                info = "群聊申请已通过";
+                RefreshGroupList();
+            }
+            else
+                info = "群聊申请被拒绝";
             break;
         }
         case cmd_group_list:{
@@ -383,7 +427,7 @@ void Client::on_pushBtn_send_clicked()
     }
     ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
     int account = chatWindow->GetAccount();
-    json msg={{"cmd",cmd_friend_chat},{"account",QString("%1").arg(account)},{"sendmsg",sendText},{"sender",QString("%1").arg(selfInfo.account)}};
+    json msg={{"cmd",cmd_friend_chat},{"account",account},{"sendmsg",sendText},{"sender",selfInfo.account}};
     if(chatWindow->GetType())
     {
         msg["cmd"] = cmd_group_chat;
@@ -456,7 +500,7 @@ void Client::SetChatWindow(FriendItem *item) {
     {
         if (groupChatMap.find(account) == groupChatMap.end())  //账号对应的聊天窗口不存在
         {
-            GroupInfo info{account, item->getLabelName()};
+            GroupInfo info{account, item->getLabelName(),{}};
             ChatWindow *chatWindow = new ChatWindow(info);
             ui->stackedWidget->addWidget(chatWindow);
             ui->stackedWidget->setCurrentWidget(chatWindow);
@@ -469,4 +513,10 @@ void Client::SetChatWindow(FriendItem *item) {
     item->SetNewMsgNum(0);
     curChatAccount = account;
     ui->label_info->setText(item->GetChatName());
+}
+
+void Client::on_pushButton_system_msg_clicked()
+{
+    if(systemMsg->isHidden())
+        systemMsg->show();
 }

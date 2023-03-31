@@ -1080,6 +1080,49 @@ QPushButton::hover {
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QPushButton" name="pushButton_system_msg">
+       <property name="geometry">
+        <rect>
+         <x>15</x>
+         <y>250</y>
+         <width>25</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	image: url(:/pic/src/wechat.png); 
+	min-width: 25px;
+	max-width: 25px;
+	min-height: 25px;
+	max-height: 25px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include "frienditem.h"
 #include "chatlistwidget.h"
+#include "systemmessage.h"
 
 extern bool friendWidgetOn;
 
@@ -58,6 +59,8 @@ private slots:
 
     void on_pushButton_group_list_clicked();
 
+    void on_pushButton_system_msg_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
@@ -97,7 +100,7 @@ private:
     QMap<int,FriendItem*>messageItemMap;
 
 
-
+    SystemMessage *systemMsg;
     QDateTime currentDateTime;
     TcpClient* t;
 
