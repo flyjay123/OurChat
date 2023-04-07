@@ -61,6 +61,8 @@ private slots:
 
     void on_pushButton_system_msg_clicked();
 
+    void on_pushButton_icon_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
@@ -69,12 +71,12 @@ public slots:
 
     void on_pushBtn_send_clicked();
 
-    void on_pushBtn_refresh_2_clicked();
 
 public slots:
     void ClientMsgHandler(json msg);
 
-
+signals:
+    void iconChanged(QString url);
 
 private:
     Ui::Client *ui;

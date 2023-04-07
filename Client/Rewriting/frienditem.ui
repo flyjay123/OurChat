@@ -28,6 +28,9 @@
    <property name="mouseTracking">
     <bool>true</bool>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -35,7 +38,7 @@
     <enum>Qt::RichText</enum>
    </property>
    <property name="pixmap">
-    <pixmap resource="src.qrc">:/pic/src/QQIcon/icon2.png</pixmap>
+    <pixmap>:/pic/src/QQIcon/icon2.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -118,8 +121,6 @@ color: #ffffff</string>
    <header location="global">friendiconlabel.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="src.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

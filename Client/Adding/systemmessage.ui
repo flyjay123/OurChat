@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>系统消息</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../src.qrc">
+    <normaloff>:/Icons/src/weichat.png</normaloff>:/Icons/src/weichat.png</iconset>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -57,6 +61,8 @@
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../src.qrc"/>
+ </resources>
  <connections/>
 </ui>

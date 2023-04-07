@@ -771,61 +771,7 @@ QPushButton:pressed {
             </widget>
            </item>
            <item row="0" column="5">
-            <widget class="QWidget" name="widget_11" native="true">
-             <widget class="QPushButton" name="pushBtn_refresh_2">
-              <property name="geometry">
-               <rect>
-                <x>-1</x>
-                <y>0</y>
-                <width>41</width>
-                <height>20</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>2000</width>
-                <height>2000</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>黑体</family>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton{
-	color: rgb(96,96,96);
-	border-radius: 5px;	
-	border-style: solid;
-	background-color: rgb(245,245,245);
-
-	border-right:1px solid #E5E5E5;
-	border-top:1px solid #E5E5E5;
-	border-left:1px solid #E5E5E5;
-	border-bottom:1px solid #E5E5E5;
-}
-
-QPushButton:hover{
-	color: rgb(255, 255, 255);
-	background-color: rgb(18,150,17);
-}
-
-QPushButton:pressed {
-	background-color: rgb(7,193,96);
-}</string>
-              </property>
-              <property name="text">
-               <string>刷新</string>
-              </property>
-             </widget>
-            </widget>
+            <widget class="QWidget" name="widget_11" native="true"/>
            </item>
           </layout>
          </item>
@@ -838,85 +784,93 @@ QPushButton:pressed {
      <widget class="QWidget" name="widget" native="true">
       <property name="minimumSize">
        <size>
-        <width>55</width>
+        <width>80</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>55</width>
+        <width>80</width>
         <height>16777215</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(46,46,46);</string>
+       <string notr="true">background-color: #0ED07B;
+min-width:80;
+max-width:80;</string>
       </property>
       <widget class="QPushButton" name="pushButton_msg_list">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>100</y>
-         <width>25</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>25</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>25</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/wechat.png); 
-	min-width: 25px;
-	max-width: 25px;
-	min-height: 25px;
-	max-height: 25px;
-}
-QPushButton::hover {
-	image: url(:/src/wechat3.png); 
-}
-QPushButton:checked{
-	image: url(:/pic/src/wechat2.png); 
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushBtn_refresh">
-       <property name="geometry">
-        <rect>
-         <x>8</x>
-         <y>610</y>
+         <x>20</x>
+         <y>180</y>
          <width>40</width>
          <height>40</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>40</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>2000</width>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	max-width:40;
+	min-width:40;
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="src.qrc">
+         <normaloff>:/src/message.png</normaloff>
+         <normalon>:/src/message1.png</normalon>:/src/message.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushBtn_refresh">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>610</y>
+         <width>42</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>42</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>42</width>
          <height>2000</height>
         </size>
        </property>
@@ -925,6 +879,9 @@ QPushButton:checked{
          <family>黑体</family>
          <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton{
@@ -937,6 +894,10 @@ QPushButton:checked{
 	border-top:1px solid #E5E5E5;
 	border-left:1px solid #E5E5E5;
 	border-bottom:1px solid #E5E5E5;
+
+	max-width:40;
+	min-width:40;
+
 }
 
 QPushButton:hover{
@@ -955,172 +916,288 @@ QPushButton:pressed {
       <widget class="QPushButton" name="pushButton_emoj_3">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>30</y>
-         <width>25</width>
-         <height>25</height>
+         <x>20</x>
+         <y>110</y>
+         <width>40</width>
+         <height>40</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>40</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>40</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
 
 	border: none; /* no border for a flat push button */
-	image: url(:/src/个人中心灰.png); 
+	image: url(:/src/SelfCenter1.png); 
+	max-width:40;
+	min-width:40;
 }
 QPushButton::hover {
-	image: url(:/src/个人中心绿.png); 
+	image: url(:/src/SelfCenter2.png); 
 }
+
+
 </string>
        </property>
        <property name="text">
         <string/>
        </property>
        <property name="checkable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_friend_list">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>150</y>
-         <width>25</width>
-         <height>25</height>
+         <x>20</x>
+         <y>250</y>
+         <width>40</width>
+         <height>40</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>16777215</height>
         </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
 
 	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/wechat.png); 
-	min-width: 25px;
-	max-width: 25px;
-	min-height: 25px;
-	max-height: 25px;
+	max-width:40;
+	min-width:40;
 }
 </string>
        </property>
        <property name="text">
         <string/>
        </property>
+       <property name="icon">
+        <iconset resource="src.qrc">
+         <normaloff>:/src/friend.png</normaloff>
+         <normalon>:/src/friend1.png</normalon>:/src/friend.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_group_list">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>200</y>
-         <width>25</width>
-         <height>25</height>
+         <x>20</x>
+         <y>320</y>
+         <width>40</width>
+         <height>40</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>16777215</height>
         </size>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton {
-
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/wechat.png); 
-	min-width: 25px;
-	max-width: 25px;
-	min-height: 25px;
-	max-height: 25px;
-}
-</string>
+        <string notr="true">border:none;
+	max-width:40;
+	min-width:40;</string>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="src.qrc">
+         <normaloff>:/src/group.png</normaloff>
+         <normalon>:/src/group1.png</normalon>:/src/group.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
        </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_system_msg">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>250</y>
-         <width>25</width>
-         <height>25</height>
+         <x>20</x>
+         <y>390</y>
+         <width>40</width>
+         <height>40</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>25</width>
-         <height>25</height>
+         <width>40</width>
+         <height>16777215</height>
         </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
 
 	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/wechat.png); 
-	min-width: 25px;
-	max-width: 25px;
-	min-height: 25px;
-	max-height: 25px;
+	max-width:40;
+	min-width:40;
 }
 </string>
        </property>
        <property name="text">
         <string/>
        </property>
+       <property name="icon">
+        <iconset resource="src.qrc">
+         <normaloff>:/src/notification.png</normaloff>:/src/notification.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="checkable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="FriendIconLabel" name="label_icon">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>80</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">	max-width:80;
+	min-width:80;
+background-color:transparent;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
         <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_icon">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>80</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">max-width:80;
+min-width:80;
+border:none;
+background-color:transparent;</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -1129,6 +1206,11 @@ QPushButton::hover {
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>FriendIconLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">friendiconlabel.h</header>
+  </customwidget>
   <customwidget>
    <class>SendTextEdit</class>
    <extends>QTextEdit</extends>

@@ -31,16 +31,10 @@
         <file>src/wenjian.png</file>
         <file>src/wxx.png</file>
         <file>src/zxh.png</file>
-        <file>src/聊天talk.png</file>
-        <file>src/头像.jpg</file>
-        <file>src/眼睛_显示.png</file>
-        <file>src/眼睛_隐藏.png</file>
-        <file>src/QQIcon/icon2.png</file>
-        <file>src/QQIcon/QQIcon1.jpg</file>
+        <file>src/eyes_close.png</file>
+        <file>src/eyes_open.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>src/个人中心绿.png</file>
-        <file>src/个人中心灰.png</file>
         <file>src/friendItemBg.png</file>
         <file>src/bg1.png</file>
         <file>src/thumb1.png</file>
@@ -49,8 +43,39 @@
         <file>src/dz2.png</file>
         <file>src/chatbg.png</file>
         <file>src/infobg.png</file>
+        <file>src/friend.png</file>
+        <file>src/friend1.png</file>
+        <file>src/group.png</file>
+        <file>src/group1.png</file>
+        <file>src/notification.png</file>
+        <file>src/message.png</file>
+        <file>src/message_unread.png</file>
+        <file>src/message1.png</file>
+        <file>src/SelfCenter2.png</file>
+        <file>src/SelfCenter1.png</file>
     </qresource>
     <qresource prefix="/Icons">
         <file>src/weichat.png</file>
+        <file>src/QQIcon/icon3.jpg</file>
+        <file>src/QQIcon/icon4.jpg</file>
+        <file>src/QQIcon/icon5.jpg</file>
+        <file>src/QQIcon/icon6.jpg</file>
+        <file>src/QQIcon/icon7.jpg</file>
+        <file>src/QQIcon/icon8.jpg</file>
+        <file>src/QQIcon/icon9.jpg</file>
+        <file>src/QQIcon/icon10.jpg</file>
+        <file>src/QQIcon/icon11.jpg</file>
+        <file>src/QQIcon/icon12.jpg</file>
+        <file>src/QQIcon/icon13.jpg</file>
+        <file>src/QQIcon/icon14.jpg</file>
+        <file>src/QQIcon/icon15.jpg</file>
+        <file>src/QQIcon/icon16.jpg</file>
+        <file>src/QQIcon/icon17.jpg</file>
+        <file>src/QQIcon/icon18.jpg</file>
+        <file>src/QQIcon/icon19.jpg</file>
+        <file>src/QQIcon/icon.jpg</file>
+        <file>src/QQIcon/icon1.jpg</file>
+        <file>src/QQIcon/icon2.jpg</file>
+        <file>src/QQIcon/icon20.jpg</file>
     </qresource>
 </RCC>

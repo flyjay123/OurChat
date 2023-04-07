@@ -16,6 +16,7 @@
 #include "sendtextedit.h"
 #include "selfinfowidget.h"
 #include "verificationitem.h"
+#include "IconSetting/iconselect.h"
 
 
 Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
@@ -29,6 +30,9 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     selfInfo.name = info.name;
     selfInfo.account=info.account;
     selfInfo.password=info.password;
+    selfInfo.icon = info.icon;
+    ui->label_icon->SetIcon(info.icon);
+    //ui->label_icon->SetIcon("https://doc.qt.io/style/qt-logo-documentation.svg");
     messagesListWidget = new ChatListWidget(ItemType_Message);
     friendsListWidget = new ChatListWidget(ItemType_Friend);
     groupsListWidget = new ChatListWidget(ItemType_Group);
@@ -42,12 +46,12 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
         SetChatWindow(friendItem);
     });
     connect(groupsListWidget,&ChatListWidget::itemDoubleClicked,this,&Client::on_groupsListWidget_itemClicked);
-
+    ui->pushBtn_refresh->setVisible(false);
     ui->stackedWidget_list->addWidget(messagesListWidget);
     ui->stackedWidget_list->addWidget(friendsListWidget);
     ui->stackedWidget_list->addWidget(groupsListWidget);
-    //RefreshFriendList();
-    //RefreshGroupList();
+    RefreshFriendList();
+    RefreshGroupList();
 }
 
 Client::~Client()
@@ -59,7 +63,7 @@ void Client::RefreshFriendList()
 {
     json msg;
     msg.insert("cmd",cmd_friend_list);
-    msg.insert("account",QString("%1").arg(selfInfo.account));
+    msg.insert("account",selfInfo.account);
     t->SendMsg(msg);
 }
 
@@ -67,7 +71,7 @@ void Client::RefreshGroupList()
 {
     json msg;
     msg.insert("cmd",cmd_group_list);
-    msg.insert("account",QString("%1").arg(selfInfo.account));
+    msg.insert("account",selfInfo.account);
     t->SendMsg(msg);
 }
 
@@ -212,9 +216,10 @@ void Client::ClientMsgHandler(json msg)
                 FriendInfo info;
                 json obj = list[i].toObject();
                 info.name = obj["name"].toString();
-                info.account = obj["account"].toString().toInt();
+                info.account = obj["account"].toInt();
                 info.sig = obj["sig"].toString();
-                info.isOnline = obj["isOnline"].toBool();
+                info.isOnline = obj["online"].toBool();
+                info.icon = obj["icon"].toString();
                 if (info.sig.isEmpty())
                     info.sig = "这家伙很高冷，啥也不想说";
 
@@ -297,7 +302,7 @@ void Client::ClientMsgHandler(json msg)
                 GroupInfo info;
                 json obj = list[i].toObject();
                 info.groupName= obj["name"].toString();
-                info.groupAccount = obj["account"].toString().toInt();
+                info.groupAccount = obj["account"].toInt();
 
                 FriendItem *item = new FriendItem(info);
 
@@ -439,12 +444,6 @@ void Client::on_pushBtn_send_clicked()
 
 }
 
-
-void Client::on_pushBtn_refresh_2_clicked()
-{
-    t->waitForReadyRead(200);
-}
-
 void Client::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
@@ -462,18 +461,48 @@ void Client::on_pushButton_emoj_3_clicked()
 
 void Client::on_pushButton_msg_list_clicked()
 {
+    if(curListWidgetIndex == 0)
+    {
+        ui->pushButton_msg_list->setChecked(true);
+        return;
+    }
+    else
+    {
+        ui->pushButton_friend_list->setChecked(false);
+        ui->pushButton_group_list->setChecked(false);
+    }
     curListWidgetIndex = 0;
     ui->stackedWidget_list->setCurrentWidget(messagesListWidget);
 }
 
 void Client::on_pushButton_friend_list_clicked()
 {
+    if(curListWidgetIndex == 1)
+    {
+        ui->pushButton_friend_list->setChecked(true);
+        return;
+    }
+    else
+    {
+        ui->pushButton_msg_list->setChecked(false);
+        ui->pushButton_group_list->setChecked(false);
+    }
     curListWidgetIndex = 1;
     ui->stackedWidget_list->setCurrentWidget(friendsListWidget);
 }
 
 void Client::on_pushButton_group_list_clicked()
 {
+    if(curListWidgetIndex == 2)
+    {
+        ui->pushButton_group_list->setChecked(true);
+        return;
+    }
+    else
+    {
+        ui->pushButton_msg_list->setChecked(false);
+        ui->pushButton_friend_list->setChecked(false);
+    }
     curListWidgetIndex = 2;
     ui->stackedWidget_list->setCurrentWidget(groupsListWidget);
 }
@@ -519,4 +548,17 @@ void Client::on_pushButton_system_msg_clicked()
 {
     if(systemMsg->isHidden())
         systemMsg->show();
+}
+
+void Client::on_pushButton_icon_clicked()
+{
+    IconSelect *iconSelect = new IconSelect;
+    iconSelect->show();
+
+    connect(iconSelect, &IconSelect::SetIcon, this, [&](QString url){
+        ui->label_icon->SetIcon(url);
+        selfInfo.icon = url;
+        json msg = {{"cmd",cmd_set_icon},{"account",selfInfo.account},{"icon",url}};
+        t->SendMsg(msg);
+    });
 }

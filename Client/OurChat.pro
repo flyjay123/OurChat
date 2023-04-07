@@ -15,62 +15,64 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    addfriend.cpp \
-    chatlistwidget.cpp \
-    chatwindow.cpp \
-    friendiconlabel.cpp \
-    friendinfowidget.cpp \
-    frienditem.cpp \
-    logging.cpp \
-    main.cpp \
-    client.cpp \
-    selfinfowidget.cpp \
-    sendtextedit.cpp \
-    stringtool.cpp \
-    systemmessage.cpp \
-    tcpclient.cpp \
-    verificationitem.cpp
-
-HEADERS += \
-    addfriend.h \
-    chatlistwidget.h \
-    chatwindow.h \
-    client.h \
-    friendiconlabel.h \
-    friendinfowidget.h \
-    frienditem.h \
-    logging.h \
-    selfinfowidget.h \
-    sendtextedit.h \
-    stringtool.h \
-    systemmessage.h \
-    tcpclient.h \
-    verificationitem.h
-
 FORMS += \
-    addfriend.ui \
-    chatwindow.ui \
+    Adding/addfriend.ui \
+    Adding/systemmessage.ui \
+    Adding/verificationitem.ui \
+    Chatting/chatwindow.ui \
+    IconSetting/iconselect.ui \
+    Rewriting/frienditem.ui \
     client.ui \
     friendinfowidget.ui \
-    frienditem.ui \
     logging.ui \
-    selfinfowidget.ui \
-    systemmessage.ui \
-    verificationitem.ui
+    selfinfowidget.ui
+
+HEADERS += \
+    Adding/addfriend.h \
+    Adding/systemmessage.h \
+    Adding/verificationitem.h \
+    Chatting/chatlistwidget.h \
+    Chatting/chatwindow.h \
+    IconSetting/iconselect.h \
+    Rewriting/friendiconlabel.h \
+    Rewriting/frienditem.h \
+    Rewriting/sendtextedit.h \
+    Tools/stringtool.h \
+    Tools/tcpclient.h \
+    client.h \
+    friendinfowidget.h \
+    logging.h \
+    selfinfowidget.h
+
+SOURCES += \
+    Adding/addfriend.cpp \
+    Adding/systemmessage.cpp \
+    Adding/verificationitem.cpp \
+    Chatting/chatlistwidget.cpp \
+    Chatting/chatwindow.cpp \
+    IconSetting/iconselect.cpp \
+    Rewriting/friendiconlabel.cpp \
+    friendinfowidget.cpp \
+    Rewriting/frienditem.cpp \
+    Rewriting/sendtextedit.cpp \
+    Tools/stringtool.cpp \
+    Tools/tcpclient.cpp \
+    client.cpp \
+    logging.cpp \
+    main.cpp \
+    selfinfowidget.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+DISTFILES += \
+    wechat.ico icon.ico
 RESOURCES += \
     src.qrc
 
-DISTFILES += \
-    wechat.ico icon.ico
-
-#RC_FILE = icon.rc
+INCLUDEPATH += "$${PWD}/Adding" "$${PWD}/Chatting" "$${PWD}/IconSetting" "$${PWD}/Tools" "$${PWD}/Rewriting"
 
 #LIBS += $$PWD/libs/libeay32.dll
 
@@ -81,4 +83,3 @@ CONFIG(debug, debug|release): DESTDIR = debug
 
 QMAKE_POST_LINK += $$QMAKE_COPY $$PWD/libs/libeay32.dll $$DESTDIR \
                    && $$QMAKE_COPY $$PWD/libs/ssleay32.dll $$DESTDIR
-
