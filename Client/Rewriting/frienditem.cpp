@@ -29,6 +29,7 @@ FriendItem::FriendItem(GroupInfo _info, QWidget *parent) :
     m_account = _info.groupAccount;
     m_name = _info.groupName;
     Init();
+
 }
 
 void FriendItem::Init() {
@@ -48,27 +49,7 @@ void FriendItem::Init() {
     connect(ui->label_icon,&FriendIconLabel::leaveIconLabel,this,&FriendItem::closeInfoWidget);
     connect(widget,&FriendInfoWidget::enterWidget,this,[&](){timer->stop();});
     connect(widget,&FriendInfoWidget::leaveWidget,this,[&](){timer->start();});
-
-    QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config.setProtocol(QSsl::TlsV1_1);
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    QNetworkRequest request(QUrl("https://www.jetbrains.com/clion/img/matt-godbolt.png"));
-    manager->get(request);
-    connect(manager, &QNetworkAccessManager::finished, this, [&](QNetworkReply* reply){
-
-        if(reply->error() == QNetworkReply::NoError)
-        {
-            QByteArray data = reply->readAll();
-            QPixmap pixmap;
-            pixmap.loadFromData(data);
-            ui->label_icon->setPixmap(pixmap);
-        }
-        else
-        {
-            qDebug() << "Error:" << reply->errorString();
-        }
-        reply->deleteLater();
-    });
+    ui->label_icon->SetIcon(info.icon);
 }
 
 FriendItem::~FriendItem()

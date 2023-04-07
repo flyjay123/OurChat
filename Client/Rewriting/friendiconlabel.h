@@ -10,6 +10,9 @@ class FriendIconLabel : public QLabel
     Q_OBJECT
 public:
     explicit FriendIconLabel(QWidget *parent = nullptr);
+    void SetLocalIcon(QString url);
+    void SetHttpIcon(QString url);
+    void SetIcon(QString url);
 
 protected:
     virtual void enterEvent(QEvent *event);

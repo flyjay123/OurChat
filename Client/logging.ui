@@ -306,8 +306,8 @@ QPushButton::hover {
       </property>
       <property name="icon">
        <iconset resource="src.qrc">
-        <normaloff>:/pic/src/眼睛_显示.png</normaloff>
-        <normalon>:/pic/src/眼睛_隐藏.png</normalon>:/pic/src/眼睛_显示.png</iconset>
+        <normaloff>:/pic/src/eyes_open.png</normaloff>
+        <normalon>:/pic/src/eyes_close.png</normalon>:/pic/src/eyes_open.png</iconset>
       </property>
       <property name="iconSize">
        <size>

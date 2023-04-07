@@ -36,6 +36,7 @@ enum commands{
     cmd_group_member_list,
     cmd_group_member_add,
     cmd_group_member_del,
+    cmd_set_icon
 };
 
 typedef  struct _self_info
@@ -44,6 +45,7 @@ typedef  struct _self_info
     QString password;
     QString name;
     QString sig;
+    QString icon;
 }SelfInfo ;
 
 typedef struct _friend_info
@@ -52,6 +54,7 @@ typedef struct _friend_info
     QString name;
     QString sig;
     bool isOnline;
+    QString icon;
     _friend_info(int _account,QString _name){
         name=_name;account=_account;
     }

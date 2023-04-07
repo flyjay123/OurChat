@@ -270,7 +270,7 @@ void Logging::CmdHandler(json msg)
     switch(cmd) {
         case cmd_login: {
             if (msg.value("res").toString() == "yes") {
-                qDebug() << "登录成功" << endl;
+                qDebug() << "登录成功";
                 QString a = ui->lineEdit_account->text();
                 int account;
                 if (a.startsWith("0x") || a.startsWith("0X"))
@@ -282,8 +282,9 @@ void Logging::CmdHandler(json msg)
                 SelfInfo info;
                 info.name = msg.value("name").toString();
                 info.account = account;
-                info.password = ui->lineEdit_password->text().toInt();
-                qDebug() << info.name << " " << info.account << info.password << endl;
+                info.password = ui->lineEdit_password->text();
+                info.icon = msg.value("icon").toString();
+                qDebug() << info.name << " " << info.account << " " << info.password;
                 static Client *client = new Client(info, t);
                 client->show();
                 this->close();
