@@ -2,15 +2,13 @@
 #include "ui_verificationitem.h"
 
 VerificationItem::VerificationItem(VerifyInfo _info,TcpClient* _socket, int _type,QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::VerificationItem)
+    QWidget(parent),ui(new Ui::VerificationItem),info(_info),socket(_socket)
 {
     type = _type;
     ui->setupUi(this);
-    info = _info;
     ui->label_name->setText(info.name);
     ui->label_name_msg->setText(info.msg);
-    socket = _socket;
+    ui->label_icon->SetIcon(info.icon);
 }
 
 VerificationItem::~VerificationItem()
@@ -38,7 +36,11 @@ void VerificationItem::on_pushButton_clicked()
     }
     if(ui->comboBox->currentIndex())
     {
+        ui->pushButton->setText("已拒绝");
         msg["reply"] = "no";
     }
+    else
+        ui->pushButton->setText("已同意");
+    ui->pushButton->setEnabled(false);
     socket->SendMsg(msg);
 }

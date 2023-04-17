@@ -42,7 +42,7 @@ void SelfInfoWidget::mouseMoveEvent(QMouseEvent *event)
         //窗口移动
         if (event->buttons() & Qt::LeftButton)
         {
-            mouseDeskTopLeft = event->globalPos();
+            mouseDeskTopLeft = event->globalPosition().toPoint();
             windowDeskTopLeft = mouseDeskTopLeft - mouseWindowTopLeft;  //矢量计算
             this->move(windowDeskTopLeft);     //移动到目的地
         }
@@ -56,6 +56,6 @@ void SelfInfoWidget::on_pushBtn_close_clicked()
 void SelfInfoWidget::on_pushBtn_hide_clicked()
 {
     QWidget* pWindow = this->window();
-    if(pWindow->isTopLevel())
+    if(pWindow->isWindow())
         pWindow->showMinimized();
 }

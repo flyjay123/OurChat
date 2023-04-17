@@ -14,7 +14,7 @@ void FriendIconLabel::SetLocalIcon(QString url)
 void FriendIconLabel::SetHttpIcon(QString url)
 {
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config.setProtocol(QSsl::TlsV1_1);
+    config.setProtocol(QSsl::TlsV1_2);
 
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     QNetworkRequest request(url);

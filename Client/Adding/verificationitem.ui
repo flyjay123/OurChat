@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label_icon">
+  <widget class="FriendIconLabel" name="label_icon">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -102,6 +102,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FriendIconLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">friendiconlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

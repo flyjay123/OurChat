@@ -25,6 +25,10 @@ public:
     QString GetName(){return m_name;}
     void pushMsg(QString msg, int flag);
 
+    void sendMessage(const QString &text);
+    void sendImage(const QString &imagePath);
+    void sendFile(const QString &fileName, const QString &filePath);
+
 private:
     Ui::ChatWindow *ui;
     int m_account;
