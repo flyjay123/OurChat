@@ -2,7 +2,6 @@
 #include "ui_client.h"
 #include <QGraphicsDropShadowEffect>
 #include <QGuiApplication>
-#include <QDesktopWidget>
 #include <QScreen>
 #include <windows.h>
 #include <QMouseEvent>
@@ -20,19 +19,12 @@
 
 
 Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::Client)
+    : QWidget(parent), ui(new Ui::Client),selfInfo(info),t(tcp)
 {
     ui->setupUi(this);
     InitUI();
-    t = tcp;
     systemMsg = new SystemMessage();
-    selfInfo.name = info.name;
-    selfInfo.account=info.account;
-    selfInfo.password=info.password;
-    selfInfo.icon = info.icon;
     ui->label_icon->SetIcon(info.icon);
-    //ui->label_icon->SetIcon("https://doc.qt.io/style/qt-logo-documentation.svg");
     messagesListWidget = new ChatListWidget(ItemType_Message);
     friendsListWidget = new ChatListWidget(ItemType_Friend);
     groupsListWidget = new ChatListWidget(ItemType_Group);
@@ -109,7 +101,7 @@ void Client::mouseMoveEvent(QMouseEvent *event)
     //窗口移动
     if (event->buttons() & Qt::LeftButton)
     {
-        mouseDeskTopLeft = event->globalPos();
+        mouseDeskTopLeft = event->globalPosition().toPoint();
         windowDeskTopLeft = mouseDeskTopLeft - mouseWindowTopLeft;  //矢量计算
         this->move(windowDeskTopLeft);     //移动到目的地
     }
@@ -123,7 +115,7 @@ void Client::mouseDoubleClickEvent(QMouseEvent *event)
         m_isFull = false;
         ui->centerWidget->setGeometry(m_rect);
 
-        ui->centerWidget->move(QApplication::desktop()->screen()->rect().center() - ui->centerWidget->rect().center());
+        ui->centerWidget->move(QGuiApplication::primaryScreen()->geometry().center() - ui->centerWidget->rect().center());
     }
     else {
         m_isFull = true;
@@ -140,8 +132,11 @@ void Client::on_pushBtn_max_clicked()
     if(m_isFull){
         //取消全屏
         m_isFull = false;
+
+
         ui->centerWidget->setGeometry(640,480,m_rect.width(),m_rect.height());
-        ui->centerWidget->move(QApplication::desktop()->screen()->rect().center() - ui->centerWidget->rect().center());
+        ui->centerWidget->move(QGuiApplication::primaryScreen()->geometry().center() - ui->centerWidget->rect().center());
+
     }
     else {
         m_isFull = true;
@@ -163,7 +158,7 @@ void Client::on_pushBtn_close_clicked()
 void Client::on_pushBtn_hide_clicked()
 {
     QWidget* pWindow = this->window();
-    if(pWindow->isTopLevel())
+    if(pWindow->isWindow())
         pWindow->showMinimized();
 }
 
@@ -193,8 +188,9 @@ void Client::ClientMsgHandler(json msg)
             VerifyInfo vinfo;
             vinfo.account = selfInfo.account;
             vinfo.name = msg["name"].toString();
-            vinfo.msg = msg["sendMsg"].toString();
+            vinfo.msg = msg["sendmsg"].toString();
             vinfo.sender = msg["sender"].toInt();
+            vinfo.icon = msg["icon"].toString();
             VerificationItem *item = new VerificationItem(vinfo,t);
             systemMsg->AddItem(item);
 
@@ -254,15 +250,25 @@ void Client::ClientMsgHandler(json msg)
                 chatWindow = chatMap.value(account);
                 // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
             }
+            if(messageItemMap.find(account) == messageItemMap.end())//消息列表中没有该好友
+            {
+                FriendInfo info = friendMap[account];
+                FriendItem *item = new FriendItem(info);
+                QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
+                listItem->setSizeHint(QSize(260, 85));
+                messagesListWidget->addItem(listItem);
+                messagesListWidget->setItemWidget(listItem, item);
+                messageItemMap.insert(account, item);
+            }
             QString pushMsg = StringTool::MergePushMsg(currentDateTime, chatWindow->GetName(),
                                                        msg["sendmsg"].toString());
             chatWindow->pushMsg(pushMsg, 1);
-            FriendItem *item = friendItemMap.value(account);
+            FriendItem *item = messageItemMap.value(account);
             if (account != curChatAccount) {
                 item->NewMsgPlusOne();
             }
             else {
-                if(curChatType == 1)
+                if(curChatType != 1)
                     item->NewMsgPlusOne();
             }
             break;
@@ -352,7 +358,7 @@ void Client::ClientMsgHandler(json msg)
             if (groupAccount != curChatAccount) {
                 item->NewMsgPlusOne();
             } else {
-                if (curChatType == 0)
+                if (curChatType != 2)
                     item->NewMsgPlusOne();
             }
             break;
@@ -523,7 +529,7 @@ void Client::SetChatWindow(FriendItem *item) {
         } else {
             ui->stackedWidget->setCurrentWidget(chatMap.value(account));
         }
-        curChatType = 0;
+        curChatType = 1;
     }
     else
     {
@@ -537,7 +543,7 @@ void Client::SetChatWindow(FriendItem *item) {
         } else {
             ui->stackedWidget->setCurrentWidget(groupChatMap.value(account));
         }
-        curChatType = 1;
+        curChatType = 2;
     }
     item->SetNewMsgNum(0);
     curChatAccount = account;

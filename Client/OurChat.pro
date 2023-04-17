@@ -2,7 +2,7 @@ QT       += core gui network
 DEFINES += RC_ICONS
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -76,10 +76,4 @@ INCLUDEPATH += "$${PWD}/Adding" "$${PWD}/Chatting" "$${PWD}/IconSetting" "$${PWD
 
 #LIBS += $$PWD/libs/libeay32.dll
 
-LIBS += -Llibs -llibeay32 -lssleay32
 
-CONFIG(release, debug|release): DESTDIR = release
-CONFIG(debug, debug|release): DESTDIR = debug
-
-QMAKE_POST_LINK += $$QMAKE_COPY $$PWD/libs/libeay32.dll $$DESTDIR \
-                   && $$QMAKE_COPY $$PWD/libs/ssleay32.dll $$DESTDIR

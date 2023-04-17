@@ -55,7 +55,7 @@ void AddFriend::on_pushButton_add_clicked()
     if(row >= 0)
     {
         json msg = {{ "cmd",cmd_add_friend_request},{"sender",info.account},{"account",list[row*2].toInt()},{"msg",ui->textEdit->toPlainText()},
-                {"name",info.name},{"sig",info.sig}};
+                {"name",info.name},{"sig",info.sig},{"icon",info.icon}};
         if(m_type)
         {
             msg["cmd"] = cmd_group_join_request;

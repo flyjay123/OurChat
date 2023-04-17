@@ -85,7 +85,8 @@ private:
     QRect       m_rect;
     SelfInfo selfInfo;
     int curChatAccount;
-    int curChatType;
+    //0:none 1:friend 2:group
+    int curChatType = 0;
     //account, chatWindow
     QMap<int,ChatWindow*> chatMap;
     //group_account, group_chatWindow

@@ -76,7 +76,7 @@ void Logging::mouseMoveEvent(QMouseEvent *event)
     //窗口移动
     if (event->buttons() & Qt::LeftButton)
     {
-        mouseDeskTopLeft = event->globalPos();
+        mouseDeskTopLeft = event->globalPosition().toPoint();
         windowDeskTopLeft = mouseDeskTopLeft - mouseWindowTopLeft;  //矢量计算
         this->move(windowDeskTopLeft);     //移动到目的地
     }
@@ -85,7 +85,7 @@ void Logging::mouseMoveEvent(QMouseEvent *event)
 void Logging::on_pushBtn_hide_clicked()
 {
     QWidget* pWindow = this->window();
-    if(pWindow->isTopLevel())
+    if(pWindow->isWindow())
         pWindow->showMinimized();
 }
 
@@ -108,7 +108,7 @@ void Logging::on_pushBtn_close_2_clicked()
 void Logging::on_pushBtn_hide_2_clicked()
 {
     QWidget* pWindow = this->window();
-    if(pWindow->isTopLevel())
+    if(pWindow->isWindow())
         pWindow->showMinimized();
 }
 
@@ -280,11 +280,13 @@ void Logging::CmdHandler(json msg)
                 else
                     account = a.toInt();
                 SelfInfo info;
-                info.name = msg.value("name").toString();
+                QJsonArray arr = msg.value("info").toArray();
                 info.account = account;
                 info.password = ui->lineEdit_password->text();
-                info.icon = msg.value("icon").toString();
-                qDebug() << info.name << " " << info.account << " " << info.password;
+                info.name = arr[0].toString();
+                info.sig = arr[1].toString();
+                info.icon = arr[2].toString();
+                qDebug() << info.account << " " << info.password << " " << info.name << " " << info.sig << " " << info.icon << endl;
                 static Client *client = new Client(info, t);
                 client->show();
                 this->close();

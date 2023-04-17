@@ -6,6 +6,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(MSVC)
+    add_compile_options(/std:c++17)
+    add_compile_options(/Zc:__cplusplus)
+    add_compile_options(/permissive-)
+    add_compile_options(/utf-8)
+endif()
+
 set(FORMS
         Adding/addfriend.ui
         Adding/systemmessage.ui
@@ -69,41 +76,40 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set(CMAKE_PREFIX_PATH "C:/Qt/Qt5.9.9/5.9.9/mingw53_32")
+set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\mingw_64")
 
-find_package(Qt5 COMPONENTS
+find_package(Qt6 COMPONENTS
   Core Gui
   Widgets Network
   REQUIRED)
 
-qt5_add_resources(RESOURCE_FILES ${RESOURCES})
+qt6_add_resources(RESOURCE_FILES ${RESOURCES})
 
 add_executable(OurChat src.qrc ${SOURCES} ${HEADERS} ${UI_HEADERS} ${RESOURCE_FILES})
 
 #find_library(LIBEAY32_LIBRARY NAMES libeay32.dll PATHS ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 #find_library(SSLEAY32_LIBRARY NAMES ssleay32.dll PATHS ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
-target_link_libraries(OurChat
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets Qt5::Network  #${LIBEAY32_LIBRARY} ${SSLEAY32_LIBRARY}
+target_link_libraries(OurChat PRIVATE
+  Qt::Core
+  Qt::Gui
+  Qt::Widgets Qt6::Network
 )
-
 
 if(WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
     set(DEBUG_SUFFIX)
     if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
         set(DEBUG_SUFFIX "d")
-    endif()
+    endif ()
     set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
-    if(NOT EXISTS "${QT_INSTALL_PATH}/bin")
+    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
         set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        if(NOT EXISTS "${QT_INSTALL_PATH}/bin")
+        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
             set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        endif()
-    endif()
-    if(EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
+        endif ()
+    endif ()
+    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E make_directory
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
@@ -111,11 +117,11 @@ if(WIN32)
                 COMMAND ${CMAKE_COMMAND} -E copy
                 "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-    endif()
-    foreach(QT_LIB Core Gui Widgets )
+    endif ()
+    foreach (QT_LIB Core Gui Widgets)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
+                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
-    endforeach(QT_LIB)
-endif()
+    endforeach (QT_LIB)
+endif ()

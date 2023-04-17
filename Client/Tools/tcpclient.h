@@ -16,6 +16,7 @@ using std::string;
 using json = QJsonObject;
 using jsonDoc = QJsonDocument;
 using jsonArray = QJsonArray;
+using Qt::endl;
 
 enum commands{
     cmd_regist = 0,
