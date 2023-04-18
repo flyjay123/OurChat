@@ -52,15 +52,19 @@ void FriendIconLabel::SetIcon(QString url)
         setStyleSheet("border-image: url(:/Icons/src/QQIcon/icon1.jpg)");
     }
 }
-
-void FriendIconLabel::enterEvent(QEvent *event)
+/*
+bool FriendIconLabel::event(QEvent *event)
 {
-    Q_UNUSED(event);emit enterIconLabel();
+    if(event->type() == QEvent::Enter)
+    {
+        emit enterIconLabel();
+    }
+    else if(event->type() == QEvent::Leave)
+    {
+        emit leaveIconLabel();
+    }
+    return true;
 }
+ */
 
-void FriendIconLabel::leaveEvent(QEvent *event)
-{
-
-    Q_UNUSED(event);leaveIconLabel();
-}
 

@@ -19,6 +19,7 @@ ChatWindow::ChatWindow(FriendInfo info,QWidget *parent) :
     sendMessage("hello");
     sendImage("C:\\Users\\k\\Documents\\GitHub\\OurChat\\Client\\src\\QQIcon\\icon15.jpg");
     sendMessage("hello world");
+    sendFile("a.pdf","C:\\pdf\\a.pdf");
 }
 
 ChatWindow::ChatWindow(GroupInfo info, QWidget *parent):
@@ -69,7 +70,9 @@ void ChatWindow::pushMsg(QString msg, int flag)
 #define textBrowser ui->textEdit
 // 发送文本消息
 void ChatWindow::sendMessage(const QString &text) {
-    QString bubble = QString("<table style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table;'><tr><td>%1</td></tr></table><br>").arg(text);
+    QString alignment = "right";
+    QString bubble = QString("<table style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table; text-align: %1;'><tr><td>%2</td></tr></table><br>")
+            .arg(alignment, text);
     textBrowser->insertHtml(bubble);
     textBrowser->insertPlainText("\n"); // 添加一个空行，确保每条消息都在新的一行
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
@@ -103,6 +106,32 @@ void ChatWindow::sendFile(const QString &fileName, const QString &filePath) {
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
