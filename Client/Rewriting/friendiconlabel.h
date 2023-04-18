@@ -15,8 +15,19 @@ public:
     void SetIcon(QString url);
 
 protected:
-    virtual void enterEvent(QEvent *event);
-    virtual void leaveEvent(QEvent *event);
+    bool event(QEvent *event) override
+    {
+        if(event->type() == QEvent::Enter)
+        {
+            emit enterIconLabel();
+        }
+        else if(event->type() == QEvent::Leave)
+        {
+            emit leaveIconLabel();
+        }
+        return QLabel::event(event);
+    }
+    //void leaveEvent(QEvent *event) override;
 
 signals:
     void  enterIconLabel();
