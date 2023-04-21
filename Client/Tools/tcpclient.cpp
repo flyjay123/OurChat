@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QEventLoop>
+#include <QtEndian>
 
 void slot_test()
 {
@@ -10,8 +11,8 @@ void slot_test()
 
 TcpClient::TcpClient(QObject *parent) :QTcpSocket(parent)
 {
+    buffer.clear();
     ConnectToServer();
-
     //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
     connect(this,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
@@ -50,45 +51,54 @@ void TcpClient::SendMsg(json message)
     if(!m_isConnected)
         return;
 
-    // 将QJsonObject转换为QJsonDocument
-        jsonDoc doc(message);
-    // 将QJsonDocument转换为二进制数据
+    jsonDoc doc(message);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
-    //发送大小
+
+    int dataLength = data.length();
     char lenBuf[4];
-    sprintf(lenBuf,"%d",data.length());
-    this->write(lenBuf,4);
-    // 发送数据到服务器
+    memcpy(lenBuf, &dataLength, 4); // 使用memcpy将整数转换为字节
+
+    this->write(lenBuf, 4);
     this->write(data);
     this->waitForBytesWritten(1000);
-    qDebug() << "sendLen: " << lenBuf;
+
+    qDebug() << "sendLen: " << dataLength;
     qDebug() << "send: " << data;
 }
+
 
 void TcpClient::onReadyRead()
 {
     qDebug() << "ready read " << endl;
 
-    char readLen[4];
-    this->read(readLen,4);
-    int len = atoi(readLen);
-    QByteArray data;
-    while (data.length() < len) {
-            QByteArray newData = this->read(len - data.length());
-            if (newData.isEmpty()) {
-                break; // 没有更多的数据可读取了
-            }
-            data += newData;
+    buffer.append(this->readAll()); // 将所有可用数据追加到缓冲区
+
+    while (buffer.size() >= 4) // 检查缓冲区是否至少包含4个字节的消息长度
+    {
+        int len;
+        memcpy(&len, buffer.constData(), 4); // 从缓冲区的前4个字节获取消息长度
+
+        if (buffer.size() >= len + 4) // 检查缓冲区是否包含完整的消息
+        {
+            QByteArray data = buffer.mid(4, len); // 提取有效数据（不包括长度前缀）
+            buffer.remove(0, len + 4); // 从缓冲区中删除已处理的数据
+
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+            message = doc.object();
+            qDebug() << "readsize: " << len;
+            qDebug() << "realReadSize: " << data.length();
+            qDebug() << "read: " << data;
+            CmdParser(message);
         }
-
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    message = doc.object();
-    qDebug() << "readsize: " << len;
-    qDebug() << "realReadSize: " << data.length();
-    qDebug() << "read: " << data;
-    CmdParser(message);
-
+        else
+        {
+            break; // 如果缓冲区中没有完整的消息，等待下一次数据到达
+        }
+    }
 }
+
+
+
 void TcpClient::CmdParser(json message)
 {
     json msg(message);

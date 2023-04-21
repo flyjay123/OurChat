@@ -12,6 +12,7 @@
 #include <QToolTip>
 #include "stringtool.h"
 #include <QShortcut>
+#include <QTextBlock>
 #include "sendtextedit.h"
 #include "selfinfowidget.h"
 #include "verificationitem.h"
@@ -260,9 +261,24 @@ void Client::ClientMsgHandler(json msg)
                 messagesListWidget->setItemWidget(listItem, item);
                 messageItemMap.insert(account, item);
             }
-            QString pushMsg = StringTool::MergePushMsg(currentDateTime, chatWindow->GetName(),
-                                                       msg["sendmsg"].toString());
-            chatWindow->pushMsg(pushMsg, 1);
+            QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,chatWindow->GetName());
+            //push msg on chat window
+            ContentType type = (ContentType)msg["type"].toInt();
+            switch (type) {
+                case ContentType::TextOnly:
+                    chatWindow->pushMsg(pushMsg, 1);
+                    chatWindow->sendMessage(msg["content"].toString(), 1);
+                    break;
+                case ContentType::ImageOnly:
+                    //chatWindow->sendImage(pushMsg, 1, msg["sendmsg"].toString());
+                    break;
+                case ContentType::MixedContent:
+                    //chatWindow->sendMessage(pushMsg, 1, msg["sendmsg"].toString());
+                    break;
+                default:
+                    break;
+
+            }
             FriendItem *item = messageItemMap.value(account);
             if (account != curChatAccount) {
                 item->NewMsgPlusOne();
@@ -277,10 +293,11 @@ void Client::ClientMsgHandler(json msg)
         {
             VerifyInfo vinfo;
             vinfo.name = msg["name"].toString();
-            vinfo.msg = msg["sendMsg"].toString();
+            vinfo.msg = msg["msg"].toString();
             vinfo.sender = msg["sender"].toInt();
             vinfo.account = msg["groupAccount"].toInt();
             vinfo.groupName = msg["groupName"].toString();
+            vinfo.icon = msg["icon"].toString();
             VerificationItem *item = new VerificationItem(vinfo,t,1);
             QString msg1 = "用户" + vinfo.name + "请求加入群" + vinfo.groupName + QString::number(vinfo.account);
             systemMsg->AddItem(item);
@@ -425,30 +442,58 @@ void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
 
 void Client::on_pushBtn_send_clicked()
 {
-    QString sendText = ui->textEdit_send->toPlainText();
-    if( sendText== "")
-    {
-        QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
-        return;
-    }
+    ContentType type = CheckContentType(ui->textEdit_send);
+    qDebug() << "type: " << type;
     if(ui->stackedWidget->currentIndex() == 0)
     {
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "选择的好友不能为空", ui->pushButton);
         return;
     }
+
     ChatWindow* chatWindow = qobject_cast<ChatWindow*>(ui->stackedWidget->currentWidget());
     int account = chatWindow->GetAccount();
-    json msg={{"cmd",cmd_friend_chat},{"account",account},{"sendmsg",sendText},{"sender",selfInfo.account}};
-    if(chatWindow->GetType())
-    {
-        msg["cmd"] = cmd_group_chat;
-    }
-    t->SendMsg(msg);
-    ui->textEdit_send->clear();
-    QString pushMsg = StringTool::MergePushMsg(currentDateTime,selfInfo.name,sendText);
-    chatWindow->pushMsg(pushMsg,0);
 
+    QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 0);
+    chatWindow->pushMsg(pushMsg, 0);
+    json msg = {
+            {"cmd", chatWindow->GetType() ? cmd_group_chat : cmd_friend_chat},
+            {"account", account},
+            {"sender", selfInfo.account},
+            {"type", "rich-text"},
+            {"timestamp", currentDateTime.toString("yyyy-MM-dd hh:mm:ss")}
+    };
+
+    switch (type) {
+        case TextOnly: {
+            QString sendText = ui->textEdit_send->toPlainText();
+            if(sendText.isEmpty())
+            {
+                QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
+                return;
+            }
+            msg["content"] = ("<p>" + sendText + "</p>");
+            chatWindow->sendMessage(msg["content"].toString(), 0);
+            break;
+        }
+        case ImageOnly:
+        {
+            QString sendImage = ui->textEdit_send->toHtml();
+            msg["content"] = sendImage;
+            chatWindow->sendImage(StringTool::GetImageFromHtml(sendImage), 0);
+            //chatWindow->sendMessage(sendImage, 0);
+            break;
+        }
+        case MixedContent: {
+            QString sendContent = ui->textEdit_send->toHtml();
+            msg["content"] = sendContent;
+            break;
+        }
+    }
+    ui->textEdit_send->clear();
+    //chatWindow->sendMessage(msg["content"].toString(), 0);
+    t->SendMsg(msg);
 }
+
 
 void Client::keyPressEvent(QKeyEvent *event)
 {
@@ -568,3 +613,41 @@ void Client::on_pushButton_icon_clicked()
         t->SendMsg(msg);
     });
 }
+
+ContentType Client::CheckContentType(const QTextEdit *textEdit)
+{
+    bool hasText = false;
+    bool hasImage = false;
+
+    QTextDocument *doc = textEdit->document();
+    for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next()) {
+        for (QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
+            QTextFragment fragment = it.fragment();
+            if (fragment.isValid()) {
+                if (fragment.charFormat().isImageFormat()) {
+                    hasImage = true;
+                } else {
+                    hasText = true;
+                }
+
+                if (hasText && hasImage) {
+                    return MixedContent;
+                }
+            }
+        }
+    }
+    if (hasText) {
+        return TextOnly;
+    } else if (hasImage) {
+        return ImageOnly;
+    } else {
+        return TextOnly; // 如果输入框为空，我们可以认为它是文本类型
+    }
+}
+
+
+
+
+
+
+
