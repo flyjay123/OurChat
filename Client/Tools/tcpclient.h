@@ -40,6 +40,8 @@ enum commands{
     cmd_set_icon
 };
 
+enum ContentType { TextOnly, ImageOnly, MixedContent };
+
 typedef  struct _self_info
 {
     int account;
@@ -110,5 +112,7 @@ public:
     bool m_isConnected = false;
 
     json message;
+private:
+    QByteArray buffer;
 };
 #endif // TCPCLIENT_H

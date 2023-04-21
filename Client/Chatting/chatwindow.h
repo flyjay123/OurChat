@@ -2,6 +2,7 @@
 #define CHATWINDOW_H
 
 #include <QWidget>
+#include <QTextBrowser>
 #include "tcpclient.h"
 
 namespace Ui {
@@ -20,14 +21,16 @@ public:
     FriendInfo GetFriendInfo(){return m_info;}
     GroupInfo GetGroupInfo(){return m_groupInfo;}
     int GetAccount(){return m_account;}
-    //flag:0 self 1 other
+    //flag:0 friend 1 group
     int GetType(){return m_type;}
     QString GetName(){return m_name;}
     void pushMsg(QString msg, int flag);
 
-    void sendMessage(const QString &text);
-    void sendImage(const QString &imagePath);
-    void sendFile(const QString &fileName, const QString &filePath);
+    //flag:0 self 1 other
+    void sendMessage(const QString &text,int flag = 0);
+    void sendImage(const QString &imagePath,int flag = 0);
+    void sendImage(const QImage &image,int flag = 0);
+    void sendFile(const QString &fileName, const QString &filePath,int flag = 0);
 
 private:
     Ui::ChatWindow *ui;

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include <QMap>
+#include <QTextEdit>
 #include "tcpclient.h"
 #include "chatwindow.h"
 #include <QTime>
@@ -34,6 +35,7 @@ public:
     SelfInfo GetSelfInfo(){return selfInfo;}
 
     void SetChatWindow(FriendItem* item);
+    ContentType CheckContentType(const QTextEdit *textEdit);
 
 protected:
     // Event handlers
