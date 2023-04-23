@@ -63,16 +63,13 @@ void TcpClient::SendMsg(json message)
     this->waitForBytesWritten(1000);
 
     qDebug() << "sendLen: " << dataLength;
-    qDebug() << "send: " << data;
+    //qDebug() << "send: " << data;
 }
 
 
 void TcpClient::onReadyRead()
 {
-    qDebug() << "ready read " << endl;
-
     buffer.append(this->readAll()); // 将所有可用数据追加到缓冲区
-
     while (buffer.size() >= 4) // 检查缓冲区是否至少包含4个字节的消息长度
     {
         int len;
@@ -87,7 +84,7 @@ void TcpClient::onReadyRead()
             message = doc.object();
             qDebug() << "readsize: " << len;
             qDebug() << "realReadSize: " << data.length();
-            qDebug() << "read: " << data;
+            //qDebug() << "read: " << data;
             CmdParser(message);
         }
         else
