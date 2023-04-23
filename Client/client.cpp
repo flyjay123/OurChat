@@ -262,16 +262,19 @@ void Client::ClientMsgHandler(json msg)
                 messageItemMap.insert(account, item);
             }
             QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,chatWindow->GetName());
+            chatWindow->pushMsg(pushMsg, 1);
             //push msg on chat window
             ContentType type = (ContentType)msg["type"].toInt();
             switch (type) {
-                case ContentType::TextOnly:
-                    chatWindow->pushMsg(pushMsg, 1);
+                case ContentType::TextOnly: {
                     chatWindow->sendMessage(msg["content"].toString(), 1);
                     break;
-                case ContentType::ImageOnly:
-                    //chatWindow->sendImage(pushMsg, 1, msg["sendmsg"].toString());
+                }
+                case ContentType::ImageOnly: {
+                    QString sendImage = msg["content"].toString();
+                    chatWindow->sendImage(StringTool::GetImageFromHtml(sendImage), 0);
                     break;
+                }
                 case ContentType::MixedContent:
                     //chatWindow->sendMessage(pushMsg, 1, msg["sendmsg"].toString());
                     break;
@@ -443,7 +446,6 @@ void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
 void Client::on_pushBtn_send_clicked()
 {
     ContentType type = CheckContentType(ui->textEdit_send);
-    qDebug() << "type: " << type;
     if(ui->stackedWidget->currentIndex() == 0)
     {
         QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "选择的好友不能为空", ui->pushButton);
@@ -459,7 +461,7 @@ void Client::on_pushBtn_send_clicked()
             {"cmd", chatWindow->GetType() ? cmd_group_chat : cmd_friend_chat},
             {"account", account},
             {"sender", selfInfo.account},
-            {"type", "rich-text"},
+            {"type", type},
             {"timestamp", currentDateTime.toString("yyyy-MM-dd hh:mm:ss")}
     };
 
@@ -480,7 +482,6 @@ void Client::on_pushBtn_send_clicked()
             QString sendImage = ui->textEdit_send->toHtml();
             msg["content"] = sendImage;
             chatWindow->sendImage(StringTool::GetImageFromHtml(sendImage), 0);
-            //chatWindow->sendMessage(sendImage, 0);
             break;
         }
         case MixedContent: {

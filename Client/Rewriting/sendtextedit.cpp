@@ -57,16 +57,7 @@ void SendTextEdit::keyPressEvent(QKeyEvent* event)
             // 你也可以将图片插入到 QTextEdit 作为 HTML（可选）
              insertHtml("<img src='data:image/png;base64," + base64Image + "' />");
         }
-        //Ctrl+C
-        else if((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_C)
-        {
-            const QMimeData *mimeData = QApplication::clipboard()->mimeData();
-            if (mimeData->hasHtml()) {
-                QString html = mimeData->html();
-                QString plainText = extractPlainTextFromHtml(html);
-                insertPlainText(plainText);
-            }
-        }
+
         else if (mimeData->hasText()) {
             // 如果剪切板中有文本，执行正常的粘贴操作
             QTextEdit::keyPressEvent(event);
