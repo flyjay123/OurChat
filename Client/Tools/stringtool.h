@@ -5,6 +5,8 @@
 #include <QImage>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QList>
+#include <QXmlStreamReader>
 
 class StringTool
 {
@@ -17,6 +19,9 @@ public:
     static QString MergeSendTimeMsg(QDateTime  dateTime, int flag,QString name = "");
     static QString Int2QStr(int num);
     static QImage GetImageFromHtml(const QString& html);
+    static QList<QImage> GetImagesFromHtml(const QString& html);
+    static QList<QVariant> GetContentsFromHtml(const QString& html);
+    static QList<QPair<QString, QImage>> extractContent(const QString& html);
 };
 
 #endif // STRINGTOOL_H

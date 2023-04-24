@@ -30,7 +30,9 @@ public:
     void sendMessage(const QString &text,int flag = 0);
     void sendImage(const QString &imagePath,int flag = 0);
     void sendImage(const QImage &image,int flag = 0);
+    void sendImages(const QList<QImage> &images,int flag = 0);
     void sendFile(const QString &fileName, const QString &filePath,int flag = 0);
+    void sendMixedContent(const QList<QPair<QString, QImage>>& contentList,int flag = 0);
 
 private:
     Ui::ChatWindow *ui;
