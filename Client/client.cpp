@@ -481,14 +481,17 @@ void Client::on_pushBtn_send_clicked()
         {
             QString sendImage = ui->textEdit_send->toHtml();
             msg["content"] = sendImage;
-            chatWindow->sendImage(StringTool::GetImageFromHtml(sendImage), 0);
+            chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 0);
             break;
         }
         case MixedContent: {
-            QString sendContent = ui->textEdit_send->toHtml();
-            msg["content"] = sendContent;
+            QString html = ui->textEdit_send->toHtml();
+            QList<QPair<QString, QImage>> contentList = StringTool::extractContent(html);
+            chatWindow->sendMixedContent(contentList,0);
             break;
         }
+
+
     }
     ui->textEdit_send->clear();
     //chatWindow->sendMessage(msg["content"].toString(), 0);
