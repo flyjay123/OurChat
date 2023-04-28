@@ -272,12 +272,15 @@ void Client::ClientMsgHandler(json msg)
                 }
                 case ContentType::ImageOnly: {
                     QString sendImage = msg["content"].toString();
-                    chatWindow->sendImage(StringTool::GetImageFromHtml(sendImage), 0);
+                    chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 0);
                     break;
                 }
-                case ContentType::MixedContent:
-                    //chatWindow->sendMessage(pushMsg, 1, msg["sendmsg"].toString());
+                case ContentType::MixedContent: {
+                    QString content = msg["content"].toString();
+                    QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
+                    chatWindow->sendMixedContent(contentList, 0);
                     break;
+                }
                 default:
                     break;
 
