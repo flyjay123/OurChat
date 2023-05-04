@@ -234,6 +234,7 @@ void Client::ClientMsgHandler(json msg)
         }
         case cmd_friend_chat: {
             int account = msg["sender"].toInt();
+            QString friendKey = QString("f_%1").arg(account);
             ChatWindow *chatWindow;
             if (chatMap.find(account) == chatMap.end())  //账号对应的聊天窗口不存在
             {
@@ -251,7 +252,8 @@ void Client::ClientMsgHandler(json msg)
                 chatWindow = chatMap.value(account);
                 // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
             }
-            if(messageItemMap.find(account) == messageItemMap.end())//消息列表中没有该好友
+
+            if(messageItemMap.find(friendKey) == messageItemMap.end())//消息列表中没有该好友
             {
                 FriendInfo info = friendMap[account];
                 FriendItem *item = new FriendItem(info);
@@ -259,7 +261,7 @@ void Client::ClientMsgHandler(json msg)
                 listItem->setSizeHint(QSize(260, 85));
                 messagesListWidget->addItem(listItem);
                 messagesListWidget->setItemWidget(listItem, item);
-                messageItemMap.insert(account, item);
+                messageItemMap.insert(friendKey, item);
             }
             QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,chatWindow->GetName());
             chatWindow->pushMsg(pushMsg, 1);
@@ -272,20 +274,20 @@ void Client::ClientMsgHandler(json msg)
                 }
                 case ContentType::ImageOnly: {
                     QString sendImage = msg["content"].toString();
-                    chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 0);
+                    chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 1);
                     break;
                 }
                 case ContentType::MixedContent: {
                     QString content = msg["content"].toString();
                     QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
-                    chatWindow->sendMixedContent(contentList, 0);
+                    chatWindow->sendMixedContent(contentList, 1);
                     break;
                 }
                 default:
                     break;
 
             }
-            FriendItem *item = messageItemMap.value(account);
+            FriendItem *item = messageItemMap.value(friendKey);
             if (account != curChatAccount) {
                 item->NewMsgPlusOne();
             }
@@ -350,7 +352,8 @@ void Client::ClientMsgHandler(json msg)
         }
         case cmd_group_chat: {
             int sender = msg["sender"].toInt();
-            int groupAccount = msg["groupAccount"].toInt();
+            int groupAccount = msg["account"].toInt();
+            QString groupKey = QString("g_%1").arg(groupAccount);
             QString senderName;
             for(auto it:groupMap[groupAccount].memberList)
             {
@@ -374,14 +377,48 @@ void Client::ClientMsgHandler(json msg)
                 chatWindow = groupChatMap.value(groupAccount);
                 // ui->stackedWidget->setCurrentWidget(chatMap.value(account));
             }
-            QString pushMsg = StringTool::MergePushMsg(currentDateTime, senderName,
-                                                       msg["msg"].toString());
-            chatWindow->pushMsg(pushMsg, 1);
-            FriendItem *item = friendItemMap.value(groupAccount);
+            if(messageItemMap.find(groupKey) == messageItemMap.end())//消息列表中没有该群聊
+            {
+                GroupInfo info = groupMap[groupAccount];
+                FriendItem *item = new FriendItem(info);
+                QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
+                listItem->setSizeHint(QSize(260, 85));
+                messagesListWidget->addItem(listItem);
+                messagesListWidget->setItemWidget(listItem, item);
+                messageItemMap.insert(groupKey, item);
+            }
+            ContentType type = (ContentType)msg["type"].toInt();
+            switch (type) {
+                case ContentType::TextOnly: {
+                    QString content = msg["content"].toString();
+                    QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,senderName);
+                    chatWindow->pushMsg(pushMsg, 1);
+                    chatWindow->sendMessage(content, 1);
+                    break;
+                }
+                case ContentType::ImageOnly: {
+                    QString sendImage = msg["content"].toString();
+                    QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,senderName);
+                    chatWindow->pushMsg(pushMsg, 1);
+                    chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 0);
+                    break;
+                }
+                case ContentType::MixedContent: {
+                    QString content = msg["content"].toString();
+                    QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
+                    QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,senderName);
+                    chatWindow->pushMsg(pushMsg, 1);
+                    chatWindow->sendMixedContent(contentList, 1);
+                    break;
+                }
+                default:
+                    break;
+            }
+            FriendItem *item = messageItemMap.value(groupKey);
             if (groupAccount != curChatAccount) {
                 item->NewMsgPlusOne();
             } else {
-                if (curChatType != 2)
+                if (curChatType != 0)
                     item->NewMsgPlusOne();
             }
             break;
@@ -408,11 +445,11 @@ void Client::ClientMsgHandler(json msg)
 
 void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
 {
-
     FriendItem* friendItem = qobject_cast<FriendItem*>(friendsListWidget->itemWidget(item));
     SetChatWindow(friendItem);
     int account = friendItem->account();
-    if(messageItemMap.find(account) == messageItemMap.end())
+    QString friendKey = QString("f_%1").arg(account);
+    if(messageItemMap.find(friendKey) == messageItemMap.end())
     {
         FriendItem *msgItem = new FriendItem(friendItem->GetFriendInfo());
         QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
@@ -423,7 +460,7 @@ void Client::on_listWidget_info_itemClicked(QListWidgetItem *item)
         messagesListWidget->addItem(listItem);
         messagesListWidget->setItemWidget(listItem, msgItem);
 
-        messageItemMap.insert(account, msgItem);
+        messageItemMap.insert(friendKey, msgItem);
     }
 }
 void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
@@ -431,7 +468,8 @@ void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
     FriendItem* friendItem = qobject_cast<FriendItem*>(groupsListWidget->itemWidget(item));
     SetChatWindow(friendItem);
     int account = friendItem->account();
-    if(messageItemMap.find(account) == messageItemMap.end())
+    QString groupKey = QString("g_%1").arg(account);
+    if(messageItemMap.find(groupKey) == messageItemMap.end())
     {
         FriendItem *msgItem = new FriendItem(friendItem->GetGroupInfo());
         QListWidgetItem *listItem = new QListWidgetItem(messagesListWidget);
@@ -442,7 +480,7 @@ void Client::on_groupsListWidget_itemClicked(QListWidgetItem *item)
         messagesListWidget->addItem(listItem);
         messagesListWidget->setItemWidget(listItem, msgItem);
 
-        messageItemMap.insert(account, msgItem);
+        messageItemMap.insert(groupKey, msgItem);
     }
 }
 
@@ -491,6 +529,7 @@ void Client::on_pushBtn_send_clicked()
             QString html = ui->textEdit_send->toHtml();
             QList<QPair<QString, QImage>> contentList = StringTool::extractContent(html);
             chatWindow->sendMixedContent(contentList,0);
+            msg["content"] = html;
             break;
         }
 
