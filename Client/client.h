@@ -101,8 +101,8 @@ private:
     QMap<int,FriendItem*>friendItemMap;
     //group_account,groupItem
     QMap<int,FriendItem*>groupItemMap;
-    //account,messageItem
-    QMap<int,FriendItem*>messageItemMap;
+    //account,messageItem.prefix of account is f or g means friend or group
+    QMap<QString,FriendItem*>messageItemMap;
 
 
     SystemMessage *systemMsg;
