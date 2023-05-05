@@ -5,17 +5,14 @@
 using namespace std;
 static pthread_mutex_t _mxMessage;
 
-sqlite3 *db;
+SQLite::Database db("user.db", SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE);
+
 
 //在线用户:<socketfd,account>
 map<int,int> userMap;
 int main(int argc,char* argv[])
 {
-    int rc = sqlite3_open("user.db",&db);
-     if(rc!=SQLITE_OK)
-     {
-        cout<<"open sqlite3 fail."<<endl;
-     }
+    //db->open("user.db");
 
     int default_port = 8888;
     int optch = 0;
@@ -78,6 +75,7 @@ int main(int argc,char* argv[])
         return 0;
     }
     /*(5) 接受客户请求*/
+    vector<thread> threadPool;
     for (;;)
     {
         client_len = sizeof(client_addr);
@@ -88,13 +86,11 @@ int main(int argc,char* argv[])
             return 0;
         }
         LOGINFO("Connect from %s:%u...\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-        int* argv = (int *)malloc(sizeof(int));
         userMap[connect_fd] = connect_fd;
-        *argv = connect_fd;
-        CREATE_THREAD(NULL,1024*4,true,taskThread,(void*)argv,NULL);
+        threadPool.emplace_back(taskThread, connect_fd);
     }
     close(listen_fd);
-    sqlite3_close(db);
+    //db->close();
 
     return 0;
 }

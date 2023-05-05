@@ -5,12 +5,17 @@
 #include <string>
 using std::string;
 
-struct UserInfo{
-int account;
-std::string password;
-std::string name;
-std::string sig;
-};
+typedef struct _user_info
+{
+    
+  int account = 0;
+  string password = "";
+  string name = "";
+  string sig = "";
+  int online = 0;
+  string icon = "";
+    
+} UserInfo;
 
 typedef struct _login_info
 {
