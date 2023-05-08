@@ -7,5 +7,7 @@
 
 # 选择头像
 ![image](https://user-images.githubusercontent.com/118870803/236397873-4704059a-e0c8-4c22-a3ef-4ed00495eaf9.png)
+# 发送表情
+![image](https://user-images.githubusercontent.com/118870803/236754876-e84c6129-8f04-42f0-aaa8-8d0a3cf41cf0.png)
 
 
