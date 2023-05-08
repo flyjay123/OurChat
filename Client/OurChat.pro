@@ -38,6 +38,7 @@ HEADERS += \
     Rewriting/friendiconlabel.h \
     Rewriting/frienditem.h \
     Rewriting/sendtextedit.h \
+    Rewriting/smoothscrolllistwidget.h \
     Tools/stringtool.h \
     Tools/tcpclient.h \
     client.h \
@@ -54,6 +55,7 @@ SOURCES += \
     Chatting/emojiselector.cpp \
     IconSetting/iconselect.cpp \
     Rewriting/friendiconlabel.cpp \
+    Rewriting/smoothscrolllistwidget.cpp \
     friendinfowidget.cpp \
     Rewriting/frienditem.cpp \
     Rewriting/sendtextedit.cpp \

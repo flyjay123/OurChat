@@ -7,6 +7,9 @@
 #include <QGridLayout>
 #include <QSignalMapper>
 #include <QFocusEvent>
+#include <QStackedWidget>
+#include <QButtonGroup>
+
 
 class EmojiSelector : public QDialog
 {
@@ -18,11 +21,16 @@ public:
 signals:
     void emojiSelected(const QString &emoji);
 
+private:
+    void addEmojiPage(char32_t start, char32_t end);
+    void switchPage(int index);
 
 
 private:
-    QGridLayout *m_layout;
+    QVBoxLayout *m_layout;
     QSignalMapper *m_signalMapper;
+    QStackedWidget *m_stackedWidget;
+    QButtonGroup *m_buttonGroup;
 };
 
 #endif // EMOJISELECTOR_H
