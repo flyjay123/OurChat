@@ -29,8 +29,10 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
     messagesListWidget = new ChatListWidget(ItemType_Message);
     friendsListWidget = new ChatListWidget(ItemType_Friend);
     groupsListWidget = new ChatListWidget(ItemType_Group);
+    m_emojiSelector = new EmojiSelector();
+    m_emojiSelector->adjustSize();
 
-
+    connect(m_emojiSelector, &EmojiSelector::emojiSelected, this, &Client::insertEmoji);
     connect(t,&TcpClient::CallClient,this,&Client::ClientMsgHandler);
     connect(ui->textEdit_send,&SendTextEdit::keyPressEnter,this,&Client::on_pushBtn_send_clicked);
     connect(friendsListWidget,&ChatListWidget::itemDoubleClicked,this,&Client::on_listWidget_info_itemClicked);
@@ -279,8 +281,9 @@ void Client::ClientMsgHandler(json msg)
                 }
                 case ContentType::MixedContent: {
                     QString content = msg["content"].toString();
-                    QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
-                    chatWindow->sendMixedContent(contentList, 1);
+                    //QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
+                    //chatWindow->sendMixedContent(contentList, 1);
+                    chatWindow->sendContentFromInput(content, 1);
                     break;
                 }
                 default:
@@ -405,10 +408,11 @@ void Client::ClientMsgHandler(json msg)
                 }
                 case ContentType::MixedContent: {
                     QString content = msg["content"].toString();
-                    QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
+                    //QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
                     QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 1,senderName);
                     chatWindow->pushMsg(pushMsg, 1);
-                    chatWindow->sendMixedContent(contentList, 1);
+                    //chatWindow->sendMixedContent(contentList, 1);
+                    chatWindow->sendContentFromInput(content, 1);
                     break;
                 }
                 default:
@@ -497,7 +501,6 @@ void Client::on_pushBtn_send_clicked()
     int account = chatWindow->GetAccount();
 
     QString pushMsg = StringTool::MergeSendTimeMsg(currentDateTime, 0);
-    chatWindow->pushMsg(pushMsg, 0);
     json msg = {
             {"cmd", chatWindow->GetType() ? cmd_group_chat : cmd_friend_chat},
             {"account", account},
@@ -514,7 +517,8 @@ void Client::on_pushBtn_send_clicked()
                 QToolTip::showText(ui->pushBtn_send->mapToGlobal(QPoint(0, -50)), "发送的消息不能为空", ui->pushButton);
                 return;
             }
-            msg["content"] = ("<p>" + sendText + "</p>");
+            msg["content"] = (sendText );
+            chatWindow->pushMsg(pushMsg, 0);
             chatWindow->sendMessage(msg["content"].toString(), 0);
             break;
         }
@@ -522,13 +526,16 @@ void Client::on_pushBtn_send_clicked()
         {
             QString sendImage = ui->textEdit_send->toHtml();
             msg["content"] = sendImage;
+            chatWindow->pushMsg(pushMsg, 0);
             chatWindow->sendImages(StringTool::GetImagesFromHtml(sendImage), 0);
             break;
         }
         case MixedContent: {
             QString html = ui->textEdit_send->toHtml();
-            QList<QPair<QString, QImage>> contentList = StringTool::extractContent(html);
-            chatWindow->sendMixedContent(contentList,0);
+            //QList<QPair<QString, QImage>> contentList = StringTool::extractContent(html);
+            //chatWindow->sendMixedContent(contentList,0);
+            chatWindow->pushMsg(pushMsg, 0);
+            chatWindow->sendContentFromInput(html, 0);
             msg["content"] = html;
             break;
         }
@@ -691,9 +698,18 @@ ContentType Client::CheckContentType(const QTextEdit *textEdit)
     }
 }
 
+void Client::on_pushButton_emoj_clicked()
+{
+        QPoint buttonPos = ui->pushButton_emoj->mapToGlobal(QPoint(0, 0));
+        int x = buttonPos.x() + (ui->pushButton_emoj->width() / 2) - (m_emojiSelector->width() / 2);
+        int y = buttonPos.y() - m_emojiSelector->height();
+        m_emojiSelector->move(x, y-10);
+        m_emojiSelector->show();
+}
 
-
-
-
+void Client::insertEmoji(const QString &emoji)
+{
+    ui->textEdit_send->insertPlainText(emoji);
+}
 
 

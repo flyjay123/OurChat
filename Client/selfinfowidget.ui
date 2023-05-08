@@ -14,7 +14,7 @@
    <string>我的资料</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="src.qrc">
+   <iconset>
     <normaloff>:/src/个人中心绿.png</normaloff>:/src/个人中心绿.png</iconset>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
@@ -112,8 +112,7 @@
     <item>
      <widget class="QWidget" name="widget" native="true">
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
-image: url(:/src/infobg.png);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <widget class="QPushButton" name="pushBtn_hide">
        <property name="geometry">

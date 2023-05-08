@@ -33,6 +33,7 @@ HEADERS += \
     Adding/verificationitem.h \
     Chatting/chatlistwidget.h \
     Chatting/chatwindow.h \
+    Chatting/emojiselector.h \
     IconSetting/iconselect.h \
     Rewriting/friendiconlabel.h \
     Rewriting/frienditem.h \
@@ -50,6 +51,7 @@ SOURCES += \
     Adding/verificationitem.cpp \
     Chatting/chatlistwidget.cpp \
     Chatting/chatwindow.cpp \
+    Chatting/emojiselector.cpp \
     IconSetting/iconselect.cpp \
     Rewriting/friendiconlabel.cpp \
     friendinfowidget.cpp \

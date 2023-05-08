@@ -3,3 +3,5 @@
 temp
 Client/release
 Client/debug
+server/server
+server/user.db
