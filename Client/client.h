@@ -12,6 +12,7 @@
 #include "frienditem.h"
 #include "chatlistwidget.h"
 #include "systemmessage.h"
+#include "emojiselector.h"
 
 extern bool friendWidgetOn;
 
@@ -65,6 +66,8 @@ private slots:
 
     void on_pushButton_icon_clicked();
 
+    void on_pushButton_emoj_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();
@@ -72,6 +75,7 @@ public slots:
     void on_groupsListWidget_itemClicked(QListWidgetItem *item);
 
     void on_pushBtn_send_clicked();
+    void insertEmoji(const QString &emoji);
 
 
 public slots:
@@ -85,6 +89,7 @@ private:
     bool        m_isLogin;
     bool        m_isFull;
     QRect       m_rect;
+    EmojiSelector* m_emojiSelector;
     SelfInfo selfInfo;
     int curChatAccount;
     //0:none 1:friend 2:group

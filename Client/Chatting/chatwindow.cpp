@@ -14,6 +14,11 @@ ChatWindow::ChatWindow(FriendInfo info,QWidget *parent) :
     m_account = info.account;
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setLineWrapMode(QTextBrowser::WidgetWidth);
+    QFont defaultFont = ui->textEdit->font();
+    defaultFont.setPointSize(13); // 设置字体大小，根据您的需要调整大小
+    ui->textEdit->setFont(defaultFont);
+
+
 
     //ui->textEdit->setPlainText(QString("System :  you are chatting with %1\n").arg(m_info->name));
 //    sendMessage("hello");
@@ -73,17 +78,23 @@ void ChatWindow::pushMsg(QString msg, int flag)
 #define textBrowser ui->textEdit
 // 发送文本消息
 void ChatWindow::sendMessage(const QString &text, int flag) {
-    //设置textBrowser光标到最后
+    // 设置textBrowser光标到最后
     QTextCursor cursor = textBrowser->textCursor();
     cursor.movePosition(QTextCursor::End);
     textBrowser->setTextCursor(cursor);
 
-    QString processedText = text;
+    QString processedText = text.toHtmlEscaped();
     processedText.replace("\n", "<br>");
 
     QString alignment = flag == 1 ? "left" : "right";
-    QString bubble = QString("<table style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table; text-align: %1;'><tr><td>%2</td></tr></table><br>")
+    QString bubble = QString("<table style='background-color: #95EC69; margin: 10px; display: inline-table; text-align: %1; border-collapse: separate; border-spacing: 0;'>"
+                             "<tr>"
+                             "<td style='border-radius: 20px; padding: 6px;'>%2</td>"
+                             "</tr>"
+                             "</table>"
+                             "<br>")
             .arg(alignment, processedText);
+
     textBrowser->insertHtml(bubble);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
     qDebug() << "send message";
@@ -250,6 +261,23 @@ void ChatWindow::sendMixedContent(const QList<QPair<QString, QImage>>& contentLi
         }
     }
 }
+
+void ChatWindow::sendContentFromInput(const QString& htmlContent, int flag) {
+    // 设置textBrowser光标到最后
+    QTextCursor cursor = textBrowser->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    textBrowser->setTextCursor(cursor);
+
+    QString alignment = flag == 1 ? "left" : "right";
+    QString tableStyle = QString("style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table; text-align: %1;'").arg(alignment);
+    QString tableStart = "<table " + tableStyle + "><tr><td>";
+    QString tableEnd = "</td></tr></table><br>";
+
+    textBrowser->insertHtml(tableStart + htmlContent + tableEnd);
+    textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
+    qDebug() << "send content from input";
+}
+
 
 
 

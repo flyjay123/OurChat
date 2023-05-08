@@ -33,6 +33,7 @@ public:
     void sendImages(const QList<QImage> &images,int flag = 0);
     void sendFile(const QString &fileName, const QString &filePath,int flag = 0);
     void sendMixedContent(const QList<QPair<QString, QImage>>& contentList,int flag = 0);
+    void sendContentFromInput(const QString &htmlContent, int flag);
 
 private:
     Ui::ChatWindow *ui;
@@ -41,6 +42,8 @@ private:
     FriendInfo m_info;
     GroupInfo m_groupInfo;
     int m_type;
+
+
 };
 
 #endif // CHATWINDOW_H
