@@ -2,6 +2,7 @@
 #include <QTextFragment>
 #include <QTextDocumentFragment>
 #include "sendtextedit.h"
+#include "imagepreview.h"
 
 QString extractPlainTextFromHtml(const QString &html) {
     QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml(html);
@@ -81,8 +82,22 @@ void SendTextEdit::mouseDoubleClickEvent(QMouseEvent* event)
         if (imageFormat.isValid()) {
             QString imagePath = imageFormat.name();
 
-            // 在此处打开预览窗口
-            // ...
+            int base64Index = imagePath.indexOf("base64,");
+            if (base64Index > 0) {
+                imagePath = imagePath.mid(base64Index + 7);
+            }
+            QByteArray imageData = QByteArray::fromBase64(imagePath.toLatin1());
+            QPixmap pixmap;
+            bool loaded = pixmap.loadFromData(imageData);
+            if (!loaded || pixmap.isNull()) {
+                qDebug() << "Failed to load image from data";
+            } else {
+                // 在此处打开预览窗口
+                ImagePreview *preview = new ImagePreview(pixmap);
+                preview->setWindowTitle("Image Preview");
+                preview->setAttribute(Qt::WA_DeleteOnClose); // 窗口关闭时自动删除对象
+                preview->show();
+            }
             event->accept();
             return;
         }
@@ -90,5 +105,6 @@ void SendTextEdit::mouseDoubleClickEvent(QMouseEvent* event)
 
     QTextEdit::mouseDoubleClickEvent(event);
 }
+
 
 

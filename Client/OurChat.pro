@@ -22,6 +22,7 @@ FORMS += \
     Chatting/chatwindow.ui \
     IconSetting/iconselect.ui \
     Rewriting/frienditem.ui \
+    Tools/imagepreview.ui \
     client.ui \
     friendinfowidget.ui \
     logging.ui \
@@ -39,6 +40,7 @@ HEADERS += \
     Rewriting/frienditem.h \
     Rewriting/sendtextedit.h \
     Rewriting/smoothscrolllistwidget.h \
+    Tools/imagepreview.h \
     Tools/stringtool.h \
     Tools/tcpclient.h \
     client.h \
@@ -56,6 +58,7 @@ SOURCES += \
     IconSetting/iconselect.cpp \
     Rewriting/friendiconlabel.cpp \
     Rewriting/smoothscrolllistwidget.cpp \
+    Tools/imagepreview.cpp \
     friendinfowidget.cpp \
     Rewriting/frienditem.cpp \
     Rewriting/sendtextedit.cpp \
