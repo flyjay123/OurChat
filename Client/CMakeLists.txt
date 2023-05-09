@@ -13,82 +13,35 @@ if(MSVC)
     add_compile_options(/utf-8)
 endif()
 
-set(FORMS
-        Adding/addfriend.ui
-        Adding/systemmessage.ui
-        Adding/verificationitem.ui
-        Chatting/chatwindow.ui
-        IconSetting/iconselect.ui
-        Rewriting/frienditem.ui
-        client.ui
-        friendinfowidget.ui
-        logging.ui
-        selfinfowidget.ui
-        )
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/Adding SRC_LIST_ADDING)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/Chatting SRC_LIST_CHATTING)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/IconSetting SRC_LIST_ICONSETTING)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/Tools SRC_LIST_TOOLS)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/Rewriting SRC_LIST_REWRITING)
 
-set(HEADERS
-        Adding/addfriend.h
-        Adding/systemmessage.h
-        Adding/verificationitem.h
-        Chatting/chatlistwidget.h
-        Chatting/chatwindow.h
-        IconSetting/iconselect.h
-        Rewriting/friendiconlabel.h
-        Rewriting/frienditem.h
-        Rewriting/sendtextedit.h
-        Tools/stringtool.h
-        Tools/tcpclient.h
-        client.h
-        friendinfowidget.h
-        logging.h
-        selfinfowidget.h
-        )
+file(GLOB_RECURSE HEADER_FILES "*.h" "*.hpp")
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${SRC_LIST} ${SRC_LIST_ADDING} ${SRC_LIST_CHATTING} ${SRC_LIST_ICONSETTING} ${SRC_LIST_TOOLS} ${SRC_LIST_REWRITING} ${HEADER_FILES})
 
-set(SOURCES
-        Adding/addfriend.cpp
-        Adding/systemmessage.cpp
-        Adding/verificationitem.cpp
-        Chatting/chatlistwidget.cpp
-        Chatting/chatwindow.cpp
-        IconSetting/iconselect.cpp
-        Rewriting/friendiconlabel.cpp
-        friendinfowidget.cpp
-        Rewriting/frienditem.cpp
-        Rewriting/sendtextedit.cpp
-        Tools/stringtool.cpp
-        Tools/tcpclient.cpp
-        client.cpp
-        logging.cpp
-        main.cpp
-        selfinfowidget.cpp
-        )
+add_executable(OurChat src.qrc ${SRC_LIST} ${SRC_LIST_ADDING} ${SRC_LIST_CHATTING} ${SRC_LIST_ICONSETTING} ${SRC_LIST_TOOLS} ${SRC_LIST_REWRITING} ${HEADER_FILES})
 
-set(RESOURCES
-        src.qrc
-        )
-
-include_directories(
+target_include_directories(OurChat PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/Adding
         ${CMAKE_CURRENT_SOURCE_DIR}/Chatting
-        ${CMAKE_CURRENT_SOURCE_DIR}/IconSelect
+        ${CMAKE_CURRENT_SOURCE_DIR}/IconSetting
         ${CMAKE_CURRENT_SOURCE_DIR}/Tools
         ${CMAKE_CURRENT_SOURCE_DIR}/Rewriting
         ${CMAKE_CURRENT_SOURCE_DIR}
-)
+        )
 
 set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\mingw_64")
 
 find_package(Qt6 COMPONENTS
-  Core Gui
-  Widgets Network
-  REQUIRED)
+        Core Gui
+        Widgets Network
+        REQUIRED)
 
 qt6_add_resources(RESOURCE_FILES ${RESOURCES})
-
-add_executable(OurChat src.qrc ${SOURCES} ${HEADERS} ${UI_HEADERS} ${RESOURCE_FILES})
-
-#find_library(LIBEAY32_LIBRARY NAMES libeay32.dll PATHS ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-#find_library(SSLEAY32_LIBRARY NAMES ssleay32.dll PATHS ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 target_link_libraries(OurChat PRIVATE
   Qt::Core
