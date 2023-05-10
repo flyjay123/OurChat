@@ -53,20 +53,18 @@ QImage StringTool::GetImageFromHtml(const QString& html) {
     }
 }
 
-QList<QImage> StringTool::GetImagesFromHtml(const QString& html) {
-    QList<QImage> images;
+QList<QString> StringTool::GetImagesFromHtml(const QString& html) {
+    QList<QString> base64Images;
     QRegularExpression re("<img[^>]+src\\s*=\\s*['\"]data:image/(png|jpg|jpeg);base64,([^'\"]+)['\"][^>]*>", QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatchIterator i = re.globalMatch(html);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
         QString base64 = match.captured(2);
-        QByteArray ba = QByteArray::fromBase64(base64.toLatin1());
-        QImage image;
-        image.loadFromData(ba);
-        images.append(image);
+        base64Images.append(base64);
     }
-    return images;
+    return base64Images;
 }
+
 
 QList<QVariant> StringTool::GetContentsFromHtml(const QString& html) {
     QList<QVariant> contents;
