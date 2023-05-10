@@ -281,8 +281,6 @@ void Client::ClientMsgHandler(json msg)
                 }
                 case ContentType::MixedContent: {
                     QString content = msg["content"].toString();
-                    //QList<QPair<QString, QImage>> contentList = StringTool::extractContent(content);
-                    //chatWindow->sendMixedContent(contentList, 1);
                     chatWindow->sendContentFromInput(content, 1);
                     break;
                 }
@@ -422,7 +420,7 @@ void Client::ClientMsgHandler(json msg)
             if (groupAccount != curChatAccount) {
                 item->NewMsgPlusOne();
             } else {
-                if (curChatType != 0)
+                if (curChatType != 1)
                     item->NewMsgPlusOne();
             }
             break;

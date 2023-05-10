@@ -2,6 +2,8 @@
 #include "ui_chatwindow.h"
 #include <QScrollBar>
 #include <QBuffer>
+#include <QImageReader>
+#include "stringtool.h"
 
 ChatWindow::ChatWindow(FriendInfo info,QWidget *parent) :
     QWidget(parent),
@@ -185,81 +187,43 @@ void ChatWindow::sendImage(const QImage &image, int flag) {
     ui->textEdit->insertHtml("<br>"); // 添加一个换行符
 }
 
-void ChatWindow::sendImages(const QList<QImage> &images, int flag) {
-    for (const QImage &image : images) {
-        if (image.isNull()) {
-            textBrowser->insertPlainText("Broken image!");
-        } else {
-            sendImage(image,flag);
-        }
-    }
-}
-
-void ChatWindow::sendMixedContent(const QList<QPair<QString, QImage>>& contentList,int flag) {
-    //设置textBrowser光标到最后
+void ChatWindow::sendImages(const QList<QString>& base64Images, int flag) {
+    // 设置textBrowser光标到最后
     QTextCursor cursor = textBrowser->textCursor();
     cursor.movePosition(QTextCursor::End);
     textBrowser->setTextCursor(cursor);
 
-    for (const QPair<QString, QImage>& item : contentList) {
-        if (!item.first.isEmpty()) {
-            // 发送文本
-            QString processedText = item.first;
-            processedText.replace("\n", "<br>");
+    QString alignment = flag == 1 ? "left" : "right";
+    QString tableStyle = QString("style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table; text-align: %1;'").arg(alignment);
+    QString tableStart = "<table " + tableStyle + "><tr><td>";
+    QString tableEnd = "</td></tr></table><br>";
 
-            QString alignment = flag == 1?"left":"right";
-            QString bubble = QString("<table style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-table; text-align: %1;'><tr><td>%2</td></tr></table><br>")
-                    .arg(alignment, processedText);
-            textBrowser->insertHtml(bubble);
-            textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
-            qDebug() << "send message";
-        } else {
-            // 发送图片
-            QImage image = item.second;
+    for (const QString& base64Image : base64Images) {
+        QByteArray imageData = QByteArray::fromBase64(base64Image.toLatin1());
+        QImage image;
+        image.loadFromData(imageData);
 
-            if (image.isNull()) {
-                textBrowser->insertPlainText("Broken image!");
-            }
+// 保存原始图像的 Base64 编码
+        QString originalBase64Image = "data:image/png;base64," + base64Image;
 
-            int maxWidth = 100;
-            int maxHeight = 100;
+// 创建缩略图
+        QImage scaledImage = image.scaled(200, 200, Qt::KeepAspectRatio, Qt::FastTransformation);
+        QPixmap pixmap = QPixmap::fromImage(scaledImage);
 
-            // 计算适当的宽度和高度，以保持图片的纵横比
-            int newWidth = qMin(image.width(), maxWidth);
-            int newHeight = newWidth * image.height() / image.width();
 
-            if (newHeight > maxHeight) {
-                newHeight = maxHeight;
-                newWidth = newHeight * image.width() / image.height();
-            }
+        // 将缩略图插入 QTextEdit
+        QTextImageFormat imageFormat;
+        imageFormat.setWidth(pixmap.width());
+        imageFormat.setHeight(pixmap.height());
+        imageFormat.setName("data:image/png;base64," + base64Image);
+        imageFormat.setProperty(QTextFormat::UserProperty, originalBase64Image);
 
-            // 缩放图像
-            QImage scaledImage = image.scaled(newWidth, newHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-            // 将 QImage 转换为 QPixmap
-            QPixmap pixmap = QPixmap::fromImage(scaledImage);
-
-            // 创建一个 QTextImageFormat 对象
-            QTextImageFormat imageFormat;
-
-            // 将 QPixmap 转换为 Base64 编码的二进制数据
-            QByteArray byteArray;
-            QBuffer buffer(&byteArray);
-            buffer.open(QIODevice::WriteOnly);
-            pixmap.save(&buffer, "PNG");
-            buffer.close();
-
-            // 将 Base64 编码的二进制数据转换为 QString
-            QString base64Image = QString::fromLatin1(byteArray.toBase64().data());
-
-            // 设置 QTextImageFormat 属性
-            imageFormat.setName("data:image/png;base64," + base64Image);
-
-            // 你也可以将图片插入到 QTextEdit 作为 HTML（可选）
-            textBrowser->insertHtml("<img src='data:image/png;base64," + base64Image + "' />");
-            textBrowser->insertHtml("<br>"); // 添加一个换行符
-        }
+        cursor.insertImage(imageFormat);
     }
+
+    textBrowser->insertHtml(tableStart + tableEnd);
+    textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
+    qDebug() << "send images";
 }
 
 void ChatWindow::sendContentFromInput(const QString& htmlContent, int flag) {
@@ -273,10 +237,31 @@ void ChatWindow::sendContentFromInput(const QString& htmlContent, int flag) {
     QString tableStart = "<table " + tableStyle + "><tr><td>";
     QString tableEnd = "</td></tr></table><br>";
 
+    // 从htmlContent中获取base64编码的图像列表
+    QList<QString> base64Images = StringTool::GetImagesFromHtml(htmlContent);
+
+    for (const QString& base64Image : base64Images) {
+        QByteArray imageData = QByteArray::fromBase64(base64Image.toLatin1());
+        QImage image;
+        image.loadFromData(imageData);
+
+        // 创建缩略图
+        QImage scaledImage = image.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap pixmap = QPixmap::fromImage(scaledImage);
+
+        // 将缩略图插入 QTextEdit
+        QTextImageFormat imageFormat;
+        imageFormat.setWidth(pixmap.width());
+        imageFormat.setHeight(pixmap.height());
+        imageFormat.setName("data:image/png;base64," + base64Image);
+        cursor.insertImage(imageFormat);
+    }
+
     textBrowser->insertHtml(tableStart + htmlContent + tableEnd);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部
     qDebug() << "send content from input";
 }
+
 
 
 

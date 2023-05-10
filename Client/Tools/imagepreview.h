@@ -31,4 +31,6 @@ private:
     QPointF m_imagePos;
 
     void centerImage();
+    void adjustImagePosition();
+
 };

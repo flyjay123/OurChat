@@ -48,15 +48,17 @@ void SendTextEdit::keyPressEvent(QKeyEvent* event)
 
             // 设置 QTextImageFormat 属性
             imageFormat.setName("data:image/png;base64," + base64Image);
+            imageFormat.setProperty(QTextFormat::UserProperty, "data:image/png;base64," + base64Image); // 保存原始图像的 Base64 编码
+
 
             // 获取 QTextEdit 的 QTextCursor
             QTextCursor cursor = textCursor();
 
             // 将图片插入 QTextEdit
-            //cursor.insertImage(imageFormat);
+            cursor.insertImage(imageFormat);
 
             // 你也可以将图片插入到 QTextEdit 作为 HTML（可选）
-             insertHtml("<img src='data:image/png;base64," + base64Image + "' />");
+             //insertHtml("<img src='data:image/png;base64," + base64Image + "' />");
         }
 
         else if (mimeData->hasText()) {
@@ -78,16 +80,27 @@ void SendTextEdit::mouseDoubleClickEvent(QMouseEvent* event)
 
     if (fragment.isValid()) {
         QTextImageFormat imageFormat = fragment.charFormat().toImageFormat();
-
         if (imageFormat.isValid()) {
-            QString imagePath = imageFormat.name();
-
-            int base64Index = imagePath.indexOf("base64,");
-            if (base64Index > 0) {
-                imagePath = imagePath.mid(base64Index + 7);
-            }
-            QByteArray imageData = QByteArray::fromBase64(imagePath.toLatin1());
+            QString originalImageData = imageFormat.property(QTextFormat::UserProperty).toString();
             QPixmap pixmap;
+            QByteArray imageData;
+            if(!originalImageData.isEmpty()) {
+
+                int base64Index = originalImageData.indexOf("base64,");
+                if (base64Index > 0) {
+                    originalImageData = originalImageData.mid(base64Index + 7);
+                }
+                imageData = QByteArray::fromBase64(originalImageData.toLatin1());
+            }
+            else
+            {
+                QString imagePath = imageFormat.name();
+                int base64Index = imagePath.indexOf("base64,");
+                if (base64Index > 0) {
+                    imagePath = imagePath.mid(base64Index + 7);
+                }
+                imageData = QByteArray::fromBase64(imagePath.toLatin1());
+            }
             bool loaded = pixmap.loadFromData(imageData);
             if (!loaded || pixmap.isNull()) {
                 qDebug() << "Failed to load image from data";
@@ -102,9 +115,9 @@ void SendTextEdit::mouseDoubleClickEvent(QMouseEvent* event)
             return;
         }
     }
-
     QTextEdit::mouseDoubleClickEvent(event);
 }
+
 
 
 
