@@ -1,6 +1,0 @@
-source_set("easyloggingpp") {
- sources=[
- "easylogging++.cc",
- "easylogging++.h"
- ]
-}

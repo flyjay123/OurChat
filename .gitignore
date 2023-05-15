@@ -3,5 +3,6 @@
 temp
 Client/release
 Client/debug
+Client/.idea
 server/server
 server/user.db
