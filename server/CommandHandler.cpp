@@ -1,6 +1,5 @@
 #define SQLITECPP_ENABLE_ASSERT_HANDLER
 #include "CommandHandler.h"
-#include "dao/CallbacksHandler.h"
 using json = nlohmann::json;
 
 // extern SearchResult accountResult;

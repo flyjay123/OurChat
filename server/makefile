@@ -1,6 +1,6 @@
 TARGET=server
-SRC = $(wildcard *.cpp *.c ./dao/*.cpp  ./dao/*.c)
-OBJ = $(patsubst %.cpp ./dao/%.cpp  *.c,%.o,$(SRC))
+SRC = $(wildcard *.cpp *.c)
+OBJ = $(patsubst %.cpp  *.c,%.o,$(SRC))
 DEFS =
 CFLAGS = -g
 CC =g++
