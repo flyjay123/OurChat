@@ -1,5 +1,4 @@
 #include "common.h"
-#include "dao/CallbacksHandler.h"
 #include "chatTask.h"
 
 using namespace std;
