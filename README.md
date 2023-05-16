@@ -18,13 +18,21 @@ mkdir build
 cd build
 cmake ..
 make
-#create and design user.db before running server.
-./server -s ${IpAddress} -p ${PortNumber}
 ```
 
 ## Client
 使用CMake指定自己的编译器进行构建,也可以直接用Qt Creator打开.pro文件,选择MinGW或MSVC构建项目,编译之前先qmake.
-本项目采用Qt6开发,使用Qt5构建需要修改部分代码.
+<br>本项目采用Qt6开发,使用Qt5构建需要修改部分代码.
+
+以MinGW作为示例：
+首先将 "Qt\Qt6.5.0\Tools\MinGW1120_64\bin" (视Qt版本和MinGW版本而自行更正目录) 添加至环境变量
+```bash
+cd OurChat\Client
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" ..
+mingw32-make.exe
+.\OurChat.exe
+```
 
 编译前应当修改TcpClient.h中的宏定义ip和port.
-为了实现OpenSSL的一些功能,应当将libeay.dll和ssleay.dll复制到 OurChat/Client/libs 路径下.
