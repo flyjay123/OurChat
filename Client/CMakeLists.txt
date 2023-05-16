@@ -33,8 +33,11 @@ target_include_directories(OurChat PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/Rewriting
         ${CMAKE_CURRENT_SOURCE_DIR}
         )
-
-set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\mingw_64")
+if(MSVC)
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\msvc2019_64")
+else()
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\mingw_64")
+endif()
 
 find_package(Qt6 COMPONENTS
         Core Gui
@@ -48,6 +51,22 @@ target_link_libraries(OurChat PRIVATE
   Qt::Gui
   Qt::Widgets Qt6::Network
 )
+
+set(LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+if(NOT EXISTS ${LIBS_DIR})
+    message(WARNING "libs directory does not exist: ${LIBS_DIR}")
+endif()
+
+file(GLOB DLL_FILES "${LIBS_DIR}/*.dll")
+foreach(DLL_FILE ${DLL_FILES})
+    add_custom_command(TARGET OurChat POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${DLL_FILE}
+            $<TARGET_FILE_DIR:OurChat>)
+endforeach()
+
+
+
 
 if(WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
