@@ -117,6 +117,12 @@ QList<QPair<QString, QImage>> StringTool::extractContent(const QString& html) {
             if (reader.name().toString() == "p") {
                 currentText.clear();
             } else if (reader.name().toString() == "img") {
+                // 结束当前的文本段落
+                if (!currentText.isEmpty()) {
+                    contentList.append(qMakePair(currentText, QImage()));
+                    currentText.clear();
+                }
+
                 QStringView base64 = reader.attributes().value("src").mid(22);
                 QByteArray ba = QByteArray::fromBase64(base64.toLatin1());
                 currentImage.loadFromData(ba);
@@ -124,6 +130,7 @@ QList<QPair<QString, QImage>> StringTool::extractContent(const QString& html) {
         } else if (reader.isEndElement()) {
             if (reader.name().toString() == "p") {
                 contentList.append(qMakePair(currentText, QImage()));
+                currentText.clear();
             } else if (reader.name().toString() == "img") {
                 contentList.append(qMakePair(QString(), currentImage));
                 currentImage = QImage();
@@ -133,8 +140,14 @@ QList<QPair<QString, QImage>> StringTool::extractContent(const QString& html) {
         }
     }
 
+    // 如果最后一部分是文本，将其添加到内容列表中
+    if (!currentText.isEmpty()) {
+        contentList.append(qMakePair(currentText, QImage()));
+    }
+
     return contentList;
 }
+
 
 
 
