@@ -36,3 +36,7 @@ mingw32-make.exe
 ```
 
 编译前应当修改TcpClient.h中的宏定义ip和port.
+
+## Visitor Count
+
+![:name](https://count.getloli.com/get/@flyjay123?theme=gelbooru)
