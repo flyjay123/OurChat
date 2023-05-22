@@ -21,11 +21,12 @@ make
 ```
 
 ## Client
-使用CMake指定自己的编译器进行构建,也可以直接用Qt Creator打开.pro文件,选择MinGW或MSVC构建项目,编译之前先qmake.
-<br>本项目采用Qt6开发,使用Qt5构建需要修改部分代码.
-
+本项目支持cmake和qmake,采用Qt6开发,使用Qt5构建需要修改部分代码.
+<br>
 以MinGW作为示例：
+<br>
 将 "Qt\Qt6.5.0\Tools\MinGW1120_64\bin" (视Qt版本和MinGW版本而自行更正目录) 添加至环境变量
+<br>
 定位至CMakeLists.txt line:36, 按自己的编译器路径修改 CMAKE_PREFIX_PATH 
 ```bash
 cd OurChat\Client
