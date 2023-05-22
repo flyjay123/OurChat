@@ -14,8 +14,8 @@ class ChatWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit ChatWindow(FriendInfo info, QWidget *parent = nullptr);
-    explicit ChatWindow(GroupInfo info, QWidget *parent = nullptr);
+    explicit ChatWindow(const FriendInfo& info, QWidget *parent = nullptr);
+    explicit ChatWindow(const GroupInfo& info, QWidget *parent = nullptr);
     ~ChatWindow();
 
     FriendInfo GetFriendInfo(){return m_info;}
@@ -24,12 +24,11 @@ public:
     //flag:0 friend 1 group
     int GetType(){return m_type;}
     QString GetName(){return m_name;}
-    void pushMsg(QString msg, int flag);
+    void pushMsg(const QString& msg, int flag);
 
     //flag:0 self 1 other
     void sendMessage(const QString &text,int flag = 0);
     void sendImage(const QString &imagePath,int flag = 0);
-    void sendImage(const QImage &image,int flag = 0);
     void sendImages(const QList<QString>& base64Images, int flag);
     void sendFile(const QString &fileName, const QString &filePath,int flag = 0);
     void sendContentFromInput(const QString &htmlContent, int flag);
