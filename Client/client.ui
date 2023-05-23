@@ -29,7 +29,7 @@
      <height>657</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,0,1">
+   <layout class="QGridLayout" name="gridLayout_4" columnstretch="0">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -45,40 +45,484 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="1" column="0">
-       <widget class="QWidget" name="widget_6" native="true">
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget_main" native="true">
+      <widget class="QWidget" name="widget_side" native="true">
+       <property name="geometry">
+        <rect>
+         <x>-2</x>
+         <y>10</y>
+         <width>80</width>
+         <height>657</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #0ED07B;
+min-width:80;
+max-width:80;</string>
+       </property>
+       <widget class="QPushButton" name="pushButton_msg_list">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>180</y>
+          <width>40</width>
+          <height>40</height>
+         </rect>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>250</width>
-          <height>60</height>
+          <width>40</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>250</width>
-          <height>60</height>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	max-width:40;
+	min-width:40;
+}
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="src.qrc">
+          <normaloff>:/src/message.png</normaloff>
+          <normalon>:/src/message1.png</normalon>:/src/message.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushBtn_refresh">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>610</y>
+          <width>42</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>42</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>42</width>
+          <height>2000</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>黑体</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	color: rgb(96,96,96);
+	border-radius: 5px;	
+	border-style: solid;
+	background-color: rgb(245,245,245);
+
+	border-right:1px solid #E5E5E5;
+	border-top:1px solid #E5E5E5;
+	border-left:1px solid #E5E5E5;
+	border-bottom:1px solid #E5E5E5;
+
+	max-width:40;
+	min-width:40;
+
+}
+
+QPushButton:hover{
+	color: rgb(255, 255, 255);
+	background-color: rgb(18,150,17);
+}
+
+QPushButton:pressed {
+	background-color: rgb(7,193,96);
+}</string>
+        </property>
+        <property name="text">
+         <string>刷新</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_emoj_3">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>110</y>
+          <width>40</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	image: url(:/src/SelfCenter1.png); 
+	max-width:40;
+	min-width:40;
+}
+QPushButton::hover {
+	image: url(:/src/SelfCenter2.png); 
+}
+
+
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_friend_list">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>250</y>
+          <width>40</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	max-width:40;
+	min-width:40;
+}
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="src.qrc">
+          <normaloff>:/src/friend.png</normaloff>
+          <normalon>:/src/friend1.png</normalon>:/src/friend.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_group_list">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>320</y>
+          <width>40</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border:none;
+	max-width:40;
+	min-width:40;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="src.qrc">
+          <normaloff>:/src/group.png</normaloff>
+          <normalon>:/src/group1.png</normalon>:/src/group.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_system_msg">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>390</y>
+          <width>40</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+
+	border: none; /* no border for a flat push button */
+	max-width:40;
+	min-width:40;
+}
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="src.qrc">
+          <normaloff>:/src/notification.png</normaloff>:/src/notification.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="FriendIconLabel" name="label_icon">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>80</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>80</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(247,247,247);
-border-right:1px solid #D6D6D6;</string>
+         <string notr="true">	max-width:80;
+	min-width:80;
+background-color:transparent;</string>
         </property>
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>191</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit
+        <property name="text">
+         <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_icon">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>80</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">max-width:80;
+min-width:80;
+border:none;
+background-color:transparent;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="widget_list" native="true">
+       <property name="geometry">
+        <rect>
+         <x>78</x>
+         <y>10</y>
+         <width>202</width>
+         <height>94</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="1" column="0">
+         <widget class="QWidget" name="widget_6" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>999999</width>
+            <height>999999</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(247,247,247);
+border-right:1px solid #D6D6D6;</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit
 {
 	background-color: rgb(226,226,226);
 	border: none; /* no border for a flat push button */
@@ -89,34 +533,28 @@ QLineEdit
 	border: none; /* no border for a flat push button */
 }
 </string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_addFriend">
-         <property name="geometry">
-          <rect>
-           <x>210</x>
-           <y>30</y>
-           <width>20</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>添加好友</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_addFriend">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>添加好友</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/pic/src/tianjia.png); 
 	background-color: rgb(226,226,226);
@@ -132,138 +570,70 @@ QPushButton::hover {
 QPushButton:pressed {
 	image: url(:/pic/src/tianjia.png); 
 }</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QStackedWidget" name="stackedWidget_list">
-        <widget class="QWidget" name="page_5"/>
-        <widget class="QWidget" name="page_6"/>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="2">
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="3" column="0">
-       <widget class="QWidget" name="widget_13" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>70</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>70</height>
-         </size>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_14">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_13">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="SendTextEdit" name="textEdit_send">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>65</height>
-              </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>65</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>新宋体</family>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(255, 255, 255);
-border: none; /* no border for a flat push button */
-</string>
-             </property>
-             <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAlwaysOff</enum>
-             </property>
-             <property name="horizontalScrollBarPolicy">
-              <enum>Qt::ScrollBarAlwaysOff</enum>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QWidget" name="widget_3" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>35</height>
-         </size>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QStackedWidget" name="stackedWidget_list">
+          <widget class="QWidget" name="page_5"/>
+          <widget class="QWidget" name="page_6"/>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="widget_chatting" native="true">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>10</y>
+         <width>601</width>
+         <height>657</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="spacing">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_10">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_9" columnstretch="1,0,0">
+        <item row="4" column="0">
+         <widget class="QWidget" name="widget_3" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_10">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="1">
+           <item row="0" column="2">
             <widget class="QPushButton" name="pushBtn_send">
              <property name="minimumSize">
               <size>
@@ -310,88 +680,142 @@ QPushButton:pressed {
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QWidget" name="widget_9" native="true">
-             <property name="styleSheet">
-              <string notr="true"/>
+           <item row="0" column="1">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QWidget" name="widget_10" native="true">
-             <property name="minimumSize">
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
-               <height>0</height>
+               <height>20</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
+            </spacer>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QWidget" name="widget_2" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(245,245,245);</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_8">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_6" columnstretch="1,0,0,0">
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QWidget" name="widget_chatWindow" native="true">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushBtn_hide">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
+           <item row="0" column="0">
+            <widget class="QStackedWidget" name="stackedWidget">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
+             <property name="autoFillBackground">
+              <bool>false</bool>
              </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton {
+              <string notr="true">background-color: rgb(255, 255, 255);
+border-color: rgb(199, 200, 194);</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="lineWidth">
+              <number>10</number>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="page">
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">image: url(:/src/chatbg.png);
+background-color:#F5F5F5;</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="page_2"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(245,245,245);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_6" columnstretch="1,0,0,0">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="pushBtn_hide">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/pic/src/min.png); /* 最小化 */
 	min-width: 30px;
@@ -402,28 +826,28 @@ QPushButton:pressed {
 QPushButton::hover {
 	background-color: rgba(166,166,166, 50); 
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="pushBtn_max">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QPushButton" name="pushBtn_max">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/pic/src/max.png); /* 最小化 */
 	min-width: 30px;
@@ -434,28 +858,28 @@ QPushButton::hover {
 QPushButton::hover {
 	background-color: rgba(166,166,166, 50); 
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QPushButton" name="pushBtn_close">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="pushBtn_close">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/pic/src/close.png); /* 最小化 */
 	min-width: 30px;
@@ -466,71 +890,71 @@ QPushButton::hover {
 QPushButton::hover {
 	background-color: #f57575; 
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QWidget" name="widget_7" native="true"/>
+             </item>
+            </layout>
            </item>
-           <item row="0" column="0">
-            <widget class="QWidget" name="widget_7" native="true"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,0,0,0,0">
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_info">
-             <property name="font">
-              <font>
-               <family>新宋体</family>
-               <pointsize>14</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>聊天信息</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QWidget" name="widget_8" native="true"/>
-           </item>
-           <item row="0" column="4">
-            <widget class="QWidget" name="widget_16" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>10</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>10</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QWidget" name="widget_15" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>20</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QPushButton" name="pushButton">
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
+           <item row="1" column="0">
+            <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,0,0,0,0">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_info">
+               <property name="font">
+                <font>
+                 <family>新宋体</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>聊天信息</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QWidget" name="widget_8" native="true"/>
+             </item>
+             <item row="0" column="4">
+              <widget class="QWidget" name="widget_16" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>10</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QWidget" name="widget_15" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>20</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>20</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="pushButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/src/more.png); 
 	min-width: 30px;
@@ -544,213 +968,108 @@ QPushButton::hover {
 QPushButton:pressed {
 	image: url(:/src/more.png); 
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QWidget" name="widget_5" native="true">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QStackedWidget" name="stackedWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-border-color: rgb(199, 200, 194);</string>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
-           <property name="lineWidth">
-            <number>10</number>
-           </property>
-           <property name="currentIndex">
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QWidget" name="widget_send" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_14">
+           <property name="leftMargin">
             <number>0</number>
            </property>
-           <widget class="QWidget" name="page">
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">image: url(:/src/chatbg.png);
-background-color:#F5F5F5;</string>
-            </property>
-           </widget>
-           <widget class="QWidget" name="page_2"/>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QWidget" name="widget_4" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>35</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(200, 196, 188);</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_12">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_11" columnstretch="0,0,0,0,0,0">
-           <property name="horizontalSpacing">
-            <number>12</number>
-           </property>
-           <property name="verticalSpacing">
+           <property name="topMargin">
             <number>0</number>
            </property>
-           <item row="0" column="3">
-            <widget class="QPushButton" name="pushButton_screenshot">
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/screenshot.png); 
-	min-width: 20px;
-	max-width: 20px;
-	min-height: 20px;
-	max-height: 20px;
-}
-QPushButton::hover {
-	image: url(:/pic/src/screenshot2.png); 
-}
-QPushButton:pressed {
-	image: url(:/pic/src/screenshot.png); 
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="pushButton_file">
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/file.png); 
-	min-width: 20px;
-	max-width: 20px;
-	min-height: 20px;
-	max-height: 20px;
-}
-QPushButton::hover {
-	image: url(:/pic/src/file2.png); 
-}
-QPushButton:pressed {
-	image: url(:/pic/src/file.png); 
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="4">
-            <widget class="QPushButton" name="pushButton_chat">
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	border: none; /* no border for a flat push button */
-	image: url(:/pic/src/chat.png); 
-	min-width: 20px;
-	max-width: 20px;
-	min-height: 20px;
-	max-height: 20px;
-}
-QPushButton::hover {
-	image: url(:/pic/src/chat2.png); 
-}
-QPushButton:pressed {
-	image: url(:/pic/src/chat.png); 
-}</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QWidget" name="widget_12" native="true">
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="4" column="0">
+            <widget class="SendTextEdit" name="textEdit_send">
              <property name="minimumSize">
               <size>
-               <width>15</width>
-               <height>20</height>
+               <width>0</width>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>15</width>
-               <height>20</height>
+               <width>16777215</width>
+               <height>16777215</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>新宋体</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);
+border: none; /* no border for a flat push button */
+</string>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_emoj">
+           <item row="0" column="0">
+            <widget class="QWidget" name="widget_4" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton {
+              <string notr="true">background-color: rgb(200, 196, 188);</string>
+             </property>
+             <widget class="QPushButton" name="pushButton_emoj">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>6</y>
+                <width>20</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
 	image: url(:/pic/src/emoj.png); 
 	min-width: 20px;
@@ -764,441 +1083,104 @@ QPushButton::hover {
 QPushButton:pressed {
 	image: url(:/pic/src/emoj.png); 
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="5">
-            <widget class="QWidget" name="widget_11" native="true"/>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QWidget" name="widget" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>80</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>80</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #0ED07B;
-min-width:80;
-max-width:80;</string>
-      </property>
-      <widget class="QPushButton" name="pushButton_msg_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>180</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_screenshot">
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>6</y>
+                <width>20</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	max-width:40;
-	min-width:40;
-}
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="src.qrc">
-         <normaloff>:/src/message.png</normaloff>
-         <normalon>:/src/message1.png</normalon>:/src/message.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushBtn_refresh">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>610</y>
-         <width>42</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>42</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>42</width>
-         <height>2000</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>黑体</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>ArrowCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton{
-	color: rgb(96,96,96);
-	border-radius: 5px;	
-	border-style: solid;
-	background-color: rgb(245,245,245);
-
-	border-right:1px solid #E5E5E5;
-	border-top:1px solid #E5E5E5;
-	border-left:1px solid #E5E5E5;
-	border-bottom:1px solid #E5E5E5;
-
-	max-width:40;
-	min-width:40;
-
-}
-
-QPushButton:hover{
-	color: rgb(255, 255, 255);
-	background-color: rgb(18,150,17);
-}
-
-QPushButton:pressed {
-	background-color: rgb(7,193,96);
-}</string>
-       </property>
-       <property name="text">
-        <string>刷新</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_emoj_3">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>110</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-
-	border: none; /* no border for a flat push button */
-	image: url(:/src/SelfCenter1.png); 
-	max-width:40;
-	min-width:40;
+	image: url(:/pic/src/screenshot.png); 
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 20px;
+	max-height: 20px;
 }
 QPushButton::hover {
-	image: url(:/src/SelfCenter2.png); 
+	image: url(:/pic/src/screenshot2.png); 
 }
-
-
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_friend_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>250</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-
+QPushButton:pressed {
+	image: url(:/pic/src/screenshot.png); 
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_chat">
+              <property name="geometry">
+               <rect>
+                <x>170</x>
+                <y>6</y>
+                <width>20</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	max-width:40;
-	min-width:40;
+	image: url(:/pic/src/chat.png); 
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 20px;
+	max-height: 20px;
 }
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="src.qrc">
-         <normaloff>:/src/friend.png</normaloff>
-         <normalon>:/src/friend1.png</normalon>:/src/friend.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_group_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>320</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border:none;
-	max-width:40;
-	min-width:40;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="src.qrc">
-         <normaloff>:/src/group.png</normaloff>
-         <normalon>:/src/group1.png</normalon>:/src/group.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_system_msg">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>390</y>
-         <width>40</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-
+QPushButton::hover {
+	image: url(:/pic/src/chat2.png); 
+}
+QPushButton:pressed {
+	image: url(:/pic/src/chat.png); 
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_file">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>6</y>
+                <width>20</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
 	border: none; /* no border for a flat push button */
-	max-width:40;
-	min-width:40;
+	image: url(:/pic/src/file.png); 
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 20px;
+	max-height: 20px;
 }
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="src.qrc">
-         <normaloff>:/src/notification.png</normaloff>:/src/notification.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="FriendIconLabel" name="label_icon">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>80</width>
-         <height>80</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">	max-width:80;
-	min-width:80;
-background-color:transparent;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_icon">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>80</width>
-         <height>80</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">max-width:80;
-min-width:80;
-border:none;
-background-color:transparent;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
+QPushButton::hover {
+	image: url(:/pic/src/file2.png); 
+}
+QPushButton:pressed {
+	image: url(:/pic/src/file.png); 
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
