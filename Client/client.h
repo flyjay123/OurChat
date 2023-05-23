@@ -13,6 +13,7 @@
 #include "chatlistwidget.h"
 #include "systemmessage.h"
 #include "emojiselector.h"
+#include <QSplitter>
 
 extern bool friendWidgetOn;
 
@@ -33,6 +34,7 @@ public:
     void RefreshFriendList();
     void RefreshGroupList();
     void InitUI();
+    void InitLayout();
     SelfInfo GetSelfInfo(){return selfInfo;}
 
     void SetChatWindow(FriendItem* item);
@@ -118,5 +120,8 @@ private:
     ChatListWidget *friendsListWidget;
     ChatListWidget *groupsListWidget;
     int curListWidgetIndex;
+
+    QSplitter *chatSplitter;
+    QSplitter *mainSplitter;
 };
 #endif // CLIENT_H

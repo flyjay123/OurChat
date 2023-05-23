@@ -24,6 +24,7 @@ Client::Client(SelfInfo info ,TcpClient* tcp,QWidget *parent)
 {
     ui->setupUi(this);
     InitUI();
+    InitLayout();
     systemMsg = new SystemMessage();
     ui->label_icon->SetIcon(info.icon);
     messagesListWidget = new ChatListWidget(ItemType_Message);
@@ -89,9 +90,41 @@ void Client::InitUI()
     shadow->setBlurRadius(10);
     //给嵌套QWidget设置阴影
     ui->centerWidget->setGraphicsEffect(shadow);
-
-
     m_isFull = false;
+}
+
+void Client::InitLayout()
+{
+    QString style = QString("QSplitter {border: 1px solid grey}");
+
+    mainSplitter = new QSplitter(Qt::Horizontal);
+    mainSplitter->setStyleSheet(style);
+    mainSplitter->setHandleWidth(5);
+
+    mainSplitter->addWidget(ui->widget_side);
+    mainSplitter->addWidget(ui->widget_list);
+    //mainSplitter->addWidget(ui->widget_chatting);
+
+     ui->centerWidget->layout()->replaceWidget(ui->widget_main,mainSplitter);
+     ui->widget_main->hide();
+
+    chatSplitter = new QSplitter(Qt::Vertical);
+    chatSplitter->setHandleWidth(5);
+    mainSplitter->setStyleSheet(style);
+
+    chatSplitter->addWidget(ui->widget_2);
+    chatSplitter->addWidget(ui->widget_chatWindow);
+    chatSplitter->addWidget(ui->widget_4);
+    chatSplitter->addWidget(ui->widget_send);
+    chatSplitter->addWidget(ui->widget_3);
+
+    ui->centerWidget->layout()->replaceWidget(ui->widget_chatting,chatSplitter);
+    ui->widget_chatting->hide();
+
+    mainSplitter->addWidget(chatSplitter);
+
+    mainSplitter->setSizes(QList<int>() << ui->widget_side->width() << ui->widget_list->width() << ui->widget_chatting->width());
+    chatSplitter->setSizes(QList<int>() << ui->widget_2->height() << 400 << ui->widget_4->height() << 100 << ui->widget_3->height());
 }
 
 void Client::mousePressEvent(QMouseEvent *event)
