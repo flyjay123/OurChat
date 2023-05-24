@@ -12,6 +12,13 @@ map<int,int> userMap;
 int main(int argc,char* argv[])
 {
     //db->open("user.db");
+    
+    // 执行建表命令
+	db.exec("CREATE TABLE IF NOT EXISTS friend (user1 INTEGER NOT NULL, user2 INTEGER NOT NULL, PRIMARY KEY (user1, user2));");
+	db.exec("CREATE TABLE IF NOT EXISTS \"'group'\" (group_account INTEGER PRIMARY KEY, group_name TEXT, create_time DATETIME, group_master INTEGER);");
+	db.exec("CREATE TABLE IF NOT EXISTS user (account INTEGER PRIMARY KEY AUTOINCREMENT, password VARCHAR(32), name VARCHAR(32), signature TEXT, online INT DEFAULT 0 NOT NULL, icon TEXT);");
+	db.exec("CREATE TABLE IF NOT EXISTS member (member_id INTEGER, group_account INTEGER, group_nickname TEXT);");
+
 
     int default_port = 8888;
     int optch = 0;
