@@ -11,7 +11,17 @@
 
 # 构建
 ## Server
-需要sqlite3作为数据库底层驱动,之后编译SQLiteCpp静态库。
+- sqlite3作为数据库底层驱动和SQLiteCpp静态库。
+```bash
+cd OurChat/server/thirdparty
+git clone git@github.com:SRombauts/SQLiteCpp.git
+```
+- nlohmann/json库。
+```bash
+cd OurChat/server/thirdparty
+git clone git@github.com:nlohmann/json.git
+```
+现在可以开始编译server
 ```bash
 cd OurChat/server
 mkdir build
