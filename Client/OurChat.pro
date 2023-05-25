@@ -41,6 +41,7 @@ HEADERS += \
     Rewriting/sendtextedit.h \
     Rewriting/smoothscrolllistwidget.h \
     Tools/imagepreview.h \
+    Tools/inputdialog.h \
     Tools/stringtool.h \
     Tools/tcpclient.h \
     client.h \
@@ -59,6 +60,7 @@ SOURCES += \
     Rewriting/friendiconlabel.cpp \
     Rewriting/smoothscrolllistwidget.cpp \
     Tools/imagepreview.cpp \
+    Tools/inputdialog.cpp \
     friendinfowidget.cpp \
     Rewriting/frienditem.cpp \
     Rewriting/sendtextedit.cpp \

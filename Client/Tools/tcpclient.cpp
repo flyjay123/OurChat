@@ -12,7 +12,7 @@ void slot_test()
 TcpClient::TcpClient(QObject *parent) :QTcpSocket(parent)
 {
     buffer.clear();
-    ConnectToServer();
+    //ConnectToServer();
     //connect(t.socket,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
     connect(this,&QTcpSocket::readyRead,this,&TcpClient::onReadyRead);
 }
@@ -26,12 +26,16 @@ int TcpClient::ConnectToServer()
 {
     if(m_isConnected)
         return 1;
+    if (m_server.isEmpty() || m_port == 0) {
+        qDebug() << "Invalid server IP or port" << endl;
+        return -1;
+    }
     this->connectToHost(m_server,m_port);
     if(this->waitForConnected(3000))
     {
         qDebug() << "connect to server successfully" << endl;
-         m_isConnected = true;
-         return 0;
+        m_isConnected = true;
+        return 0;
     }
     else
     {
@@ -39,6 +43,7 @@ int TcpClient::ConnectToServer()
         return -1;
     }
 }
+
 
 void TcpClient::DisconnectFromServer()
 {

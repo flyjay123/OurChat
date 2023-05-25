@@ -10,6 +10,7 @@
 #include <QSequentialAnimationGroup>
 #include <QTimer>
 #include <QShortcut>
+#include "inputdialog.h"
 
 
 using json = QJsonObject;
@@ -308,6 +309,13 @@ void Logging::CmdHandler(json msg)
             break;
     }
 }
+
+void Logging::on_pushBtn_more_clicked()
+{
+    static InputDialog *dialog = new InputDialog(t);
+    dialog->show();
+}
+
 
 
 

@@ -399,6 +399,42 @@ QPushButton::hover {
        <string>注册账号</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushBtn_more">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>0</y>
+        <width>34</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	border: none; /* no border for a flat push button */
+	image: url(:/src/min.png); /* 最小化 */
+	min-width: 34px;
+	max-width: 34px;
+	min-height: 40px;
+	max-height: 40px;
+}
+QPushButton::hover {
+	background-color: rgba(166,166,166, 50); 
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="src.qrc">
+        <normaloff>:/pic/src/more.png</normaloff>:/pic/src/more.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="page_2">
      <widget class="QLabel" name="label_7">

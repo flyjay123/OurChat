@@ -86,6 +86,11 @@ public:
     int ConnectToServer();
     void DisconnectFromServer();
 
+    void SetServer(QString ip, int port)
+    {
+        m_server = ip;
+        m_port = port;
+    }
 
 
 public:
@@ -102,17 +107,14 @@ public slots:
     void onReadyRead();
 
 public:
-
-#if 1
-    QString m_server = "121.37.111.190";
-#else
-    QString m_server = "127.0.0.1";
-#endif
-    int m_port = 2339;
+    QString m_server;
+    int m_port;
     bool m_isConnected = false;
 
     json message;
 private:
     QByteArray buffer;
 };
+
+
 #endif // TCPCLIENT_H

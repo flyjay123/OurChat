@@ -53,6 +53,8 @@ private slots:
 
     void CmdHandler(json msg);
 
+    void on_pushBtn_more_clicked();
+
 private:
     Ui::Logging *ui;
     TcpClient* t;
