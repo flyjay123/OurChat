@@ -104,7 +104,7 @@ public slots:
 public:
 
 #if 1
-    QString m_server = "***REMOVED***";
+    QString m_server = "xxx.xxx.xxx.xxx";
 #else
     QString m_server = "127.0.0.1";
 #endif
