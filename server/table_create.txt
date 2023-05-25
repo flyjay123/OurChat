@@ -1,0 +1,34 @@
+create table friend
+(
+    user1 integer not null,
+    user2 integer not null,
+    primary key (user1, user2)
+);
+
+create table "group"
+(
+    group_account integer
+        constraint group_id
+            primary key,
+    group_name    TEXT,
+    create_time   DATETIME,
+    group_master  integer
+);
+
+create table member
+(
+    member_id      integer,
+    group_account  integer,
+    group_nickname TEXT
+);
+
+create table user
+(
+    account   integer
+        primary key autoincrement,
+    password  varchar(32),
+    name      varchar(32),
+    signature text after name,
+    online    INT default 0 not null,
+    icon      text
+);
