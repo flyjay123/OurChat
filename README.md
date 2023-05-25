@@ -47,7 +47,7 @@ mingw32-make.exe
 .\OurChat.exe
 ```
 
-编译前应当修改TcpClient.h中的宏定义ip和port.
+编译前应当修改Tools\tcpclient.h中m_server与m_port变量，以设置IP与端口号。
 
 ## Visitor Count
 
