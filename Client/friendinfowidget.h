@@ -2,6 +2,7 @@
 #define FRIENDINFOWIDGET_H
 
 #include <QWidget>
+#include <QEnterEvent>
 #include "chatwindow.h"
 
 namespace Ui {
@@ -21,7 +22,7 @@ public:
     void InitUI();
 
 protected:
-    virtual void enterEvent(QEvent *event);
+    virtual void enterEvent(QEnterEvent *event);
     virtual void leaveEvent(QEvent *event);
 
 signals:

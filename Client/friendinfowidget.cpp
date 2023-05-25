@@ -28,9 +28,9 @@ FriendInfoWidget::FriendInfoWidget(GroupInfo info, QWidget *parent):
     ui->label_account->setNum(info.groupAccount);
 }
 
-void FriendInfoWidget::enterEvent(QEvent *event)
+void FriendInfoWidget::enterEvent(QEnterEvent *event)
 {
-    Q_UNUSED(event);emit enterWidget();
+    Q_UNUSED(event);enterWidget();
 }
 
 void FriendInfoWidget::leaveEvent(QEvent *event)
@@ -45,7 +45,7 @@ FriendInfoWidget::~FriendInfoWidget()
 
 void FriendInfoWidget::InitUI() {
 
-    this->setWindowFlags(Qt::FramelessWindowHint);          //去掉标题栏无边框
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);          //去掉标题栏无边框
     this->setAttribute(Qt::WA_TranslucentBackground,true);
     //实例阴影shadow
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);

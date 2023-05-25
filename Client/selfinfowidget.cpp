@@ -7,9 +7,6 @@ SelfInfoWidget::SelfInfoWidget(QWidget *parent) :
     ui(new Ui::SelfInfoWidget)
 {
     ui->setupUi(this);
-    int width = this->width()-10;
-    int height = this->height()-10;
-    setGeometry(5,5,width,height);
     setStyleSheet("QWidget{border-radius:4px;background:rgba(255,255,255,1);}");  //设置圆角
 
     this->setWindowFlags(Qt::FramelessWindowHint);          //去掉标题栏无边框
