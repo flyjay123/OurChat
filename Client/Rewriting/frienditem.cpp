@@ -93,6 +93,11 @@ void FriendItem::NewMsgPlusOne()
      ui->lineEdit_newMsg->setText(text);
 }
 
+void FriendItem::SetLastMsg(const QString& msg)
+{
+    ui->label_sig->setText(msg);
+}
+
 void FriendItem::SetInfo(FriendInfo _info)
 {
     info = _info;

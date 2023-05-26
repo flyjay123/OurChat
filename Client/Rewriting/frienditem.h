@@ -27,6 +27,7 @@ public:
     void setAvatar(const QPixmap &avatar);
     void SetNewMsgNum(int num);
     void NewMsgPlusOne();
+    void SetLastMsg(const QString& msg);
     void SetInfo(FriendInfo _info);
     FriendInfo GetFriendInfo(){return info;}
     void SetInfo(GroupInfo _info);
