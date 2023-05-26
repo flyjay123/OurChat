@@ -28,6 +28,7 @@ mkdir build
 cd build
 cmake ..
 make
+./server -s ${IpAddress} -p ${Port}
 ```
 
 ## Client
