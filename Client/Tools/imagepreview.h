@@ -19,7 +19,6 @@ public:
     void setImage(const QPixmap &pixmap);
     void updateScaleFactorLabel();
 
-
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -35,4 +34,3 @@ private:
 };
 
 #endif // IMAGEPREVIEW_H
-

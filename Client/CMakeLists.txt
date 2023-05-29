@@ -42,6 +42,7 @@ endif()
 find_package(Qt6 COMPONENTS
         Core Gui
         Widgets Network
+        OpenGLWidgets
         REQUIRED)
 
 qt6_add_resources(RESOURCE_FILES ${RESOURCES})
@@ -50,6 +51,7 @@ target_link_libraries(OurChat PRIVATE
   Qt::Core
   Qt::Gui
   Qt::Widgets Qt6::Network
+  Qt6::OpenGLWidgets
 )
 
 set(LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")

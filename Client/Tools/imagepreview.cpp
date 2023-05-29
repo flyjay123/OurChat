@@ -1,17 +1,30 @@
 #include "ImagePreview.h"
 #include <QWheelEvent>
 #include <QScrollBar>
+#include <QOpenGLWidget>
 
 ImagePreview::ImagePreview(QPixmap pixmap, QWidget *parent)
         : QGraphicsView(parent)
 {
+    setMinimumSize(300,300);
     scene.addItem(&pixmapItem);
     setScene(&scene);
-    scaleFactorLabel.setParent(this);
+    setImage(pixmap);
+
+    // create an OpenGL widget
+    QOpenGLWidget *glWidget = new QOpenGLWidget();
+    setViewport(glWidget);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    scaleFactorLabel.setParent(glWidget);
     scaleFactorLabel.move(10, 10);  // 将标签移动到窗口的左上角
     scaleFactorLabel.setFixedSize(100, 20);  // 设置标签的大小
-    setImage(pixmap);
-    setRenderHint(QPainter::Antialiasing);
+    scaleFactorLabel.setStyleSheet("QLabel { background-color : white; }");
     updateScaleFactorLabel();
 }
 
@@ -31,14 +44,6 @@ void ImagePreview::wheelEvent(QWheelEvent *event)
     }
 
     scaleFactor = qBound(0.1, scaleFactor, 10.0);
-
-    if(scaleFactor < 1) {
-        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    } else {
-        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    }
 
     QTransform transform;
     transform.scale(scaleFactor, scaleFactor);
@@ -64,17 +69,16 @@ void ImagePreview::mouseReleaseEvent(QMouseEvent *event)
 
 void ImagePreview::mouseMoveEvent(QMouseEvent *event)
 {
-    if(scaleFactor > 1 && !lastDragPos.isNull()) {
+    if(scaleFactor > 1) {
         int dx = event->position().x() - lastDragPos.x();
         int dy = event->position().y() - lastDragPos.y();
 
-        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - dx);
-        verticalScrollBar()->setValue(verticalScrollBar()->value() - dy);
+        horizontalScrollBar()->setSliderPosition(horizontalScrollBar()->sliderPosition() - dx);
+        verticalScrollBar()->setSliderPosition(verticalScrollBar()->sliderPosition() - dy);
 
         lastDragPos = event->position();
     }
 }
-
 
 void ImagePreview::updateScaleFactorLabel()
 {
