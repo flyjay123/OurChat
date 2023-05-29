@@ -1149,7 +1149,7 @@ QPushButton:pressed {
              <widget class="QPushButton" name="pushButton_file">
               <property name="geometry">
                <rect>
-                <x>70</x>
+                <x>220</x>
                 <y>6</y>
                 <width>20</width>
                 <height>20</height>
@@ -1169,6 +1169,35 @@ QPushButton::hover {
 }
 QPushButton:pressed {
 	image: url(:/pic/src/file.png); 
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_image">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>6</y>
+                <width>20</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	border: none; /* no border for a flat push button */
+	image: url(:/pic/src/image.png); 
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 20px;
+	max-height: 20px;
+}
+QPushButton::hover {
+	image: url(:/pic/src/image1.png); 
+}
+QPushButton:pressed {
+	image: url(:/pic/src/image.png); 
 }</string>
               </property>
               <property name="text">

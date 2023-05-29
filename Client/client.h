@@ -70,6 +70,8 @@ private slots:
 
     void on_pushButton_emoj_clicked();
 
+    void on_pushButton_image_clicked();
+
 public slots:
     void on_pushButton_addFriend_clicked();
     void on_pushBtn_refresh_clicked();

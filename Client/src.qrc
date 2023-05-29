@@ -33,6 +33,8 @@
         <file>src/zxh.png</file>
         <file>src/eyes_close.png</file>
         <file>src/eyes_open.png</file>
+        <file>src/image.png</file>
+        <file>src/image1.png</file>
     </qresource>
     <qresource prefix="/">
         <file>src/friendItemBg.png</file>

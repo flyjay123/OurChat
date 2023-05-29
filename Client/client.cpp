@@ -13,6 +13,7 @@
 #include "stringtool.h"
 #include <QShortcut>
 #include <QTextBlock>
+#include <QFileDialog>
 #include "sendtextedit.h"
 #include "selfinfowidget.h"
 #include "verificationitem.h"
@@ -766,4 +767,33 @@ void Client::insertEmoji(const QString &emoji)
     ui->textEdit_send->insertPlainText(emoji);
 }
 
+
+
+void Client::on_pushButton_image_clicked()
+{
+    //open file select dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Images (*.png *.jpg)"));
+    if(fileName.isEmpty())
+        return;
+    QImage image(fileName);
+    if(image.isNull())
+        return;
+
+    // Convert image to QPixmap
+    QPixmap pixmap = QPixmap::fromImage(image);
+
+    // Save QPixmap as PNG and convert it to Base64
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    pixmap.save(&buffer, "PNG"); // write pixmap into bytes in PNG format
+    buffer.close();
+    QString base64Image = byteArray.toBase64().data();
+
+    // Insert image into QTextEdit as HTML
+    ui->textEdit_send->insertHtml("<img src='data:image/png;base64," + base64Image + "' />");
+    ui->textEdit_send->setFocus();
+}
 
