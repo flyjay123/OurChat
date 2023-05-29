@@ -136,8 +136,27 @@ void ChatWindow::sendImages(const QList<QString>& base64Images, int flag) {
         // 保存原始图像的 Base64 编码
         QString originalBase64Image = "data:image/png;base64," + base64Image;
         // 创建缩略图
-        QImage scaledImage = image.scaled(200, 200, Qt::KeepAspectRatio, Qt::FastTransformation);
-        QPixmap pixmap = QPixmap::fromImage(scaledImage);
+        int originalWidth = image.width();
+        int originalHeight = image.height();
+        int maxSize = 150;
+        if (originalWidth > maxSize || originalHeight > maxSize) {
+            // Only scale the image if either dimension is greater than 150 pixels
+            float aspectRatio = static_cast<float>(originalWidth) / static_cast<float>(originalHeight);
+            int newWidth, newHeight;
+
+            if (aspectRatio >= 1) {
+                // Width is greater than height
+                newWidth = maxSize;
+                newHeight = static_cast<int>((float)maxSize / aspectRatio);
+            } else {
+                // Height is greater than width
+                newHeight = maxSize;
+                newWidth = static_cast<int>((float)maxSize * aspectRatio);
+            }
+
+            image = image.scaled(newWidth, newHeight, Qt::KeepAspectRatio, Qt::FastTransformation);
+        }
+        QPixmap pixmap = QPixmap::fromImage(image);
         // 将缩略图插入 QTextEdit
         QTextImageFormat imageFormat;
         imageFormat.setWidth(pixmap.width());
