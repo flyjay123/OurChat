@@ -1,123 +1,84 @@
 #include "ImagePreview.h"
+#include <QWheelEvent>
+#include <QScrollBar>
 
-#include <QPainter>
-#include <QPaintEvent>
-
-ImagePreview::ImagePreview(const QPixmap& pixmap, QWidget* parent)
-        : QWidget(parent), m_pixmap(pixmap), m_scale(1.0), m_minScale(0.1), m_maxScale(10.0), m_mousePressed(false) {
-    setAttribute(Qt::WA_DeleteOnClose);
-    setWindowTitle(tr("Image Preview"));
-    if (!m_pixmap.isNull()) {
-        setMinimumSize(m_pixmap.size());
-        m_imagePos = QPointF(width() / 2.0 - m_pixmap.width() / 2.0, height() / 2.0 - m_pixmap.height() / 2.0);
-    }
+ImagePreview::ImagePreview(QPixmap pixmap, QWidget *parent)
+        : QGraphicsView(parent)
+{
+    scene.addItem(&pixmapItem);
+    setScene(&scene);
+    scaleFactorLabel.setParent(this);
+    scaleFactorLabel.move(10, 10);  // 将标签移动到窗口的左上角
+    scaleFactorLabel.setFixedSize(100, 20);  // 设置标签的大小
+    setImage(pixmap);
+    setRenderHint(QPainter::Antialiasing);
+    updateScaleFactorLabel();
 }
 
-void ImagePreview::setPixmap(const QPixmap& pixmap) {
-    m_pixmap = pixmap;
-    centerImage();
-    update();
+void ImagePreview::setImage(const QPixmap &pixmap)
+{
+    pixmapItem.setPixmap(pixmap);
+    scene.setSceneRect(pixmap.rect());
 }
 
-void ImagePreview::paintEvent(QPaintEvent* event) {
-    QPainter painter(this);
-
-    if (!m_pixmap.isNull()) {
-        painter.scale(m_scale, m_scale);
-        painter.drawPixmap(m_imagePos, m_pixmap);
-    }
-}
-
-void ImagePreview::wheelEvent(QWheelEvent *event) {
-    qreal oldScale = m_scale;
-
-    if (event->angleDelta().y() > 0) {
-        m_scale *= 1.1;
+void ImagePreview::wheelEvent(QWheelEvent *event)
+{
+    const qreal factor = 1.15;
+    if(event->angleDelta().y() > 0) {
+        scaleFactor *= factor;
     } else {
-        m_scale /= 1.1;
+        scaleFactor /= factor;
     }
 
-    m_scale = qBound(0.1, m_scale, 10.0);
+    scaleFactor = qBound(0.1, scaleFactor, 10.0);
 
-    if (m_scale <= 1.0) {
-        m_imagePos.setX((width() - m_pixmap.width() * m_scale) / 2);
-        m_imagePos.setY((height() - m_pixmap.height() * m_scale) / 2);
+    if(scaleFactor < 1) {
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     } else {
-        QPoint cursorPos = event->position().toPoint();
-        QPointF oldCursorPosScaled = QPointF(cursorPos) / oldScale;
-        QPointF newCursorPosScaled = QPointF(cursorPos) / m_scale;
-
-        QPointF offset = (newCursorPosScaled - oldCursorPosScaled) * m_scale;
-        m_imagePos += offset;
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     }
 
-    adjustImagePosition();
-    update();
+    QTransform transform;
+    transform.scale(scaleFactor, scaleFactor);
+    setTransform(transform);
+    updateScaleFactorLabel();
 }
 
-
-
-
-
-void ImagePreview::mousePressEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
-        m_mousePressed = true;
-        m_lastMousePos = event->pos();
+void ImagePreview::mousePressEvent(QMouseEvent *event)
+{
+    if(scaleFactor > 1) {
+        lastDragPos = event->position();
+        setCursor(Qt::ClosedHandCursor);
     }
 }
 
-void ImagePreview::mouseReleaseEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
-        m_mousePressed = false;
+void ImagePreview::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(scaleFactor > 1) {
+        lastDragPos = QPointF();  // Reset the last drag position
+        setCursor(Qt::ArrowCursor);
+    }
+}
+
+void ImagePreview::mouseMoveEvent(QMouseEvent *event)
+{
+    if(scaleFactor > 1 && !lastDragPos.isNull()) {
+        int dx = event->position().x() - lastDragPos.x();
+        int dy = event->position().y() - lastDragPos.y();
+
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - dx);
+        verticalScrollBar()->setValue(verticalScrollBar()->value() - dy);
+
+        lastDragPos = event->position();
     }
 }
 
 
-void ImagePreview::mouseMoveEvent(QMouseEvent* event) {
-    if (m_mousePressed && m_scale > m_minScale) {
-        QPointF delta = (event->pos() - m_lastMousePos) / m_scale;
-        m_imagePos += delta;
-        m_lastMousePos = event->pos();
-
-        adjustImagePosition();
-        update();
-    }
+void ImagePreview::updateScaleFactorLabel()
+{
+    scaleFactorLabel.setText(QString("Scale: %1%").arg(scaleFactor * 100));
 }
-
-void ImagePreview::resizeEvent(QResizeEvent* event) {
-    centerImage();
-    QWidget::resizeEvent(event);
-}
-
-void ImagePreview::centerImage() {
-    QSize containerSize = size();
-    QSize imageSize = m_pixmap.size();
-
-    m_pixmapOffset.setX((containerSize.width() - imageSize.width() * m_scale) / (2 * m_scale));
-    m_pixmapOffset.setY((containerSize.height() - imageSize.height() * m_scale) / (2 * m_scale));
-}
-
-void ImagePreview::adjustImagePosition() {
-    qreal scaledWidth = m_pixmap.width() * m_scale;
-    qreal scaledHeight = m_pixmap.height() * m_scale;
-
-    if (scaledWidth <= width()) {
-        m_imagePos.setX((width() - scaledWidth) / 2);
-    } else {
-        qreal leftBound = 0.0;
-        qreal rightBound = width() - scaledWidth;
-        m_imagePos.setX(qBound(rightBound, m_imagePos.x(), leftBound));
-    }
-
-    if (scaledHeight <= height()) {
-        m_imagePos.setY((height() - scaledHeight) / 2);
-    } else {
-        qreal topBound = 0.0;
-        qreal bottomBound = height() - scaledHeight;
-        m_imagePos.setY(qBound(bottomBound, m_imagePos.y(), topBound));
-    }
-
-}
-
 
 

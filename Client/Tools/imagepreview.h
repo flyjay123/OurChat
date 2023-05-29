@@ -1,36 +1,38 @@
 #pragma once
-
+#ifndef IMAGEPREVIEW_H
+#define IMAGEPREVIEW_H
 #include <QWidget>
 #include <QPixmap>
 #include <QWheelEvent>
 #include <QMouseEvent>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QLabel>
 
-class ImagePreview : public QWidget {
+class ImagePreview : public QGraphicsView
+{
 Q_OBJECT
 
 public:
-    explicit ImagePreview(const QPixmap& pixmap, QWidget* parent = nullptr);
-    void setPixmap(const QPixmap& pixmap);
+    explicit ImagePreview(QPixmap pixmap, QWidget *parent = nullptr);
+    void setImage(const QPixmap &pixmap);
+    void updateScaleFactorLabel();
+
 
 protected:
-    void paintEvent(QPaintEvent* event) override;
-    void wheelEvent(QWheelEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void resizeEvent(QResizeEvent* event) override;
+    void wheelEvent(QWheelEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    QPixmap m_pixmap;
-    qreal m_scale;
-    qreal m_minScale;
-    qreal m_maxScale;
-    QPoint m_lastMousePos;
-    QPoint m_pixmapOffset;
-    bool m_mousePressed;
-    QPointF m_imagePos;
-
-    void centerImage();
-    void adjustImagePosition();
-
+    QGraphicsScene scene;
+    QGraphicsPixmapItem pixmapItem;
+    QLabel scaleFactorLabel;
+    qreal scaleFactor = 1.0;
+    QPointF lastDragPos;
 };
+
+#endif // IMAGEPREVIEW_H
+
