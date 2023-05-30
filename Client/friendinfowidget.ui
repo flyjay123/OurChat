@@ -23,7 +23,7 @@
     <rect>
      <x>25</x>
      <y>80</y>
-     <width>261</width>
+     <width>111</width>
      <height>41</height>
     </rect>
    </property>
@@ -32,26 +32,44 @@
      <pointsize>20</pointsize>
     </font>
    </property>
+   <property name="cursor">
+    <cursorShape>IBeamCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">color:#ffffff;</string>
    </property>
    <property name="text">
     <string>name</string>
    </property>
+   <property name="textFormat">
+    <enum>Qt::MarkdownText</enum>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+   </property>
   </widget>
   <widget class="QTextEdit" name="textEdit_sig">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>130</y>
-     <width>361</width>
-     <height>61</height>
+     <y>160</y>
+     <width>101</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font">
     <font>
      <pointsize>11</pointsize>
     </font>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>IBeamCursor</cursorShape>
    </property>
    <property name="styleSheet">
     <string notr="true">background:transparent;border-width:0;border-style:outset;color:#ffffff;</string>
@@ -65,7 +83,7 @@
     <rect>
      <x>25</x>
      <y>40</y>
-     <width>261</width>
+     <width>121</width>
      <height>41</height>
     </rect>
    </property>
@@ -74,11 +92,17 @@
      <pointsize>20</pointsize>
     </font>
    </property>
+   <property name="cursor">
+    <cursorShape>IBeamCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">color:#ffffff;</string>
    </property>
    <property name="text">
     <string>account</string>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_bg">
@@ -106,6 +130,9 @@
    </property>
    <property name="scaledContents">
     <bool>true</bool>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::NoTextInteraction</set>
    </property>
   </widget>
   <zorder>label_bg</zorder>

@@ -17,6 +17,9 @@ FriendInfoWidget::FriendInfoWidget(FriendInfo info, QWidget *parent):
     ui->label_name->setText(info.name);
     ui->label_account->setNum(info.account);
     ui->textEdit_sig->setText(info.sig);
+    ui->label_account->adjustSize();
+    ui->label_name->adjustSize();
+    ui->textEdit_sig->adjustSize();
 
 }
 

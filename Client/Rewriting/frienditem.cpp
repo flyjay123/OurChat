@@ -139,10 +139,10 @@ void FriendItem::showInfoWidget()
         curWidget->close();
     }
     QPoint labelPos = ui->label_icon->pos();
-    QPoint globalPos = this->mapToGlobal(QPoint(-25,0)) + labelPos;
+    QPoint globalPos = this->mapToGlobal(QPoint(0,0)) + labelPos;
     int x = globalPos.x();
     if(x>(widget->width()+100))
-        globalPos.setX(x-widget->width()-60);
+        globalPos.setX(x-widget->width()-100);
     else
          globalPos.setX(this->parentWidget()->width()+this->mapToGlobal(QPoint(0,0)).x());
     //globalPos.setY(globalPos.y()-widget->height());
