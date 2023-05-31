@@ -27,8 +27,17 @@ protected:
         }
         return QLabel::event(event);
     }
-    //void leaveEvent(QEvent *event) override;
-
+    /* Use this instead of event() if your Qt version is lower than 6.0.0
+     * void leaveEvent(QEvent *event) override
+     * {
+     *      emit leaveIconLabel();
+     * }
+     * void enterEvent(QEvent *event) override
+     * {
+     *     emit enterIconLabel();
+     * }
+     *
+     * */
 signals:
     void  enterIconLabel();
     void  leaveIconLabel();
