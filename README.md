@@ -1,8 +1,8 @@
 # OurChat
-
-一个自制IM，采用QT6制作客户端，linux C++实现后端。
+一款基于Qt的网络聊天室，高仿wechat
+<br>一个自制IM，采用QT6制作客户端，linux C++实现后端。
 ## 聊天界面
-![image ](https://user-images.githubusercontent.com/118870803/236397577-fdee476e-43dc-4639-bf26-985f23f71f5b.png)
+![513(8@KQJNHXV6U)JJ)O1_G](https://github.com/flyjay123/OurChat/assets/118870803/5324a713-b900-48fe-8b81-b85eef3d032e)
 
 ## 选择头像
 ![image](https://user-images.githubusercontent.com/118870803/236397873-4704059a-e0c8-4c22-a3ef-4ed00495eaf9.png)
