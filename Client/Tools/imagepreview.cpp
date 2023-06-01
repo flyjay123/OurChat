@@ -37,13 +37,25 @@ void ImagePreview::setImage(const QPixmap &pixmap)
 void ImagePreview::wheelEvent(QWheelEvent *event)
 {
     const qreal factor = 1.15;
+    qreal nextScaleFactor;
     if(event->angleDelta().y() > 0) {
-        scaleFactor *= factor;
+        nextScaleFactor = scaleFactor * factor;
+        if (scaleFactor < 1.0 && nextScaleFactor > 1.0) {
+            scaleFactor = 1.0;
+        } else {
+            scaleFactor = nextScaleFactor;
+        }
     } else {
-        scaleFactor /= factor;
+        nextScaleFactor = scaleFactor / factor;
+        if (scaleFactor > 1.0 && nextScaleFactor < 1.0) {
+            scaleFactor = 1.0;
+        } else {
+            scaleFactor = nextScaleFactor;
+        }
     }
 
     scaleFactor = qBound(0.1, scaleFactor, 10.0);
+    scaleFactor = qreal(qRound(scaleFactor * 100)) / 100;  // Round to nearest hundredth
 
     QTransform transform;
     transform.scale(scaleFactor, scaleFactor);
