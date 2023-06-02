@@ -11,6 +11,7 @@
 #include  <QNetworkRequest>
 #include <QNetworkReply>
 #include <QVector>
+#include <utility>
 
 using std::string;
 using json = QJsonObject;
@@ -42,35 +43,35 @@ enum commands{
 
 enum ContentType { TextOnly, ImageOnly, MixedContent };
 
-typedef  struct _self_info
+typedef  struct self_info
 {
-    int account;
+    int account = 0;
     QString password;
     QString name;
     QString sig;
     QString icon;
 }SelfInfo ;
 
-typedef struct _friend_info
+typedef struct friend_info
 {
-    int account;
+    int account = 0;
     QString name;
     QString sig;
-    bool isOnline;
+    bool isOnline = false;
     QString icon;
-    _friend_info(int _account,QString _name){
-        name=_name;account=_account;
+    friend_info(int _account,QString _name){
+        name=std::move(_name);account=_account;
     }
-    _friend_info(){}
+    friend_info()= default;
 }FriendInfo;
 
-typedef struct _member_info
+typedef struct member_info
 {
-    int account;
+    int account = 0;
     QString name;
 }MemberInfo;
 
-typedef struct _group_info
+typedef struct group_info
 {
     int groupAccount;
     QString groupName;
@@ -81,8 +82,8 @@ class TcpClient : public QTcpSocket
 {
     Q_OBJECT
 public:
-    TcpClient(QObject *parent = nullptr);
-    ~TcpClient();
+    explicit TcpClient(QObject *parent = nullptr);
+    ~TcpClient() override;
     int ConnectToServer();
     void DisconnectFromServer();
 
