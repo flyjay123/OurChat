@@ -67,7 +67,7 @@ void SendTextEdit::keyPressEvent(QKeyEvent* event)
         }
     }
     //Ctrl+C
-    if ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_C)
+    else if ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_C)
     {
         QTextEdit::keyPressEvent(event);
         // 获取剪切板对象
