@@ -121,7 +121,11 @@ void ChatWindow::sendImage(const QString &imagePath,int flag) {
 
 void ChatWindow::sendFile(const QString &fileName, const QString &filePath,int flag) {
     QString alignment = flag == 1?"left":"right";
-    QString fileHtml = QString("<a href='%1' style='text-decoration: none; float: %2;'><div style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-block;'>%3</div></a><br style='clear: both;'>")
+    QString fileHtml = QString("<a href='%1' style='text-decoration: none; float: %2;'>"
+                               "<div style='background-color: #e0e0e0; border-radius: 10px; padding: 5px; margin: 5px; display: inline-block;'>"
+                               "%3</div>"
+                               "</a>"
+                               "<br style='clear: both;'>")
             .arg(filePath,alignment,fileName);
     textBrowser->insertHtml(fileHtml);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); // 自动滚动到底部

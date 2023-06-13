@@ -66,10 +66,56 @@ void SendTextEdit::keyPressEvent(QKeyEvent* event)
             QTextEdit::keyPressEvent(event);
         }
     }
+    //Ctrl+C
+    if ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_C)
+    {
+        QTextEdit::keyPressEvent(event);
+        // 获取剪切板对象
+        QClipboard *clipboard = QApplication::clipboard();
+
+        // 获取选中的图片
+        QTextCursor cursor = textCursor();
+        QTextBlock block = cursor.block();
+        QTextFragment fragment = block.begin().fragment();
+        if (fragment.isValid()) {
+            QTextImageFormat imageFormat = fragment.charFormat().toImageFormat();
+            if (imageFormat.isValid()) {
+                QString originalImageData = imageFormat.property(QTextFormat::UserProperty).toString();
+                QPixmap pixmap;
+                QByteArray imageData;
+                if(!originalImageData.isEmpty()) {
+
+                    int base64Index = originalImageData.indexOf("base64,");
+                    if (base64Index > 0) {
+                        originalImageData = originalImageData.mid(base64Index + 7);
+                    }
+                    imageData = QByteArray::fromBase64(originalImageData.toLatin1());
+                }
+                else
+                {
+                    QString imagePath = imageFormat.name();
+                    int base64Index = imagePath.indexOf("base64,");
+                    if (base64Index > 0) {
+                        imagePath = imagePath.mid(base64Index + 7);
+                    }
+                    pixmap.load(imagePath);
+                    QBuffer buffer(&imageData);
+                    buffer.open(QIODevice::WriteOnly);
+                    pixmap.save(&buffer, "PNG");
+                    buffer.close();
+                }
+                QImage image = QImage::fromData(imageData, "PNG");
+                clipboard->setImage(image);
+            }
+        }
+
+    }
     else
-     {
-         QTextEdit::keyPressEvent(event);
-     }
+    {
+        // 调用父类的方法
+        QTextEdit::keyPressEvent(event);
+    }
+
 }
 
 void SendTextEdit::mouseDoubleClickEvent(QMouseEvent* event)
