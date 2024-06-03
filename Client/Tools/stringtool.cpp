@@ -1,4 +1,5 @@
 #include "stringtool.h"
+#include <QDebug>
 
 StringTool::StringTool()
 {

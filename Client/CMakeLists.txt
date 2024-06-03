@@ -34,24 +34,24 @@ target_include_directories(OurChat PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
         )
 if(MSVC)
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\msvc2019_64")
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64")
 else()
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.9.9\\6.5.0\\mingw_64")
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.14.2\\5.14.2\\mingw73_64")
 endif()
 
-find_package(Qt6 COMPONENTS
+find_package(Qt5 COMPONENTS
         Core Gui
         Widgets Network
-        OpenGLWidgets
+        OpenGL
         REQUIRED)
 
-qt6_add_resources(RESOURCE_FILES ${RESOURCES})
+qt5_add_resources(RESOURCE_FILES ${RESOURCES})
 
 target_link_libraries(OurChat PRIVATE
-  Qt::Core
-  Qt::Gui
-  Qt::Widgets Qt6::Network
-  Qt6::OpenGLWidgets
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets Qt5::Network
+  Qt5::OpenGL
 )
 
 set(LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
@@ -95,7 +95,7 @@ if(WIN32)
     foreach (QT_LIB Core Gui Widgets)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
+                "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
     endforeach (QT_LIB)
 endif ()

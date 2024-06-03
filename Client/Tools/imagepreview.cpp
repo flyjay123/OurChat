@@ -66,7 +66,7 @@ void ImagePreview::wheelEvent(QWheelEvent *event)
 void ImagePreview::mousePressEvent(QMouseEvent *event)
 {
     if(scaleFactor > 1) {
-        lastDragPos = event->position();
+        lastDragPos = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
 }
@@ -82,13 +82,13 @@ void ImagePreview::mouseReleaseEvent(QMouseEvent *event)
 void ImagePreview::mouseMoveEvent(QMouseEvent *event)
 {
     if(scaleFactor > 1) {
-        int dx = event->position().x() - lastDragPos.x();
-        int dy = event->position().y() - lastDragPos.y();
+        int dx = event->pos().x() - lastDragPos.x();
+        int dy = event->pos().y() - lastDragPos.y();
 
         horizontalScrollBar()->setSliderPosition(horizontalScrollBar()->sliderPosition() - dx);
         verticalScrollBar()->setSliderPosition(verticalScrollBar()->sliderPosition() - dy);
 
-        lastDragPos = event->position();
+        lastDragPos = event->pos();
     }
 }
 

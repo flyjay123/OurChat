@@ -1,5 +1,6 @@
 #include "emojiselector.h"
 #include "smoothscrolllistwidget.h"
+#include <QDebug>
 
 
 EmojiSelector::EmojiSelector(QWidget *parent) :

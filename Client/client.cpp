@@ -138,7 +138,7 @@ void Client::mouseMoveEvent(QMouseEvent *event)
     //窗口移动
     if (event->buttons() & Qt::LeftButton)
     {
-        mouseDeskTopLeft = event->globalPosition().toPoint();
+        mouseDeskTopLeft = event->globalPos();
         windowDeskTopLeft = mouseDeskTopLeft - mouseWindowTopLeft;  //矢量计算
         this->move(windowDeskTopLeft);     //移动到目的地
     }
