@@ -1,0 +1,22 @@
+# 忽略构建产物
+build/
+*.o
+server
+
+# 忽略数据库文件（运行时生成）
+*.db
+*.db-journal
+
+# 忽略 IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 忽略 Git
+.git/
+.gitignore
+
+# 忽略文档
+*.md
+README.md

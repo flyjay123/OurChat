@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  ourchat-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ourchat-server
+    ports:
+      - "8888:8888"
+    volumes:
+      # 数据持久化：将数据库文件保存到宿主机
+      - ./data:/app/data
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - ourchat-network
+
+networks:
+  ourchat-network:
+    driver: bridge
