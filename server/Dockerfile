@@ -18,25 +18,31 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# 配置Git以解决网络问题
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.version HTTP/1.1 && \
+    git config --global http.lowSpeedLimit 0 && \
+    git config --global http.lowSpeedTime 999999
+
 # 复制服务器源代码
 COPY . /app/
 
 # 检查并克隆/准备第三方依赖
 RUN mkdir -p thirdparty && cd thirdparty && \
-    # SQLiteCpp
+    # SQLiteCpp - 使用浅克隆加速
     if [ ! -d "SQLiteCpp" ]; then \
-        git clone https://github.com/SRombauts/SQLiteCpp.git && \
+        git clone --depth 1 https://github.com/SRombauts/SQLiteCpp.git && \
         cd SQLiteCpp && \
         mkdir -p build && cd build && \
-        cmake .. && make && make install && \
+        cmake .. && make -j$(nproc) && make install && \
         cd ../..; \
     fi && \
-    # nlohmann json
+    # nlohmann json - 使用浅克隆加速
     if [ ! -d "json-develop" ]; then \
-        git clone https://github.com/nlohmann/json.git json-develop && \
+        git clone --depth 1 --branch v3.11.3 https://github.com/nlohmann/json.git json-develop && \
         cd json-develop && \
         mkdir -p build && cd build && \
-        cmake .. && make && make install && \
+        cmake .. && make -j$(nproc) && make install && \
         cd ../..; \
     fi && \
     cd ..
@@ -44,7 +50,7 @@ RUN mkdir -p thirdparty && cd thirdparty && \
 # 使用CMake构建服务器
 RUN mkdir -p build && cd build && \
     cmake .. && \
-    make && \
+    make -j$(nproc) && \
     cp server /app/server && \
     cd .. && rm -rf build
 

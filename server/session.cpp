@@ -2,7 +2,7 @@
 #include "CommandHandler.h"
 #include <unistd.h>
 using namespace std;
-using json = nlohmann::json_abi_v3_11_2::json;
+using json = nlohmann::json;
 Session::Session(int socket)
 {
     m_isLogin = -1;
@@ -323,7 +323,7 @@ json Session::recvMsg()
     {
         j = json::parse(msg);
     }
-    catch (nlohmann::json_abi_v3_11_2::detail::parse_error &e)
+    catch (nlohmann::json::parse_error &e)
     {
         std::cerr << "Failed to parse JSON: " << std::endl;
         std::cout << "error json msg : " << msg << endl;
